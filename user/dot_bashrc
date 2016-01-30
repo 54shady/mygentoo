@@ -1,0 +1,120 @@
+# /etc/skel/.bashrc
+#
+# This file is sourced by all *interactive* bash shells on startup,
+# including some apparently interactive shells such as scp and rcp
+# that can't tolerate any output.  So make sure this doesn't display
+# anything or bad things will happen !
+
+
+# Test for an interactive shell.  There is no need to set anything
+# past this point for scp and rcp, and it's important to refrain from
+# outputting anything in those cases.
+if [[ $- != *i* ]] ; then
+	# Shell is non-interactive.  Be done now!
+	return
+fi
+
+
+# Put your fun stuff here.
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -rvf'
+alias ll='ls -laF'
+alias cp='cp -rf'
+alias mv='mv -i'
+alias vd='vimdiff'
+alias vi='vim'
+alias g='vim -t'
+alias gl='git log --pretty=oneline'
+alias gw='git whatchanged --oneline'
+alias gs='git status'
+alias gd='git diff'
+alias gb='git branch'
+alias gp='mygrep --colour=auto --exclude=tags --exclude-dir=*.git'
+alias tm='tmux attach-session -t zeroway'
+#alias fs='sudo fastboot flash system system.img'
+#alias fb='sudo fastboot flash boot boot.img'
+alias fastboot='sudo fastboot'
+alias fr='sudo fastboot reboot'
+alias adbs='adb shell'
+alias minicom='sudo minicom'
+alias dnw='sudo dnw'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+. /etc/bashrc
+fi
+
+#source /etc/bash_completion.d/git-completion.bash
+
+#git branch show in the shell prompt
+find_git_branch () {
+	local dir=. head
+		until [ "$dir" -ef / ]; do
+		if [ -f "$dir/.git/HEAD" ]; then
+			head=$(< "$dir/.git/HEAD")
+				if [[ $head = ref:\ refs/heads/* ]]; then
+								 git_branch=" (${head#*/*/})"
+#git_branch=" ? ${head#*/*/}"
+					elif [[ $head != '' ]]; then
+						git_branch=" ((detached))"
+#git_branch=" ? (detached)"
+				else
+					git_branch=" ((unknow))"
+#git_branch=" ? (unknow)"
+						fi
+						return
+						fi
+						dir="../$dir"
+						done
+						git_branch=''
+}
+
+PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"
+
+# Here is bash color codes you can use
+black=$'\[\e[1;30m\]'
+red=$'\[\e[1;31m\]'
+green=$'\[\e[1;32m\]'
+yellow=$'\[\e[1;33m\]'
+blue=$'\[\e[1;34m\]'
+magenta=$'\[\e[1;35m\]'
+cyan=$'\[\e[1;36m\]'
+white=$'\[\e[1;37m\]'
+normal=$'\[\e[m\]'
+
+#PS1="$white[$magenta\u$white@$green\h$white:$cyan\w$yellow\$git_branch$white]\$ $normal"
+PS1="$red[\W$yellow\$git_branch$red]$ $normal"
+complete -cf sudo
+
+# for kernel 4.4.0 gcc 4.8.3
+export PATH=$PATH:/opt/toolschain/usr/local/arm/arm-2014.05/bin
+
+#for arm-linux-gcc 4.5.1 friendlyarm tiny4412
+#export PATH=$PATH:/opt/toolschain/usr/local/arm/4.5.1/bin
+
+#for arm-linux-gcc 4.3.2 for mini2440
+#export PATH=$PATH:/opt/toolschain/usr/local/arm/4.3.2/bin
+
+# openJDK7 for android 5.0
+JAVA_HOME=/opt/java-7-openjdk-amd64/
+export JRE_HOME=/opt/java-7-openjdk-amd64/bin/jre
+export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+
+# oracle JDK for android studio
+#JAVA_HOME=/opt/jdk1.8.0_77
+#export JRE_HOME=/opt/jdk1.8.0_77/bin/jre
+#export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
+#export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+
+# add for mytools
+export PATH=$PATH:/home/zeroway/Tools
+
+# add for android studio
+export PATH=$PATH:/home/zeroway/android-studio/bin:/opt/android-sdk-linux/platform-tools
+
+# make normal user can excute the sbin tools
+export PATH=$PATH:/sbin
