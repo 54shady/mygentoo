@@ -123,4 +123,25 @@ http://blog.sina.com.cn/s/blog_510ac7490100u2wb.html
  如果你需要除拼音外的其他输入法如五笔、二笔、自然码还需安装 scim-tables
  完成后执行
  #scim -d
+
+ 访问google
+ 直接安装miredo就可以了
+ emerge miredo
+ 之后启动miredo就能看到一张teredo的虚拟网卡
+ ping6 ipv6.google.com 测试是否可以ping 通
+
+ 安装ADB 和FASTBOOT
+ 方法1：这个方法没成功
+ emerge --ask android-sdk-update-manager
+ 由于安装时需要去google的网上下代码，下载太慢导致无法下载成功，所以这里手动下载了需要的代码，我下载的是android-sdk_r23-linux.tgz
+ 下载完后把该文件放到了/usr/portage/distfiles目录下即可
+ 方法2：
+ 直接把ubuntu上的/usr/bin/adb 和 /usr/bin/fastboot拷贝到gentoo的/opt/tools/下
+ export PATH=$PATH:/opt/tools
+
+ 把ubuntu上的下面几个动态库拷贝到gentoo里来（按照操作提示即可）：
+ cp /lib/x86_64-linux-gnu/libselinux.so.1 /usr/lib/
+ cp /lib/x86_64-linux-gnu/libpcre.so.3.13.1 /usr/lib/
+ ln -s /usr/lib/libpcre.so.3.13.1 /usr/lib/libpcre.so.3
+ 之后就可以使用adb 和fastboot了
  ```
