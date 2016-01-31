@@ -189,5 +189,8 @@ Let tmux automatic load the .bashrc file
 让tmux自动加载.bashrc文件在.bash_profile文件里添加下面这句话
 . ~/.bashrc
 
+使用WIN+D来像WINDOWS一样显示桌面
+System Settings > Shortcuts and Gestures > Global Keyboard Shortcuts > KDE component: KWin > Show Desktop
+设置成win+d即可
 
 ```
