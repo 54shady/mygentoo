@@ -183,4 +183,11 @@ else
 fi
 
 After that, you only have to select the appropriate color profile (Settings —> Edit current profile —> Appearance).
+
+
+Let tmux automatic load the .bashrc file
+让tmux自动加载.bashrc文件在.bash_profile文件里添加下面这句话
+. ~/.bashrc
+
+
 ```
