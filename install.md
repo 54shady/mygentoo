@@ -89,12 +89,11 @@ emerge -av wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts
 # 安装输入法和配置fcitx
 emerge -av fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
 
-# 使用 startx 或 slim 的用户，向 ~/.xinitrc 添加以下内容。
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
+我使用的是KDE桌面环境所以在~/.xprofile里添加如下内容：
 export XMODIFIERS="@im=fcitx"
-fcitx &
-
+export QT_IM_MODULE=fcitx
+export GTK_IM_MODULE=fcitx
+eval "$(dbus-launch --sh-syntax --exit-with-session)"
 
 http://blog.sina.com.cn/s/blog_510ac7490100u2wb.html
 
@@ -111,7 +110,6 @@ zh_CN.UTF-8 UTF-8
 
 保存执行locale-gen
 #locale-gen
-
 
 emerge arphicfonts wqy-bitmapfont  corefonts ttf-bitstream-vera
 
@@ -131,13 +129,6 @@ LC_ADDRESS="en_US.UTF-8"
 LC_TELEPHONE="en_US.UTF-8"
 LC_MEASUREMENT="en_US.UTF-8"
 LC_IDENTIFICATION="en_US.UTF-8"
-
-3. 安装SCIM
-#emerge scim scim-pinyin
-如果你需要除拼音外的其他输入法如五笔、二笔、自然码还需安装 scim-tables
-完成后执行
-#scim -d
-
 
 访问google
 直接安装miredo就可以了
