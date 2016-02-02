@@ -184,4 +184,27 @@ Let tmux automatic load the .bashrc file
 System Settings > Shortcuts and Gestures > Global Keyboard Shortcuts > KDE component: KWin > Show Desktop
 设置成win+d即可
 
+virtual box 安装：
+在package.accept_keywords添加如下内容来安装最新的virtualbox和相应的增强工具：
+>=app-emulation/virtualbox-5.0.14 ~amd64
+>=app-emulation/virtualbox-additions-5.0.14 ~amd64
+
+安装虚拟机:
+emerge  app-emulation/virtualbox
+
+安装WINDOWS虚拟机相应的增强工具:
+emerge app-emulation/virtualbox-additions
+
+因为我用root登入,所以添加root到vboxusers
+gpasswd -a root vboxusers
+
+根据gentoo virtualbox wiki,Rebuild the VirtualBox kernel modules with:
+emerge -1 @module-rebuild
+
+手动加载虚拟机的驱动：
+modprobe vboxdrv
+
+将虚拟机驱动模块加入到系统启动加载模块中：
+在/etc/conf.d/modules中添加下面一行
+modules="vboxdrv"
 ```
