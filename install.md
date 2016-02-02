@@ -1,6 +1,5 @@
 ```shell
-系统安装：
-
+1. 系统安装:
 mkfs.ext4 /dev/sda7
 swapon /dev/sda10
 mount /dev/sda7 /mnt/gentoo
@@ -19,7 +18,6 @@ CCACHE_SIZE="3G"
 CCACHE_DIR="/var/tmp/ccache"
 FETCHCOMMAND="/usr/bin/axel -a -o \${DISTDIR}/\${FILE} \${URI}"
 RESUMECOMMAND="${FETCHCOMMAND}"
-
 
 fstab内容:
 /dev/sda11   /boot        ext4    defaults,noatime     0 2
@@ -40,7 +38,7 @@ export PS1="(chroot) $PS1"
 
 emerge --sync
 
-先使用profile1
+先使用profile 1
 eselect profile set 1
 
 emerge -a sys-kernel/gentoo-sources
@@ -63,7 +61,7 @@ rc-update add net.eth0 default
 
 passwd root
 
-安装KDE桌面环境
+2. 安装KDE桌面环境
 eselect profile set 6
 
 添加下面的几个USE
@@ -81,12 +79,10 @@ rc-update add xdm default
 /usr/share/config/kdm/kdmrc
 AllowRootlogon = true
 
-
-
-# 安装字体
+3. 安装字体和输入法
 emerge -av wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts
 
-# 安装输入法和配置fcitx
+安装输入法和配置fcitx的工具
 emerge -av fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
 
 我使用的是KDE桌面环境所以在~/.xprofile里添加如下内容：
@@ -97,9 +93,8 @@ eval "$(dbus-launch --sh-syntax --exit-with-session)"
 
 http://blog.sina.com.cn/s/blog_510ac7490100u2wb.html
 
-2. 设置locale
-2.1 设置 locale.gen
-#gedit /etc/locale.gen
+设置locale:
+在/etc/locale.gen中添加:
 en_US ISO-8859-1
 en_US.UTF-8 UTF-8
 zh_CN GB18030
@@ -107,15 +102,13 @@ zh_CN.GBK GBK
 zh_CN.GB2312 GB2312
 zh_CN.UTF-8 UTF-8
 
-
 保存执行locale-gen
 #locale-gen
 
 emerge arphicfonts wqy-bitmapfont  corefonts ttf-bitstream-vera
 
-2.2 建立 /etc/env.d/100i18n
-#gedit /etc/env.d/100i18n
-
+建立 /etc/env.d/100i18n
+在/etc/env.d/100i18n中添加:
 LANG=en_US.UTF-8
 LC_CTYPE=zh_CN.UTF-8
 LC_NUMERIC="en_US.UTF-8"
@@ -130,15 +123,14 @@ LC_TELEPHONE="en_US.UTF-8"
 LC_MEASUREMENT="en_US.UTF-8"
 LC_IDENTIFICATION="en_US.UTF-8"
 
-访问google
+4. 访问google
 直接安装miredo就可以了
 emerge miredo
 之后启动miredo就能看到一张teredo的虚拟网卡
 ping6 ipv6.google.com 测试是否可以ping 通
 
 
-
-安装ADB 和FASTBOOT
+5. 安装ADB 和FASTBOOT
 方法1：这个方法没成功
 emerge --ask android-sdk-update-manager
 由于安装时需要去google的网上下代码，下载太慢导致无法下载成功，所以这里手动下载了需要的代码，我下载的是android-sdk_r23-linux.tgz
@@ -153,11 +145,8 @@ cp /lib/x86_64-linux-gnu/libpcre.so.3.13.1 /usr/lib/
 ln -s /usr/lib/libpcre.so.3.13.1 /usr/lib/libpcre.so.3
 之后就可以使用adb 和fastboot了
 
-
-
-kconsole solarized
+6. kconsole solarized
 https://techoverflow.net/blog/2013/11/08/installing-konsole-solarized-theme/
-
 
 Problem: You’re using the KDE4 Konsole and you want to install the Solarized color scheme plugin. However, you are way too lazy to figure out how to do that manually.
 
@@ -176,15 +165,15 @@ fi
 After that, you only have to select the appropriate color profile (Settings —> Edit current profile —> Appearance).
 
 
-Let tmux automatic load the .bashrc file
+7. Let tmux automatic load the .bashrc file
 让tmux自动加载.bashrc文件在.bash_profile文件里添加下面这句话
 . ~/.bashrc
 
-使用WIN+D来像WINDOWS一样显示桌面
+8. 使用WIN+D来像WINDOWS一样显示桌面
 System Settings > Shortcuts and Gestures > Global Keyboard Shortcuts > KDE component: KWin > Show Desktop
 设置成win+d即可
 
-virtual box 安装：
+9. virtual box 安装：
 在package.accept_keywords添加如下内容来安装最新的virtualbox和相应的增强工具：
 >=app-emulation/virtualbox-5.0.14 ~amd64
 >=app-emulation/virtualbox-additions-5.0.14 ~amd64
