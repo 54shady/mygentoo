@@ -1,4 +1,5 @@
 ```shell
+1. umount busy
 我把/dev/sda8 挂在到了/mnt
 卸载的时候发现设备忙
 用fuser查看是什么在使用导致无法正常卸载
@@ -19,4 +20,23 @@ root     21244  0.0  0.0  15824  2504 pts/3    S+   14:40   0:00 grep --colour=a
 
 停止ADB程序之后就可以正常卸载了
 #adb kill-server
+
+2. gcc-config: Active gcc profile is invalid
+错误描述
+Gentoo软件安装错误,提示：
+gcc-config: Active gcc profile is invalid
+解决方法：
+
+列出可用的profile
+gcc-config -l
+gcc-config: Active gcc profile is invalid!
+[1] x86_64-pc-linux-gnu-4.9.3
+
+显示当前使用的profile
+gcc-config -c
+gcc-config: Active gcc profile is invalid!
+[1] x86_64-pc-linux-gnu-4.9.3
+
+设置profile
+gcc-config x86_64-pc-linux-gnu-4.9.3
 ```
