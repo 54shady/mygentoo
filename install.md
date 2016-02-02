@@ -196,4 +196,8 @@ modprobe vboxdrv
 将虚拟机驱动模块加入到系统启动加载模块中：
 在/etc/conf.d/modules中添加下面一行
 modules="vboxdrv"
+
+10. 添加新用户mobz 默认组为users,附加组为adm,sys
+useradd  -m -g users -G adm,sys -s /bin/bash mobz
+passwd mobz
 ```
