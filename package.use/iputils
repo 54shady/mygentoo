@@ -1,0 +1,17 @@
+net-misc/iputils -caps -filecaps
+# required by x11-drivers/xf86-video-vmware-13.1.0::gentoo
+# required by x11-base/xorg-drivers-1.17::gentoo[video_cards_vmware]
+# required by x11-base/xorg-server-1.17.4::gentoo[xorg]
+# required by x11-drivers/xf86-video-mga-1.6.4::gentoo[dri]
+>=media-libs/mesa-11.0.6 xa
+# required by x11-drivers/xf86-video-vmware-13.1.0::gentoo
+# required by x11-base/xorg-drivers-1.17::gentoo[video_cards_vmware]
+# required by x11-base/xorg-server-1.17.4::gentoo[xorg]
+# required by x11-drivers/xf86-video-mga-1.6.4::gentoo[dri]
+>=x11-libs/libdrm-2.4.65 libkms
+# required by dev-util/android-sdk-update-manager-23-r1::gentoo
+# required by android-sdk-update-manager (argument)
+>=sys-libs/zlib-1.2.8-r1 abi_x86_32
+# required by app-office/libreoffice-bin-5.0.3.2::gentoo
+# required by app-office/libreoffice-bin (argument)
+>=media-libs/harfbuzz-0.9.41 icu
