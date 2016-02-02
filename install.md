@@ -200,4 +200,9 @@ modules="vboxdrv"
 10. 添加新用户mobz 默认组为users,附加组为adm,sys
 useradd  -m -g users -G adm,sys -s /bin/bash mobz
 passwd mobz
+
+安装sudo
+emerge sudo
+在/etc/sudoers中添加一行设置相应的用户比如
+mobz ALL=(ALL) ALL
 ```
