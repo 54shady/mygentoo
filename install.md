@@ -86,6 +86,7 @@ emerge -av wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts
 emerge -av fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
 
 我使用的是KDE桌面环境所以在~/.xprofile里添加如下内容：
+在每个用户目录下都要有这个才能使用输入法
 export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE=fcitx
 export GTK_IM_MODULE=fcitx
