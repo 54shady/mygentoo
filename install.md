@@ -205,4 +205,9 @@ passwd mobz
 emerge sudo
 在/etc/sudoers中添加一行设置相应的用户比如
 mobz ALL=(ALL) ALL
+
+11. 开机警告：Warning: Cannot open ConsoleKit session: Unable to open session: Failed to connect to socket /var/run/dbus/system_bus_socket: No such file or directory.
+添加dbus 和 consolekit 默认启动
+rc-update add dbus default
+rc-update add consolekit default
 ```
