@@ -211,4 +211,8 @@ mobz ALL=(ALL) ALL
 添加dbus 和 consolekit 默认启动
 rc-update add dbus default
 rc-update add consolekit default
+
+12. sudo的时候能自动补全
+emerge bash-completion
+echo "complete -cf sudo" >> /home/mobz/.bashrc
 ```
