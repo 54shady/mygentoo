@@ -215,4 +215,11 @@ rc-update add consolekit default
 12. sudo的时候能自动补全
 emerge bash-completion
 echo "complete -cf sudo" >> /home/mobz/.bashrc
+
+13. 安装wicd
+emerge wicd
+rc-update add wicd default
+rc-update del net.enp5s0 我的网卡不是eth0是enp5s
+添加下面的内容到/etc/rc.conf里
+rc_hotplug="!net.*"
 ```
