@@ -216,7 +216,7 @@ rc-update add consolekit default
 emerge bash-completion
 echo "complete -cf sudo" >> /home/mobz/.bashrc
 
-13. 安装wicd
+13. 安装wicd //图标太丑陋
 emerge wicd
 rc-update add wicd default
 rc-update del net.enp5s0 我的网卡不是eth0是enp5s
