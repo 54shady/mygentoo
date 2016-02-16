@@ -241,4 +241,10 @@ dbus-launch nm-applet &
 15. 实用的widgets,比如rssnow等
 emerge kde-base/kdeplasma-addons
 
+rssnow安装后字体显示不方便阅读,可以修改字体显示
+System Settings->Application Appearance->Fonts->Small 修改合适的字体大小即可
+
+让rssnow用安装好的火狐浏览器查看网页,设置火狐为默认的浏览器
+System Settings->Default Applications->Web Browser:设置为火狐浏览器的位置比如/usr/bin/firefox-bin即可
+
 ```
