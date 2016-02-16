@@ -222,4 +222,19 @@ rc-update add wicd default
 rc-update del net.enp5s0 我的网卡不是eth0是enp5s
 添加下面的内容到/etc/rc.conf里
 rc_hotplug="!net.*"
+
+14. NetworkManager
+删除系统默认的网络管理
+rc-update del net.enp5s0
+
+安装NetworkManager 和nm-applet
+emerge net-misc/networkmanager
+
+emerge gnome-extra/nm-applet
+
+修改/etc/xdg/autostart/nm-applet.desktop显示网络链接图标
+NoDisplay=false
+
+在.xprofile添加下面一行
+dbus-launch nm-applet &
 ```
