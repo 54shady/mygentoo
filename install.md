@@ -237,4 +237,8 @@ NoDisplay=false
 
 在.xprofile添加下面一行
 dbus-launch nm-applet &
+
+15. 实用的widgets,比如rssnow等
+emerge kde-base/kdeplasma-addons
+
 ```
