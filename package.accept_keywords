@@ -151,3 +151,33 @@
 
 #add by shady for virtualbox additions
 >=app-emulation/virtualbox-additions-5.0.14 ~amd64
+# required by gnome-extra/avant-window-navigator (argument)
+=gnome-extra/avant-window-navigator-0.4.2 ~amd64
+# required by kde-frameworks/networkmanager-qt-5.18.0::gentoo
+# required by kde-frameworks/networkmanager-qt (argument)
+=kde-frameworks/extra-cmake-modules-5.18.0 ~amd64
+# required by kde-frameworks/networkmanager-qt-5.18.0::gentoo
+# required by kde-frameworks/networkmanager-qt (argument)
+=kde-frameworks/kf-env-3 ~amd64
+# required by kde-frameworks/networkmanager-qt (argument)
+=kde-frameworks/networkmanager-qt-5.18.0 ~amd64
+# required by www-apps/tt-rss (argument)
+=www-apps/tt-rss-20160124 ~amd64
+
+#add by shady for pandoc
+>=app-text/pandoc-1.16.0.2 ~amd64
+
+#add by shady for cmark
+>=dev-haskell/cmark-0.5.1 ~adm64
+
+#add by shady for pandoc-types
+>=dev-haskell/pandoc-types-1.16.1 ~amd64
+# required by app-text/pandoc-1.16.0.2-r1::mobzoverlay
+# required by pandoc (argument)
+=dev-haskell/highlighting-kate-0.6.1 ~amd64
+# required by app-text/pandoc-1.16.0.2-r1::mobzoverlay
+# required by pandoc (argument)
+=dev-haskell/cmark-0.5.1 ~amd64
+# required by app-text/pandoc-1.16.0.2-r1::mobzoverlay
+# required by pandoc (argument)
+=dev-haskell/texmath-0.8.4.1 ~amd64

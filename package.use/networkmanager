@@ -1,0 +1,1 @@
+net-misc/networkmanager avahi bluetooth dhcpcd ppp -dhclient
