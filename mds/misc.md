@@ -39,4 +39,27 @@ gcc-config: Active gcc profile is invalid!
 
 设置profile
 gcc-config x86_64-pc-linux-gnu-4.9.3
+
+gentoo samba 安装
+emerge -v net-fs/samba
+拷贝一个配置文件,在此基础上修改
+cp /etc/samba/smb.conf.default /etc/samba/smb.conf
+
+在最后添加下面内容
+[myshare]
+comment = mobz's share on gentoo
+path = /mnt/ubuntu/home/mobz/myandroid
+valid users = root mobz
+browseable = yes
+guest ok = yes
+public = yes
+writable = no
+printable = no
+create mask = 0765
+
+添加用户并设置密码
+smbpasswd -a root
+
+开启服务
+/etc/init.d/samba start
 ```
