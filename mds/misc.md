@@ -57,6 +57,9 @@ writable = no
 printable = no
 create mask = 0765
 
+修改共享文件的权限
+chmod 777 /mnt/ubuntu
+
 添加用户并设置密码
 smbpasswd -a root
 
