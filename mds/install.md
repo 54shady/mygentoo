@@ -226,6 +226,8 @@ rc_hotplug="!net.*"
 14. NetworkManager
 删除系统默认的网络管理
 rc-update del net.enp5s0
+rm /etc/conf.d/net
+rm  /etc/init.d/net.enp5s0
 
 安装NetworkManager 和 networkmanagement
 emerge net-misc/networkmanager
@@ -241,11 +243,17 @@ System Settings->Application Appearance->Fonts->Small 修改合适的字体大�
 让rssnow用安装好的火狐浏览器查看网页,设置火狐为默认的浏览器
 System Settings->Default Applications->Web Browser:设置为火狐浏览器的位置比如/usr/bin/firefox-bin即可
 
-16. 删除桌面上的tool box
+16. 删除桌面右上角的tool box
 先把/usr/share/kde4/services里下面这三个文件备份下
 plasma-toolbox-desktoptoolbox.desktop
 plasma-toolbox-paneltoolbox.desktop
 plasma-toolbox-nettoolbox.desktop
 删除该目录下的这三个文件重新登入下就可以了
 只想删除右上角的话只要删除plasma-toolbox-desktoptoolbox.desktop这个文件就可以了
+
+17. 安装cairo-dock
+去overlay网站上下载ebuild文件,使用localoverlay的方法安装
+http://gpo.zugaina.org/x11-misc/cairo-dock
+下载的是第一个cairo-dock-9999-r1 ebuild文件
+添加新的launcher用的图标都是/usr/share/icons/hicolor/32x32/apps/下的图标
 ```
