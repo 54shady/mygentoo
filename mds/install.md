@@ -216,7 +216,7 @@ rc-update add consolekit default
 emerge bash-completion
 echo "complete -cf sudo" >> /home/mobz/.bashrc
 
-13. 安装wicd //图标太丑陋
+13. 安装wicd //图标太丑陋,安装后面的kde networkmanagement
 emerge wicd
 rc-update add wicd default
 rc-update del net.enp5s0 我的网卡不是eth0是enp5s
@@ -227,16 +227,10 @@ rc_hotplug="!net.*"
 删除系统默认的网络管理
 rc-update del net.enp5s0
 
-安装NetworkManager 和nm-applet
+安装NetworkManager 和 networkmanagement
 emerge net-misc/networkmanager
-
-emerge gnome-extra/nm-applet
-
-修改/etc/xdg/autostart/nm-applet.desktop显示网络链接图标
-NoDisplay=false
-
-在.xprofile添加下面一行
-dbus-launch nm-applet &
+emerge kde-misc/networkmanagement  //这个使用的是local overlay装的
+之后需要添加相应的widget才可以看到有系统托盘出现
 
 15. 实用的widgets,比如rssnow等
 emerge kde-base/kdeplasma-addons
