@@ -79,6 +79,9 @@ rc-update add xdm default
 /usr/share/config/kdm/kdmrc
 AllowRootlogon = true
 
+网上一个KDE桌面参考:
+https://fitzcarraldoblog.wordpress.com/2012/07/10/a-guided-tour-of-my-kde-4-8-4-desktop-part-1/
+
 3. 安装字体和输入法
 emerge -av wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts
 
@@ -124,12 +127,13 @@ LC_TELEPHONE="en_US.UTF-8"
 LC_MEASUREMENT="en_US.UTF-8"
 LC_IDENTIFICATION="en_US.UTF-8"
 
+重新启动后添加pinyin输入法即可
+
 4. 访问google
 直接安装miredo就可以了
 emerge miredo
 之后启动miredo就能看到一张teredo的虚拟网卡
 ping6 ipv6.google.com 测试是否可以ping 通
-
 
 5. 安装ADB 和FASTBOOT
 方法1：这个方法没成功
@@ -164,7 +168,6 @@ else
 fi
 
 After that, you only have to select the appropriate color profile (Settings —> Edit current profile —> Appearance).
-
 
 7. Let tmux automatic load the .bashrc file
 让tmux自动加载.bashrc文件在.bash_profile文件里添加下面这句话
@@ -216,7 +219,7 @@ rc-update add consolekit default
 emerge bash-completion
 echo "complete -cf sudo" >> /home/mobz/.bashrc
 
-13. 安装wicd //图标太丑陋,安装后面的kde networkmanagement
+13. 安装wicd //图标太丑陋不安装这个,安装后面的kde networkmanagement
 emerge wicd
 rc-update add wicd default
 rc-update del net.enp5s0 我的网卡不是eth0是enp5s
@@ -256,4 +259,18 @@ plasma-toolbox-nettoolbox.desktop
 http://gpo.zugaina.org/x11-misc/cairo-dock
 下载的是第一个cairo-dock-9999-r1 ebuild文件
 添加新的launcher用的图标都是/usr/share/icons/hicolor/32x32/apps/下的图标
+
+18. 安装声卡驱动相关
+首先查看声卡驱动
+lspci | grep -i audio
+在内核中添加相关的驱动支持
+确认下面这几个包都安装了
+media-sound/alsa-utils
+media-libs/alsa-lib
+
+安装kmix
+emerge kde-apps/kmix
+安装完后点击音量控制图标
+勾选Autostart和Dock in system tray
+以后开机就能看到该图标了
 ```
