@@ -259,6 +259,7 @@ plasma-toolbox-nettoolbox.desktop
 http://gpo.zugaina.org/x11-misc/cairo-dock
 下载的是第一个cairo-dock-9999-r1 ebuild文件
 添加新的launcher用的图标都是/usr/share/icons/hicolor/32x32/apps/下的图标
+发现安装后有黑边框,估计是集成显卡的原因
 
 18. 安装声卡驱动相关
 首先查看声卡驱动
@@ -283,4 +284,8 @@ smbclient -L //10.1.4.201 -U linwei
 将某个目录挂在到本地
 mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/HR /mnt/win7/
 mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/id /mnt/win7/
+
+20. 在system tray显示国旗
+在System settings里Input Device->keyboard->layout里勾选Show flag
+在panel上的system tray右键选择system tray setting后勾选keyboard layout即可显示国旗
 ```
