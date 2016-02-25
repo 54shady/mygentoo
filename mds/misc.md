@@ -93,4 +93,9 @@ menuentry "Widnwos 8" {
  ScrollBarPosition=2
 
  关掉所有konsole后重启就可以了
+
+ 6. 普通用户可读root用户挂在的磁盘
+ root用户挂在windows盘
+ mount -t ntfs -o umask=000 /dev/sda1 /mnt/
+ 其中/dev/sda1是安装在windows下的ntfs格式的C盘,之后普通用户就可读
 ```
