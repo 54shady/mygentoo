@@ -75,4 +75,22 @@ menuentry "Widnwos 8" {
 	chainloader +1
 	boot
 }
+
+5. konsole添加monaco字体
+ 创建一个konsole的配置文件即可:
+ ~/.kde4/share/apps/konsole/MonacoFont.profile
+ 内容如下:
+ [Appearance]
+ ColorScheme=Solarized
+ Font=Monaco,18,-1,5,50,0,0,0,0,0
+
+ [General]
+ Name=MonacoFont
+ Parent=FALLBACK/
+ ShowTerminalSizeHint=false
+
+ [Scrolling]
+ ScrollBarPosition=2
+
+ 关掉所有konsole后重启就可以了
 ```
