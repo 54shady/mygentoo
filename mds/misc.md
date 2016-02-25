@@ -40,7 +40,7 @@ gcc-config: Active gcc profile is invalid!
 设置profile
 gcc-config x86_64-pc-linux-gnu-4.9.3
 
-gentoo samba 安装
+3. gentoo samba 安装
 emerge -v net-fs/samba
 拷贝一个配置文件,在此基础上修改
 cp /etc/samba/smb.conf.default /etc/samba/smb.conf
@@ -65,4 +65,14 @@ smbpasswd -a root
 
 开启服务
 /etc/init.d/samba start
+
+4. GRUB2添加WINDOWS启动
+
+在/etc/grub.d/40_custom里添加下面内容
+menuentry "Widnwos 8" {
+	insmod ntfs
+	set root=(hd0,1)
+	chainloader +1
+	boot
+}
 ```

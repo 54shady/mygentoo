@@ -124,6 +124,8 @@ LC_TELEPHONE="en_US.UTF-8"
 LC_MEASUREMENT="en_US.UTF-8"
 LC_IDENTIFICATION="en_US.UTF-8"
 
+安装完成后重启添加pinyin输入法
+
 4. 访问google
 直接安装miredo就可以了
 emerge miredo
@@ -233,6 +235,7 @@ rm  /etc/init.d/net.enp5s0
 emerge net-misc/networkmanager
 emerge kde-misc/networkmanagement  //这个使用的是local overlay装的
 之后需要添加相应的widget才可以看到有系统托盘出现
+rc-update add NetworkManager  default
 
 15. 实用的widgets,比如rssnow等
 emerge kde-base/kdeplasma-addons
