@@ -299,6 +299,10 @@ emerge kde-apps/kmix
 安装完后点击音量控制图标
 勾选Autostart和Dock in system tray
 以后开机就能看到该图标了
+设置音量调节快捷键
+WIN+PageUp音量增
+WIN+PageDn音量减
+WIN+Del	  静音
 
 19. linux访问windows共享文件夹
 先看下共享权限和目录
