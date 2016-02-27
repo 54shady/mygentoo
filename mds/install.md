@@ -338,4 +338,14 @@ layman -a sabayon
 
 安装kazam
 emerge -av media-video/kazam
+
+22. 安装plank
+用的是sabayon overlay里的plank
+emerge x11-misc/plank
+其中火狐会无法pin到plank上
+在宿主目录下手动添加下面文件
+/home/zeroway/.config/plank/dock1/launchers
+内容如下:
+[PlankItemsDockItemPreferences]
+Launcher=file:///usr/share/applications/firefox-bin.desktop
 ```
