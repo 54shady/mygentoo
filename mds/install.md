@@ -317,4 +317,19 @@ mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/id /mnt/win7/
 20. 在system tray显示国旗
 在System settings里Input Device->keyboard->layout里勾选Show flag
 在panel上的system tray右键选择system tray setting后勾选keyboard layout即可显示国旗
+
+21. kazam安装
+发现在overlay网站下载sabayon的kazam ebuild文件用localoverlay安装无法成功
+原因是无法下载到相应的补丁包
+必须要要用layman添加sabayon的overlay来安装才可以
+步骤如下:
+先安装layman如果安装里就不需要
+emerge layman
+echo "source /var/lib/layman/make.conf" >> /etc/portage/make.conf
+
+添加sabayon的overlay
+layman -a sabayon
+
+安装kazam
+emerge -av media-video/kazam
 ```
