@@ -201,6 +201,12 @@ KWin->Quick Tile Window to the Right
 使用WIN+CTRL+m
 KWin->Quick Tile Window to the Bottom Right
 
+使用WIN+CTRL+o
+KWin->Maxmize Window
+
+使用WIN+CTRL+x
+KWin->Minimize Window
+
 9. virtual box 安装：
 在package.accept_keywords添加如下内容来安装最新的virtualbox和相应的增强工具：
 >=app-emulation/virtualbox-5.0.14 ~amd64
