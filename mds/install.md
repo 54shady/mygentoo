@@ -348,4 +348,18 @@ emerge x11-misc/plank
 内容如下:
 [PlankItemsDockItemPreferences]
 Launcher=file:///usr/share/applications/firefox-bin.desktop
+
+23. 安装suspend
+发现用默认的gentoo portage安装会有冲突
+所以就用localoverlay的方法安装
+使用的Overlay: bircoph (layman)
+emerge sys-power/suspend
+
+卸载upower
+emerge --unmerge sys-power/upower
+
+安装pm utils
+emerge sys-power/upower-pm-utils
+但是现在可以待机,却不知道怎么恢复
+休眠后就进入到命令行下,而不是锁屏界面
 ```
