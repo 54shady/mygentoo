@@ -360,6 +360,6 @@ emerge --unmerge sys-power/upower
 
 安装pm utils
 emerge sys-power/upower-pm-utils
-但是现在可以待机,却不知道怎么恢复
-休眠后就进入到命令行下,而不是锁屏界面
+
+ctrl+alt+F7可以切换到图形登入界面
 ```
