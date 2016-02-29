@@ -98,4 +98,39 @@ menuentry "Widnwos 8" {
  root用户挂在windows盘
  mount -t ntfs -o umask=000 /dev/sda1 /mnt/
  其中/dev/sda1是安装在windows下的ntfs格式的C盘,之后普通用户就可读
+
+ 7. gentoo对linux目录结构的解释:
+
+ /bin: Boot-critical applications关键启动程序
+ /etc: System administrator controlled configuration files系统配置文件
+ /lib: Boot-critical libraries关键启动库
+ /opt: Binary-only applications.安装的纯二进制程序
+ /sbin: System administrator boot-critical applications系统关键启动程序
+ /tmp: Temporary data临时数据
+ /usr: General applications普通程序
+ /usr/bin: Applications普通应用
+ /usr/lib: Libraries普通库
+ /usr/local: Non-portage applications. Ebuilds must not install here.使用非portage安装的二进制程序
+ /usr/sbin: Non-system-critical system administrator applications非系统关键程序
+ /usr/share: Architecture independent application data and documentation架构相关的数据和文档
+ /var: Program generated data程序运行是产生的数据
+ /var/cache: Long term data which can be regenerated
+ /var/lib: General application generated data
+ /var/log: Log files
+
+ Where possible, we prefer to put non-boot-critical applications in /usr rather than /. If a program is not needed in the boot process until after filesystems are mounted then it generally does not belong on /.
+ 在文件系统挂在后才用到的程序应该放在/usr下而不是/下
+
+ Any binary which links against a library under /usr must itself go into /usr (or possibly /opt).
+
+ The /opt top-level should only be used for binary-only applications. Binary-only applications must not be installed outside of /opt.
+ 单纯的二进制程序只能放到/opt下
+
+ The /usr/local hierarchy is for non-portage software. Ebuilds must not attempt to put anything in here.
+ /usr/local里的程序是使用非portage安装的软件,比如手动下载源码包后,手动配置和编译安装
+
+ The /usr/share directory is for architecture independent application data which is not modified at runtime.
+
+ Try to avoid installing unnecessary things into /etc — every file in there is additional work for the system administrator. In particular, non-text files and files that are not intended for system administrator usage should be moved to /usr/share. 
+ /etc下只能有文本形式的系统配置文件,非系统配置文件需要放到/usr/share下
 ```
