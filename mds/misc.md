@@ -133,4 +133,14 @@ menuentry "Widnwos 8" {
 
  Try to avoid installing unnecessary things into /etc — every file in there is additional work for the system administrator. In particular, non-text files and files that are not intended for system administrator usage should be moved to /usr/share. 
  /etc下只能有文本形式的系统配置文件,非系统配置文件需要放到/usr/share下
+
+8.软件版本后缀意思:
+ Suffix 	Meaning
+
+ _alpha 	Alpha release (earliest)
+ _beta 	Beta release
+ _pre 	Pre release
+ _rc 	Release candidate
+ (no suffix) 	Normal release
+ _p 	Patch release
 ```
