@@ -362,4 +362,15 @@ emerge --unmerge sys-power/upower
 emerge sys-power/upower-pm-utils
 
 ctrl+alt+F7可以切换到图形登入界面
+
+24. partitionmanager 软件的安装
+emerge sys-block/partitionmanager
+安装后需要使用root权限启动软件才能查看完整的磁盘信息
+我使用的普通用户zeroway,所以要用sudo partitionmanager
+但是发现提示下面的错误:
+partitionmanager: cannot connect to X server :0
+原因是root用户没有加入到zeroway访问X server的权限里
+只要添加就可以了
+xhost local:root
+现在就能用sudo partitionmanager启动软件了
 ```
