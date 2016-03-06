@@ -77,6 +77,7 @@ menuentry "Widnwos 8" {
 }
 
 5. konsole添加monaco字体
+ 把MONACO.TTF字体文件放到/usr/share/fonts/下
  创建一个konsole的配置文件即可:
  ~/.kde4/share/apps/konsole/MonacoFont.profile
  内容如下:
