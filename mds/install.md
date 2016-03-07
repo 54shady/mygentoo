@@ -373,4 +373,7 @@ partitionmanager: cannot connect to X server :0
 只要添加就可以了
 xhost local:root
 现在就能用sudo partitionmanager启动软件了
+
+以后凡是需要有root权限的GUI程序都可以这样
+例如porthole(portage图形安装方式)软件也是一样的
 ```
