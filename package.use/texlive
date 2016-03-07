@@ -1,13 +1,1 @@
 >=app-text/texlive-2015 detex extra graphics humanities luatex xetex xindy linguas_zh context omega pstricks publishers tex4ht texi2html
-# required by gnome-base/gnome-keyring-3.16.0-r1::gentoo
-# required by gnome-base/libgnomeui-2.24.5-r1::gentoo
-# required by dev-dotnet/gnome-sharp-2.24.2::gentoo
-# required by dev-dotnet/gnome-desktop-sharp-2.26.0-r1::gentoo
-# required by gnome-extra/docky-2.2.1.1::gentoo
-# required by gnome-extra/docky (argument)
->=app-crypt/pinentry-0.9.5 gnome-keyring
-# required by dev-qt/qtcore-5.4.2::gentoo
-# required by dev-qt/qtdbus-5.4.2::gentoo
-# required by kde-frameworks/networkmanager-qt-5.18.0::gentoo
-# required by kde-frameworks/networkmanager-qt (argument)
->=dev-libs/libpcre-8.38 pcre16

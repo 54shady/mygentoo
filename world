@@ -46,7 +46,6 @@ net-misc/axel
 net-misc/miredo
 net-misc/netifrc
 net-misc/networkmanager
-net-wireless/aircrack-ng
 sys-apps/dmidecode
 sys-apps/gptfdisk
 sys-apps/lshw

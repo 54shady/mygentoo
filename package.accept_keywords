@@ -1,183 +1,154 @@
-# required by android-sdk-update-manager (argument)
-=dev-util/android-sdk-update-manager-23-r1 ~amd64
+# required by cairo-dock (argument)
+=x11-misc/cairo-dock-9999-r1 **
 
+#add by zeroway for texlive
 >=app-text/texlive-2015 ~amd64
-# required by app-text/texlive-core-2015::gentoo
-# required by dev-texlive/texlive-basic-2015::gentoo
-# required by dev-texlive/texlive-fontsrecommended-2015::gentoo
-# required by app-text/texlive-2015::gentoo
-# required by app-text/texlive (argument)
-=dev-tex/bibtexu-3.71_p20150521 ~amd64
-# required by app-text/texlive-2015::gentoo[truetype]
-# required by app-text/texlive (argument)
-=app-text/ttf2pk2-2.0_p20150521 ~amd64
-# required by app-text/texlive-core-2015::gentoo
-# required by dev-texlive/texlive-basic-2015::gentoo
-# required by dev-texlive/texlive-fontsrecommended-2015::gentoo
-# required by app-text/texlive-2015::gentoo
-# required by app-text/texlive (argument)
-=app-text/dvipsk-5.995_p20150521 ~amd64
-# required by app-text/texlive-2015::gentoo
-# required by app-text/texlive (argument)
-=dev-texlive/texlive-fontsrecommended-2015 ~amd64
-# required by app-text/texlive-2015::gentoo
-# required by app-text/texlive (argument)
-=dev-texlive/texlive-genericrecommended-2015 ~amd64
-# required by dev-tex/bibtexu-3.71_p20150521::gentoo
-# required by app-text/texlive-core-2015::gentoo
-# required by dev-texlive/texlive-basic-2015::gentoo
-# required by dev-texlive/texlive-fontsrecommended-2015::gentoo
-# required by app-text/texlive-2015::gentoo
-# required by app-text/texlive (argument)
-=dev-libs/kpathsea-6.2.1_p20150521 ~amd64
-# required by dev-texlive/texlive-fontutils-2015::gentoo
 # required by app-text/texlive-2015::gentoo
 # required by app-text/texlive (argument)
 =app-text/texlive-core-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[X]
+# required by app-text/texlive (argument)
+=app-text/xdvik-22.87 ~amd64
+# required by app-text/texlive-2015::gentoo
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-fontsrecommended-2015 ~amd64
+# required by app-text/texlive-core-2015::gentoo
+# required by dev-texlive/texlive-latexrecommended-2015-r1::gentoo
+# required by app-text/texlive-2015::gentoo
+# required by app-text/texlive (argument)
+=app-text/dvipsk-5.995_p20150521 ~amd64
+# required by app-text/texlive-core-2015::gentoo
+# required by dev-texlive/texlive-latexrecommended-2015-r1::gentoo
+# required by app-text/texlive-2015::gentoo
+# required by app-text/texlive (argument)
+=dev-tex/bibtexu-3.71_p20150521 ~amd64
+# required by app-text/texlive-2015::gentoo
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-genericrecommended-2015 ~amd64
+# required by app-text/texlive-2015::gentoo
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-basic-2015 ~amd64
 # required by dev-texlive/texlive-latexrecommended-2015-r1::gentoo
 # required by app-text/texlive-2015::gentoo
 # required by app-text/texlive (argument)
 =dev-texlive/texlive-latex-2015 ~amd64
 # required by app-text/texlive-2015::gentoo
 # required by app-text/texlive (argument)
-=dev-tex/latex-beamer-3.36 ~amd64
-# required by app-text/texlive-2015::gentoo
-# required by app-text/texlive (argument)
 =dev-texlive/texlive-fontutils-2015 ~amd64
 # required by app-text/texlive-core-2015::gentoo
-# required by dev-texlive/texlive-basic-2015::gentoo
-# required by dev-texlive/texlive-fontsrecommended-2015::gentoo
+# required by dev-texlive/texlive-latexrecommended-2015-r1::gentoo
 # required by app-text/texlive-2015::gentoo
 # required by app-text/texlive (argument)
-=app-text/ps2pkm-1.7_p20150521 ~amd64
-# required by app-text/texlive-2015::gentoo[X]
-# required by app-text/texlive (argument)
-=app-text/xdvik-22.87 ~amd64
-# required by dev-texlive/texlive-fontutils-2015::gentoo
-# required by app-text/texlive-2015::gentoo
-# required by app-text/texlive (argument)
-=dev-texlive/texlive-basic-2015 ~amd64
+=dev-libs/kpathsea-6.2.1_p20150521 ~amd64
 # required by app-text/texlive-2015::gentoo
 # required by app-text/texlive (argument)
 =dev-texlive/texlive-latexrecommended-2015-r1 ~amd64
+# required by app-text/texlive-2015::gentoo[truetype]
+# required by app-text/texlive (argument)
+=app-text/ttf2pk2-2.0_p20150521 ~amd64
+# required by app-text/texlive-2015::gentoo
+# required by app-text/texlive (argument)
+=dev-tex/latex-beamer-3.36 ~amd64
+# required by app-text/texlive-core-2015::gentoo
+# required by dev-texlive/texlive-latexrecommended-2015-r1::gentoo
+# required by app-text/texlive-2015::gentoo
+# required by app-text/texlive (argument)
+=app-text/ps2pkm-1.7_p20150521 ~amd64
+# required by app-text/texlive-2015::gentoo[xetex]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-xetex-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[humanities]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-humanities-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[omega]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-omega-2015 ~amd64
 # required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-latexextra-2015 ~amd64
-# required by dev-texlive/texlive-latexextra-2015::gentoo
-# required by dev-texlive/texlive-xetex-2015::gentoo
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-genericextra-2015 ~amd64
+# required by app-text/texlive-core-2015::localoverlay[cjk]
 # required by dev-texlive/texlive-formatsextra-2015::gentoo
 # required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
+# required by app-text/texlive (argument)
+=dev-libs/ptexenc-1.3.3_p20150521 ~amd64
+# required by app-text/texlive-core-2015::localoverlay[xetex]
+# required by dev-texlive/texlive-formatsextra-2015::gentoo
+# required by app-text/texlive-2015::gentoo[extra]
+# required by app-text/texlive (argument)
+=app-text/teckit-2.5.3 ~amd64
+# required by app-text/texlive-2015::gentoo[graphics]
+# required by app-text/texlive (argument)
 =dev-texlive/texlive-pictures-2015-r2 ~amd64
 # required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-genericextra-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[humanities]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-humanities-2015 ~amd64
-# required by app-text/texlive-core-2015::gentoo[xetex]
-# required by dev-texlive/texlive-xetex-2015::gentoo
-# required by dev-texlive/texlive-formatsextra-2015::gentoo
-# required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=app-text/teckit-2.5.3 ~amd64
-# required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-formatsextra-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[xetex]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-xetex-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-bibtexextra-2015 ~amd64
-# required by app-text/texlive-core-2015::gentoo[cjk]
-# required by dev-texlive/texlive-xetex-2015::gentoo
-# required by dev-texlive/texlive-formatsextra-2015::gentoo
-# required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-libs/ptexenc-1.3.3_p20150521 ~amd64
-# required by app-text/texlive-2015::gentoo[luatex]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-luatex-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[cjk]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-langcjk-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-plainextra-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-fontsextra-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-mathextra-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[context]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-context-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[linguas_zh]
-# required by @selected
-# required by @world (argument)
-=dev-texlive/texlive-langchinese-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[publishers]
-# required by texlive (argument)
-=dev-texlive/texlive-publishers-2015 ~amd64
-# required by app-text/texlive-2015::gentoo[omega]
-# required by texlive (argument)
-=dev-texlive/texlive-omega-2015 ~amd64
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-latexextra-2015 ~amd64
 # required by app-text/texlive-2015::gentoo[pstricks]
-# required by texlive (argument)
+# required by app-text/texlive (argument)
 =dev-texlive/texlive-pstricks-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[publishers]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-publishers-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[extra]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-bibtexextra-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[extra]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-mathextra-2015 ~amd64
+# required by dev-texlive/texlive-langchinese-2015::gentoo
+# required by app-text/texlive-2015::gentoo[linguas_zh]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-langcjk-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[context]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-context-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[extra]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-formatsextra-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[extra]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-fontsextra-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[linguas_zh]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-langchinese-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[luatex]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-luatex-2015 ~amd64
+# required by app-text/texlive-2015::gentoo[extra]
+# required by app-text/texlive (argument)
+=dev-texlive/texlive-plainextra-2015 ~amd64
 
-#add by shady for virtualbox
+#add by zeroway
+>=app-text/lcdf-typetools-2.105 ~amd64
+
+#add by zeroway for pandoc
+>=app-text/pandoc-1.16.0.2 ~amd64
+# required by app-text/pandoc-1.16.0.2-r1::localoverlay
+# required by pandoc (argument)
+=dev-haskell/highlighting-kate-0.6.1 ~amd64
+# required by dev-haskell/texmath-0.8.4.1::gentoo
+# required by app-text/pandoc-1.16.0.2-r1::localoverlay
+# required by pandoc (argument)
+=dev-haskell/pandoc-types-1.16.1 ~amd64
+# required by app-text/pandoc-1.16.0.2-r1::localoverlay
+# required by pandoc (argument)
+=dev-haskell/cmark-0.5.1 ~amd64
+# required by app-text/pandoc-1.16.0.2-r1::localoverlay
+# required by pandoc (argument)
+=dev-haskell/texmath-0.8.4.1 ~amd64
+
+# add by zeroway for virtualbox
 >=app-emulation/virtualbox-5.0.14 ~amd64
+>=app-emulation/virtualbox-additions-5.0.14 ~amd64
 # required by app-emulation/virtualbox-5.0.14::gentoo
 # required by app-emulation/virtualbox (argument)
 =app-emulation/virtualbox-modules-5.0.14 ~amd64
-
-#add by shady for virtualbox additions
->=app-emulation/virtualbox-additions-5.0.14 ~amd64
+# required by media-video/kazam (argument)
+=media-video/kazam-1.4.5 ~amd64
+# required by cairo-dock::sabayon (argument)
+=x11-misc/cairo-dock-3.3.2 ~amd64
 # required by gnome-extra/avant-window-navigator (argument)
 =gnome-extra/avant-window-navigator-0.4.2 ~amd64
-# required by kde-frameworks/networkmanager-qt-5.18.0::gentoo
-# required by kde-frameworks/networkmanager-qt (argument)
-=kde-frameworks/extra-cmake-modules-5.18.0 ~amd64
-# required by kde-frameworks/networkmanager-qt-5.18.0::gentoo
-# required by kde-frameworks/networkmanager-qt (argument)
-=kde-frameworks/kf-env-3 ~amd64
-# required by kde-frameworks/networkmanager-qt (argument)
-=kde-frameworks/networkmanager-qt-5.18.0 ~amd64
-# required by www-apps/tt-rss (argument)
-=www-apps/tt-rss-20160124 ~amd64
-
-#add by shady for pandoc
->=app-text/pandoc-1.16.0.2 ~amd64
-
-#add by shady for cmark
->=dev-haskell/cmark-0.5.1 ~adm64
-
-#add by shady for pandoc-types
->=dev-haskell/pandoc-types-1.16.1 ~amd64
-# required by app-text/pandoc-1.16.0.2-r1::mobzoverlay
-# required by pandoc (argument)
-=dev-haskell/highlighting-kate-0.6.1 ~amd64
-# required by app-text/pandoc-1.16.0.2-r1::mobzoverlay
-# required by pandoc (argument)
-=dev-haskell/cmark-0.5.1 ~amd64
-# required by app-text/pandoc-1.16.0.2-r1::mobzoverlay
-# required by pandoc (argument)
-=dev-haskell/texmath-0.8.4.1 ~amd64
+# required by x11-misc/plank (argument)
+=x11-misc/plank-0.10.0 ~amd64
+# required by sys-power/suspend::localoverlay (argument)
+=sys-power/suspend-9999 **
