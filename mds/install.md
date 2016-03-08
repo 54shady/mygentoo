@@ -310,7 +310,7 @@ WIN+PageUp音量增
 WIN+PageDn音量减
 WIN+Del	  静音
 
-19. linux访问windows共享文件夹
+19. linux访问windows共享文件夹(访问samba共享也可以)
 先看下共享权限和目录
 -L指定共享服务器地址
 -U指定共享用户名
@@ -319,6 +319,13 @@ smbclient -L //10.1.4.201 -U linwei
 将某个目录挂在到本地
 mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/HR /mnt/win7/
 mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/id /mnt/win7/
+
+访问手机WIFI共享文件夹
+查看共享的文件夹
+smbclient -L //192.168.1.100 -U BlackBerry
+
+通过上面知道media文件夹可访问,挂在到/mnt下
+sudo mount.cifs -o user=BlackBerry,password=mypassword //192.168.1.100/media /mnt/
 
 20. 在system tray显示国旗
 在System settings里Input Device->keyboard->layout里勾选Show flag
