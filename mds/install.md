@@ -1,5 +1,6 @@
 ```shell
 1. 系统安装:
+用fdisk工具将分区准备好,这里是在装了ubuntu的基础上,所以就没有这些操作了
 mkfs.ext4 /dev/sda7
 swapon /dev/sda10
 mount /dev/sda7 /mnt/gentoo
@@ -19,6 +20,7 @@ CCACHE_DIR="/var/tmp/ccache"
 FETCHCOMMAND="/usr/bin/axel -a -o \${DISTDIR}/\${FILE} \${URI}"
 RESUMECOMMAND="${FETCHCOMMAND}"
 
+最好把/home分区单独划分出来作为一个挂在点
 fstab内容:
 /dev/sda11   /boot        ext4    defaults,noatime     0 2
 /dev/sda10   none         swap    sw                   0 0
@@ -45,6 +47,11 @@ emerge -a sys-kernel/gentoo-sources
 
 emerge --ask sys-kernel/genkernel
 genkernel all
+
+安装grub2(因为在安装ubuntu的时候就已经安装了,所以这里可以省去)
+emerge sys-boot/grub
+grub2-install /dev/sda
+grub2-mkconfig -o /boot/grub/grub.cfg
 
 nano -w /etc/conf.d/hostname
 hostname="mobz"
