@@ -1,4 +1,5 @@
 app-admin/sudo
+app-admin/sysstat
 app-arch/unrar
 app-arch/xarchiver
 app-editors/vim
@@ -14,11 +15,13 @@ app-office/libreoffice-bin
 app-portage/eix
 app-portage/gentoolkit
 app-portage/layman
+app-portage/porthole
 app-shells/bash-completion
 app-text/lcdf-typetools
 app-text/pandoc
 app-text/texlive
 app-text/tree
+dev-python/wxpython
 dev-util/ccache
 dev-util/strace
 dev-vcs/git
@@ -40,6 +43,7 @@ media-fonts/wqy-zenhei
 media-gfx/gimp
 media-sound/amarok
 media-video/kazam
+net-analyzer/tcpdump
 net-dialup/minicom
 net-fs/samba
 net-misc/axel
@@ -47,6 +51,7 @@ net-misc/miredo
 net-misc/netifrc
 net-misc/networkmanager
 sys-apps/dmidecode
+sys-apps/dstat
 sys-apps/gptfdisk
 sys-apps/lshw
 sys-apps/mlocate
@@ -56,6 +61,8 @@ sys-kernel/genkernel
 sys-kernel/gentoo-sources
 sys-power/suspend::localoverlay
 sys-power/upower-pm-utils
+sys-process/htop
+sys-process/lsof
 www-client/firefox-bin
 www-plugins/adobe-flash
 x11-base/xorg-x11
