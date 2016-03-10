@@ -144,4 +144,18 @@ menuentry "Widnwos 8" {
  _rc 	Release candidate
  (no suffix) 	Normal release
  _p 	Patch release
+
+ 9. 使用USB摄像头
+	安装了cheese后插入USB摄像头发现如下错误
+	(cheese:26600): cheese-WARNING **: Device '/dev/video0' cannot capture at 640x480: /var/tmp/portage/media-plugins/gst-plugins-v4l2-1.4.5/work/gst-plugins-good-1.4.5/sys/v4l2/gstv4l2object.c(2845): gst_v4l2_object_set_format (): /GstCameraBin:camerabin/GstWrapperCameraBinSrc:camera_source/GstBin:bin35/GstV4l2Src:video_source:
+	Call to S_FMT failed for YU12 @ 640x480: Input/output error
+	提示说无法支持640x480,我这里用的摄像头是OV7740最大分辨率能够达到640x480
+
+	dmesg发现打开摄像头的时候恢报下面的错误:
+	uvcvideo: Failed to query (130) UVC probe control : -32 (exp. 26).
+
+	解决办法,修改UVC驱动的参数后发现可以正常使用:
+	echo 2 > /sys/modules/uvcvideo/parameters/quirks
+
+	参考:https://www.mail-archive.com/linux-uvc-devel@lists.berlios.de/msg03737.html
 ```
