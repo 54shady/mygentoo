@@ -194,4 +194,11 @@ menuentry "Widnwos 8" {
 	其中:gentoo_pc_ip=192.168.1.101,开发板:192.168.1.230
 
 	set machid 7cf ;set bootargs console=ttySAC0,115200 root=/dev/nfs nfsroot=192.168.1.101:/export/nfs_rootfs ip=192.168.1.230:192.168.1.101:192.168.1.1:255.255.255.0::eth0:off ;nfs 30000000 192.168.1.101:/export/nfs_rootfs/uImage;bootm 30000000
+
+	开机启动相关配置:
+	在/etc/fstab中添加下面内容:
+	/home/zeroway/armlinux/rootfs_for_3.4.2 /export/nfs_rootfs none bind 0 0
+
+	添加开机启动:
+	rc-update add nfs default
 ```
