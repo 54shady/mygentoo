@@ -158,4 +158,40 @@ menuentry "Widnwos 8" {
 	echo 2 > /sys/modules/uvcvideo/parameters/quirks
 
 	参考:https://www.mail-archive.com/linux-uvc-devel@lists.berlios.de/msg03737.html
+
+10. 搭建嵌入式开发环境
+	NFS服务器:
+
+	内核配置:
+	gentoo内核配置NFS相关选项参考官网即可
+
+	安装相应的工具:
+	emerge --ask net-fs/nfs-utils
+
+	创建相关的目录:
+	mkdir /export
+	mkdir /export/nfs_rootfs
+	mount --bind /home/zeroway/armlinux/rootfs_for_3.4.2 /export/nfs_rootfs
+
+	在/etc/exports文件中添加如下内容:
+	/export/nfs_rootfs *(rw,sync,no_root_squash)
+	修改了该文件后需要执行:
+	exportfs -rv
+
+	配置/etc/conf.d/nfs这个文件,支持NFS版本在这里设置
+	OPTS_RPC_NFSD="8 -V 2 -V 3 -V 4 -V 4.1"
+
+	gentoo上先测试是否可以挂载
+	/etc/init.d/nfs start
+
+	使用VER2
+	mount -t nfs -o nolock,vers=2 192.168.1.101:/export/nfs_rootfs /mnt
+
+	使用VER4
+	mount -t nfs -o nolock,vers=4 192.168.1.101:/export/nfs_rootfs /mnt
+
+	在开发板上设置相关的参数:
+	其中:gentoo_pc_ip=192.168.1.101,开发板:192.168.1.230
+
+	set machid 7cf ;set bootargs console=ttySAC0,115200 root=/dev/nfs nfsroot=192.168.1.101:/export/nfs_rootfs ip=192.168.1.230:192.168.1.101:192.168.1.1:255.255.255.0::eth0:off ;nfs 30000000 192.168.1.101:/export/nfs_rootfs/uImage;bootm 30000000
 ```
