@@ -201,4 +201,20 @@ menuentry "Widnwos 8" {
 
 	添加开机启动:
 	rc-update add nfs default
+
+11. 交叉编译工具环境配置
+	使用其它发行版本的linux做法一般是在.bashrc里添加或是export配置PATH
+	在gentoo linux里可以这样配置:
+	在/etc/env.d/添加一个文件,名字随意,自己知道是给什么软件配置的就可以
+	由于是给arm-linux-gcc 4.3.2版本配置,所以我写成了432arm-linux-gcc
+	里面写入相关的路径,比如交叉编译工具在/opt/toolschain/usr/local/arm/4.3.2/bin
+
+	432arm-linux-gcc文件内容如下:
+	PATH="/opt/toolschain/usr/local/arm/4.3.2/bin"
+	ROOTPATH="/opt/toolschain/usr/local/arm/4.3.2/bin"
+
+	之后执行下面的命令就可以更新环境变量了:
+	env-update && source /etc/profile
+
+	个人觉得gentoo这样的方法更为统一,方便管理
 ```
