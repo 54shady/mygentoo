@@ -284,6 +284,9 @@ System Settings->Application Appearance->Fonts->Small 修改合适的字体大�
 让rssnow用安装好的火狐浏览器查看网页,设置火狐为默认的浏览器
 System Settings->Default Applications->Web Browser:设置为火狐浏览器的位置比如/usr/bin/firefox-bin即可
 
+rssnow配置文件在宿主目录下：
+/root/.kde4/share/config/plasma-desktop-appletsrc
+
 16. 删除桌面右上角的tool box
 先把/usr/share/kde4/services里下面这三个文件备份下
 plasma-toolbox-desktoptoolbox.desktop
