@@ -419,4 +419,22 @@ xhost local:root
 
 以后凡是需要有root权限的GUI程序都可以这样
 例如porthole(portage图形安装方式)软件也是一样的
+
+25. Fix Valgrind's must-be-redirected error in Gentoo
+参考链接 http://www.cnblogs.com/yangyingchao/archive/2013/12/20/3483712.html
+In order to fix this error, it is necessary to:
+1. enable the splitdebug feature (or rather: it is "recommended" to enable).
+2. enable debugging symbols for glibc.
+3. recompile sys-libs/glibc.
+
+1. 修改/etc/portage/make.conf添加splitdebug,应该也可以只修改glibc的
+FEATURES="$FEATURES splitdebug"
+2. 单独修改编译glibc时的编译选项(也可以在make.conf里配置成全局的)
+Create the file /etc/portage/env/debug.conf and add:
+CFLAGS="${CFLAGS} -ggdb"
+CXXFLAGS="${CFLAGS} -ggdb"
+3. 创建/etc/portage/package.env/glibc添加如下内容
+sys-libs/glibc debug.conf
+4. 重新编译安装glibc
+emerge sys-libs/glibc
 ```
