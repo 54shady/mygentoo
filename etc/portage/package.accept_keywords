@@ -137,11 +137,12 @@
 =dev-haskell/texmath-0.8.4.1 ~amd64
 
 # add by zeroway for virtualbox
->=app-emulation/virtualbox-5.0.14 ~amd64
->=app-emulation/virtualbox-additions-5.0.14 ~amd64
-# required by app-emulation/virtualbox-5.0.14::gentoo
-# required by app-emulation/virtualbox (argument)
-=app-emulation/virtualbox-modules-5.0.14 ~amd64
+=app-emulation/virtualbox-bin-5.0.16.105871 ~amd64
+=app-emulation/virtualbox-modules-5.0.16 ~amd64
+=app-emulation/virtualbox-additions-5.0.16 ~amd64
+# =app-emulation/virtualbox-5.0.14 ~amd64
+# =app-emulation/virtualbox-modules-5.0.14 ~amd64
+# =app-emulation/virtualbox-additions-5.0.14 ~amd64
 # required by media-video/kazam (argument)
 =media-video/kazam-1.4.5 ~amd64
 # required by cairo-dock::sabayon (argument)
@@ -152,3 +153,8 @@
 =x11-misc/plank-0.10.0 ~amd64
 # required by sys-power/suspend::localoverlay (argument)
 =sys-power/suspend-9999 **
+# required by amule-dlp (argument)
+=net-p2p/amule-dlp-9999 **
+# required by net-p2p/amule-dlp-9999::localoverlay[dynamic]
+# required by amule-dlp (argument)
+=net-p2p/amule-dlp-antileech-9999 **

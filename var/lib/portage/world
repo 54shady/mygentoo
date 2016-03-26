@@ -3,8 +3,7 @@ app-admin/sysstat
 app-arch/unrar
 app-arch/xarchiver
 app-editors/vim
-app-emulation/virtualbox
-app-emulation/virtualbox-additions
+app-emulation/virtualbox-bin
 app-i18n/fcitx
 app-i18n/fcitx-cloudpinyin
 app-i18n/fcitx-configtool
@@ -17,6 +16,7 @@ app-portage/gentoolkit
 app-portage/layman
 app-portage/porthole
 app-shells/bash-completion
+app-text/dos2unix
 app-text/lcdf-typetools
 app-text/pandoc
 app-text/texlive
@@ -61,6 +61,7 @@ sys-apps/gptfdisk
 sys-apps/lshw
 sys-apps/mlocate
 sys-boot/grub
+sys-devel/gdb
 sys-fs/dosfstools
 sys-kernel/genkernel
 sys-kernel/gentoo-sources
