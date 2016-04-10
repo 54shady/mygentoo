@@ -68,5 +68,8 @@ net-misc/iputils -caps -filecaps
 # required by net-wireless/aircrack-ng-1.2_rc1-r1::gentoo[airdrop-ng]
 # required by net-wireless/aircrack-ng (argument)
 >=net-wireless/lorcon-0.0_p20150109 python
+
+>=media-sound/audacity-2.0.5 jack
+
 # need by android 32bit lib
 sys-libs/zlib abi_x86_32
