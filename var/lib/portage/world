@@ -53,6 +53,7 @@ net-analyzer/tcpdump
 net-dialup/minicom
 net-fs/nfs-utils
 net-fs/samba
+net-misc/aria2
 net-misc/axel
 net-misc/miredo
 net-misc/netifrc

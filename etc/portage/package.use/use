@@ -73,3 +73,6 @@ net-misc/iputils -caps -filecaps
 
 # need by android 32bit lib
 sys-libs/zlib abi_x86_32
+
+# need by aria2
+>=net-misc/aria2-1.15.2 adns bittorrent metalink scripts sqlite test xmlrpc
