@@ -1,0 +1,13 @@
+# required by kde-base/kdebase-startkde-4.11.22::gentoo
+# required by kde-apps/kdebase-meta-4.14.3-r2::gentoo[-minimal]
+# required by @selected
+# required by @world (argument)
+# /etc/portage/package.mask/kwin:
+=kde-base/kwin-4.11.22
+
+=cross-arm-linux-gnueabi/gcc-5.3.0
+# required by app-office/libreoffice-bin-5.0.5.2-r1::gentoo
+# required by @selected
+# required by @world (argument)
+# /etc/portage/package.mask/mask:
+=app-text/poppler-0.32.0
