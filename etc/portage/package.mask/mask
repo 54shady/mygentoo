@@ -2,3 +2,6 @@
 <sys-apps/openrc-0.13.0
 <sys-process/procps-3.3.9-r2
 <dev-lang/perl-5.18.0
+
+# 4.1.15 video card driver work good
+>sys-kernel/gentoo-sources-4.1.15-r1
