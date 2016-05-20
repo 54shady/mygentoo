@@ -1,11 +1,18 @@
 ```shell
 1. 系统安装:
 用fdisk工具将分区准备好,这里是在装了ubuntu的基础上,所以就没有这些操作了
-mkfs.ext4 /dev/sda7
-swapon /dev/sda10
-mount /dev/sda7 /mnt/gentoo
+把/ /boot /home都格式话位ext4格式
+这里假设它们依次是/dev/sda1 /dev/sda2 /dev/sda3
+/dev/sda4是swap分区
+
+mkfs.ext4 /dev/sda1
+mkfs.ext4 /dev/sda2
+mkfs.ext4 /dev/sda3
+
+mount /dev/sda1 /mnt/gentoo
 mkdir /mnt/gentoo/boot
-mount /dev/sda11 /mnt/gentoo/boot
+mount /dev/sda2 /mnt/gentoo/boot
+
 cd /mnt/gentoo
 tar xvjpf stage3-*.tar.bz2 --xattrs
 
@@ -22,9 +29,10 @@ RESUMECOMMAND="${FETCHCOMMAND}"
 
 最好把/home分区单独划分出来作为一个挂在点
 fstab内容:
-/dev/sda11   /boot        ext4    defaults,noatime     0 2
-/dev/sda10   none         swap    sw                   0 0
-/dev/sda7   /            ext4    noatime              0 1
+/dev/sda2   /boot        ext4    defaults,noatime     0 2
+/dev/sda4  none         swap    sw                   0 0
+/dev/sda1   /            ext4    noatime              0 1
+/dev/sda3 /home ext4 noatime	0	3
 
 cp -L /etc/resolv.conf /mnt/gentoo/etc/
 
@@ -38,7 +46,12 @@ chroot /mnt/gentoo /bin/bash
 source /etc/profile
 export PS1="(chroot) $PS1"
 
+安装portage:
+方法1：
 emerge --sync
+
+方法2:
+先下载好portage的snapshot压缩包直接解压到/usr/
 
 先使用profile 1
 eselect profile set 1
