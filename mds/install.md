@@ -187,4 +187,34 @@ modprobe vboxdrv
 将虚拟机驱动模块加入到系统启动加载模块中：
 在/etc/conf.d/modules中添加下面一行
 modules="vboxdrv"
+
+笔记本触摸板驱动:
+emerge x11-drivers/xf86-input-synaptics
+
+复制一份配置文件:
+cp /usr/share/X11/xorg.conf.d/50-synaptics.conf /etc/X11/xorg.conf.d/
+
+修改配置文件,在最后面添加下面内容:
+Section "InputClass"
+	Identifier "evdev touchpad catchall"
+	MatchIsTouchpad "on"
+	MatchDevicePath "/dev/input/event*"
+	Driver "synaptics"
+	Option "TapButton1" "1"
+	Option "TapButton2" "2"
+	Option "TapButton2" "3"
+EndSection
+重启后触摸板就能够使用了,但是触摸板中间到按钮不能最为滚动
+
+可以先设置触摸板右部分区域作为滚动使用
+先看先默认的参数设置
+synclient -l
+会显示出触摸板到区域范围,找到下面这个参数
+RightEdge               = 3481
+将其设置为2000其余1481作为滚动使用 (synclient RightEdge=2000)
+synclient RightEdge=2000
+
+使能垂直滚动: (VertEdgeScroll = 1)
+synclient VertEdgeScroll = 1
+这样设置后就能利用触摸板右侧来滚动屏幕了(比使用中间到按键来的方便)
 ```
