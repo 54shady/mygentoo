@@ -227,4 +227,10 @@ emerge -v dev-vcs/git dev-vcs/subversion
 安装完了直接可以使用了
 例子:
 git svn clone svn://192.168.0.133/OVIS_docs
+
+下面是一个git svn的一般使用流程:
+1. git svn clone your_svn_repository
+2. 修改本地代码,使用git add/commit将修改提交到本地git库
+3. 定期使用git svn rebase获取中心svn repository的更新
+4. 使用git svn dcommit命令将本地git库的修改同步到中心svn库
 ```
