@@ -172,7 +172,6 @@ rc-update add NetworkManager  default
 安装wifi固件
 emerge sys-kernel/linux-firmware
 
-
 virtual box 安装：
 在package.accept_keywords添加如下内容来安装最新的virtualbox和相应的增强工具：
 =app-emulation/virtualbox-bin-5.0.20.106931 ~amd64
@@ -217,4 +216,15 @@ synclient RightEdge=2000
 使能垂直滚动: (VertEdgeScroll = 1)
 synclient VertEdgeScroll = 1
 这样设置后就能利用触摸板右侧来滚动屏幕了(比使用中间到按键来的方便)
+
+Gentoo中使用git svn
+设置USE:
+dev-vcs/git subversion perl
+dev-vcs/subversion perl -dso
+
+emerge -v dev-vcs/git dev-vcs/subversion
+
+安装完了直接可以使用了
+例子:
+git svn clone svn://192.168.0.133/OVIS_docs
 ```
