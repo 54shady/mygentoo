@@ -339,7 +339,9 @@ WIN+Del	  静音
 -U指定共享用户名
 smbclient -L //10.1.4.201 -U linwei
 
-将某个目录挂在到本地
+将某个目录挂在到本地(需要安装CIFS工具集)
+emerge cifs-utils
+
 mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/HR /mnt/win7/
 mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/id /mnt/win7/
 
