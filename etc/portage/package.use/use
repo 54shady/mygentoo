@@ -93,3 +93,6 @@ sys-libs/zlib abi_x86_32
 # required by @selected
 # required by @world (argument)
 >=sys-libs/tdb-1.3.8 python
+# required by media-video/pitivi-0.95::gentoo[python_single_target_python3_4]
+# required by pitivi (argument)
+>=dev-lang/python-3.4.3-r1 sqlite

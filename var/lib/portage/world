@@ -19,6 +19,7 @@ app-portage/layman
 app-portage/porthole
 app-shells/bash-completion
 app-text/dos2unix
+app-text/kchmviewer
 app-text/lcdf-typetools
 app-text/pandoc
 app-text/texlive
@@ -54,6 +55,7 @@ media-sound/amarok
 media-sound/audacity
 media-video/cheese
 media-video/kazam
+media-video/pitivi
 net-analyzer/tcpdump
 net-dialup/minicom
 net-fs/nfs-utils
