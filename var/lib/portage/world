@@ -1,8 +1,8 @@
 app-admin/sudo
 app-admin/sysstat
+app-arch/lzop
 app-arch/p7zip
 app-arch/unrar
-app-arch/xarchiver
 app-crypt/easy-rsa
 app-editors/vim
 app-emulation/virtualbox-bin
@@ -30,9 +30,11 @@ cross-armv7a-hardfloat-linux-gnueabi/glibc
 cross-armv7a-hardfloat-linux-gnueabi/linux-headers
 dev-python/wxpython
 dev-util/ccache
+dev-util/cscope
 dev-util/strace
 dev-vcs/git
 dev-vcs/hg-git
+kde-apps/ark
 kde-apps/gwenview
 kde-apps/kcalc
 kde-apps/kdebase-meta
@@ -67,6 +69,7 @@ net-misc/netifrc
 net-misc/netkit-telnetd
 net-misc/networkmanager
 net-misc/openvpn
+net-p2p/qbittorrent
 net-wireless/aircrack-ng
 sys-apps/dmidecode
 sys-apps/dstat

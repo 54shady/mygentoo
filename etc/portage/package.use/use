@@ -96,3 +96,6 @@ sys-libs/zlib abi_x86_32
 # required by media-video/pitivi-0.95::gentoo[python_single_target_python3_4]
 # required by pitivi (argument)
 >=dev-lang/python-3.4.3-r1 sqlite
+
+app-editors/vim cscope
+
