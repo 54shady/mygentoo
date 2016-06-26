@@ -40,7 +40,7 @@ diff -aurNp dir1 dir2 > mygrep.patch
 	安装系统的portage里的grep:
 		emerge grep::gentoo
 	安装本地mobzoverlay里的grep:
-		emerge grep::mobzoverlay
+		emerge grep::localoverlay
 
 
 例子2:
