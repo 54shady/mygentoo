@@ -385,6 +385,9 @@ Launcher=file:///usr/share/applications/firefox-bin.desktop
 发现用默认的gentoo portage安装会有冲突
 所以就用localoverlay的方法安装
 使用的Overlay: bircoph (layman)
+
+root# layman -a bircoph
+
 emerge sys-power/suspend
 
 卸载upower
