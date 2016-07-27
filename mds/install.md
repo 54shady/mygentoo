@@ -202,6 +202,8 @@ Section "InputClass"
 	Option "TapButton1" "1"
 	Option "TapButton2" "2"
 	Option "TapButton2" "3"
+	Option "RightEdge" "2000"
+	Option "VertEdgeScroll" "1"
 EndSection
 重启后触摸板就能够使用了,但是触摸板中间到按钮不能最为滚动
 
