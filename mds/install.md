@@ -213,8 +213,8 @@ RightEdge               = 3481
 将其设置为2000其余1481作为滚动使用 (synclient RightEdge=2000)
 synclient RightEdge=2000
 
-使能垂直滚动: (VertEdgeScroll = 1)
-synclient VertEdgeScroll = 1
+使能垂直滚动: (VertEdgeScroll=1)
+synclient VertEdgeScroll=1
 这样设置后就能利用触摸板右侧来滚动屏幕了(比使用中间到按键来的方便)
 
 Gentoo中使用git svn
