@@ -48,4 +48,16 @@ android$ iperf -s
 上行测试:
 android$ iperf -c 192.168.0.102 -i 1 -t 60
 PC$ iperf -s
+
+3. gentoo 上使用adb 连接 FirePrime
+使用到adb工具是编译生成的,在目录 out/host/linux-x86/bin/adb (这个文件)
+
+sudo vi /etc/udev/rules.d/51-android.rules
+SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="12d1", MODE="0666"
+重新插拔 USB 线，让 udev 规则生效
+
+其中
+2207是给rk3128使用的
+12d1是给华为p9手机使用的
 ```
