@@ -155,7 +155,7 @@ menuentry "Widnwos 8" {
 	uvcvideo: Failed to query (130) UVC probe control : -32 (exp. 26).
 
 	解决办法,修改UVC驱动的参数后发现可以正常使用:
-	echo 2 > /sys/modules/uvcvideo/parameters/quirks
+	echo 2 > /sys/module/uvcvideo/parameters/quirks
 
 	参考:https://www.mail-archive.com/linux-uvc-devel@lists.berlios.de/msg03737.html
 
