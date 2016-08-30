@@ -97,5 +97,12 @@ sys-libs/zlib abi_x86_32
 # required by pitivi (argument)
 >=dev-lang/python-3.4.3-r1 sqlite
 
+# required by vim
 app-editors/vim cscope
 
+# required by opencv for v4l
+media-libs/opencv v4l
+
+# required by dev-python/sqlite3dbm-0.1.4-r1::gentoo[python_targets_python2_7]
+# required by dev-python/sqlite3dbm (argument)
+>=dev-lang/python-2.7.10-r1:2.7 sqlite

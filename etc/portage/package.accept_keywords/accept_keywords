@@ -158,3 +158,5 @@
 # required by net-p2p/amule-dlp-9999::localoverlay[dynamic]
 # required by amule-dlp (argument)
 =net-p2p/amule-dlp-antileech-9999 **
+# required by dev-python/sqlite3dbm (argument)
+=dev-python/sqlite3dbm-0.1.4-r1 ~amd64

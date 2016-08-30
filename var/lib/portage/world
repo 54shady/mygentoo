@@ -19,6 +19,7 @@ app-portage/layman
 app-portage/porthole
 app-shells/bash-completion
 app-text/dos2unix
+app-text/htmltidy
 app-text/kchmviewer
 app-text/lcdf-typetools
 app-text/pandoc
@@ -28,6 +29,9 @@ cross-armv7a-hardfloat-linux-gnueabi/binutils
 cross-armv7a-hardfloat-linux-gnueabi/gcc
 cross-armv7a-hardfloat-linux-gnueabi/glibc
 cross-armv7a-hardfloat-linux-gnueabi/linux-headers
+dev-libs/apr
+dev-libs/apr-util
+dev-python/sqlite3dbm
 dev-python/wxpython
 dev-util/ccache
 dev-util/cscope
@@ -41,6 +45,7 @@ kde-apps/kdebase-meta
 kde-apps/kmix
 kde-apps/kompare
 kde-apps/okular
+kde-apps/umbrello
 kde-base/kdeplasma-addons
 kde-base/kdm
 kde-misc/kdiff3
@@ -53,6 +58,7 @@ media-fonts/wqy-microhei
 media-fonts/wqy-unibit
 media-fonts/wqy-zenhei
 media-gfx/gimp
+media-libs/opencv
 media-sound/amarok
 media-sound/audacity
 media-video/cheese
@@ -62,6 +68,7 @@ net-analyzer/tcpdump
 net-dialup/minicom
 net-fs/nfs-utils
 net-fs/samba
+net-ftp/atftp
 net-misc/aria2
 net-misc/axel
 net-misc/miredo
@@ -75,12 +82,15 @@ sys-apps/dmidecode
 sys-apps/dstat
 sys-apps/dtc
 sys-apps/gptfdisk
+sys-apps/grep::localoverlay
 sys-apps/lshw
 sys-apps/mlocate
 sys-boot/grub
 sys-devel/crossdev
+sys-devel/distcc
 sys-devel/gdb
 sys-fs/dosfstools
+sys-fs/mtools
 sys-kernel/genkernel
 sys-kernel/gentoo-sources
 sys-libs/zlib
