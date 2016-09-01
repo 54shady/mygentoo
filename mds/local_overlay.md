@@ -1,57 +1,93 @@
-```shell
-local overlay的用法,官网上也有详细说明,这里只是个人积累
-用的时候需要修改源码后再安装软件,这里就可以用local overlay的方法来操作
+# local overlay的用法
 
-例子1:
+### 官网上也有详细说明,这里只是个人积累
+### 用的时候需要修改源码后再安装软件,这里就可以用local overlay的方法来操作
+
+## 例子1
 默认grep出来的结果是用":"分割的
+
 我想把这个":"分割号改成"+"号,以便可以用vi直接打开相应的文件和对应的行
 
-1. 创建一个本地的overlay,我这里取名叫mobzoverlay
-root # mkdir -p /usr/local/portage/{metadata,profiles}
-root # echo 'mobzoverlay' > /usr/local/portage/profiles/repo_name
-root # echo 'masters = gentoo' > /usr/local/portage/metadata/layout.conf
-root # chown -R portage:portage /usr/local/portage
+### 创建一个本地的overlay,这里取名叫localoverlay
+```shell
+mkdir -p /usr/local/portage/{metadata,profiles}
+echo 'localoverlay' > /usr/local/portage/profiles/repo_name
+echo 'masters = gentoo' > /usr/local/portage/metadata/layout.conf
+chown -R portage:portage /usr/local/portage
+```
 
+```shell
 cat /etc/portage/repos.conf/local.conf
-[mobzoverlay]
+[localoverlay]
 location = /usr/local/portage
 masters = gentoo
 auto-sync = no
+```
 
-root # mkdir -p /usr/local/portage/sys-apps/grep
-root # cp /usr/portage/sys-apps/grep/grep-2.21-r1.ebuild  /usr/local/portage/sys-apps/grep/
-root # chown -R portage:portage /usr/local/portage
-root # pushd /usr/local/portage/sys-apps/grep
-root # repoman manifest
-root # popd 
+```shell
+mkdir -p /usr/local/portage/sys-apps/grep
+cp /usr/portage/sys-apps/grep/grep-2.21-r1.ebuild  /usr/local/portage/sys-apps/grep/
+chown -R portage:portage /usr/local/portage
+pushd /usr/local/portage/sys-apps/grep
+repoman manifest
+popd 
+```
+
+```shell
+可以用
+
+ebuild /usr/local/portage/sys-apps/grep/grep-2.21-r1.ebuild manifest
+
+来替代下面三行,效果是一样的
+
+pushd /usr/local/portage/sys-apps/grep
+repoman manifest
+popd 
+```
 
 注意：每次修改了ebuild文件后就需要重新生成manifest文件
 
 其中我在原有的ebuild文件里添加下面第二行打mygrep.patch的代码
+
 epatch "${DISTDIR}/${P}-heap_buffer_overrun.patch"
+
 epatch -p1 -R "/usr/portage/distfiles/mygrep.patch"
 
 其中patch文件制作可以用git也可以直接用diff
+
 git diff commit1 commit2 > mygrep.patch
+
 diff -aurNp dir1 dir2 > mygrep.patch
 
 另外：
+
 	安装软件的时候可以指定用哪个repo或是overlay
+
 	安装系统的portage里的grep:
+
 		emerge grep::gentoo
-	安装本地mobzoverlay里的grep:
+
+	安装本地localoverlay里的grep:
+
 		emerge grep::localoverlay
 
 
-例子2:
+## 例子2
+
 由于碰到pandoc的版本比较低,现在需要更像高版本的
+
 可以用一个overlay直接装,操作大概如下
+
 layman -a NewOverLayName
+
 emerge pandoc
 
 这里不用上面这样的办法,上面方法需要下载一个完整的overlay,这里不想这样
+
 所以还是和local overlay一样,只要有ebuild文件即可
-1.	首先需要到到下面这个网站上查找需要的ebuild文件
+
+```shell
+	首先需要到到下面这个网站上查找需要的ebuild文件
 	http://gpo.zugaina.org/Overlays/bgo-overlay
 	这里需要安装pandoc所以搜索pandoc
 	下载需要的ebuild文件到指定目录下
@@ -77,10 +113,13 @@ emerge pandoc
 >=dev-haskell/cmark-0.5.1 ~adm64
 >=dev-haskell/pandoc-types-1.16.1 ~amd64
 之后就可以安装高版本的pandoc了,解决了低版本无法识别markdown里index的问题
+```
 
-例子3:
+## 例子3
+
 比如现在想要调试或修改一个应用软件,这里用kdiff3作为例子
 
+```shell
 1. 首先可以安装正常的方法先安装或是通过emerge指定只下载kdiff3的源码
 2. 解压源码,根据个人需要修改源码,重新打包源码,比如名字为kdiff3-0.9.98.tar.gz
 3. 在local overlay 里拷贝一份kdiff3的ebuild文件,修改其中的SRC_URI
@@ -88,6 +127,6 @@ emerge pandoc
 	这样做的目的是为了不重新下载而是使用本地修改过的代码
 4. 重新生成manifest
 	ebuild /usr/local/portage/kde-misc/kdiff3/kdiff3-0.9.98.ebuild manifest
-5. 安装修改过的kdiff3,这里需要指定使用的是哪个overlay,这里使用的是上面创建的名为mobzoverlay的overlay
-	emerge -v kdiff3::mobzoverlay
+5. 安装修改过的kdiff3,这里需要指定使用的是哪个overlay,这里使用的是上面创建的名为localoverlay的overlay
+	emerge -v kdiff3::localoverlay
 ```
