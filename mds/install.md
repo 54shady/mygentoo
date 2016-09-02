@@ -108,6 +108,10 @@ rc-update add net.eth0 default
 # 修改root密码
 passwd root
 
+# 安装到这里最好重启系统后再安装后面的桌面环境
+
+## git server安装到这里就可以了
+
 # 安装KDE桌面环境
 eselect profile set 6
 
