@@ -1,0 +1,2 @@
+# for rockchip
+SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666"

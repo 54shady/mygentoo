@@ -1,4 +1,1 @@
-# required by www-plugins/adobe-flash (argument)
->=www-plugins/adobe-flash-11.2.202.569 AdobeFlash-11.x
-
->=app-emulation/virtualbox-bin-5.0.16.105871 PUEL
+>=app-emulation/virtualbox-bin-5.0.20.106931 PUEL

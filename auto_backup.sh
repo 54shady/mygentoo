@@ -12,6 +12,7 @@ REPOS_GENTOO="/etc/portage/repos.conf/gentoo"
 REPOS_LOCAL="/etc/portage/repos.conf/local.conf"
 RSYNC_EXCLUDES="/etc/portage/rsync_excludes"
 PACKAGE_LICENSE="/etc/portage/package.license/license"
+ANDROID_RULES="/etc/udev/rules.d/51-android.rules"
 
 # 把需要备份的文件放在这个数组中
 copy_files_name=(
@@ -24,23 +25,23 @@ $PACKAGE_ACCEPT_KEYWORDS
 $REPOS_GENTOO
 $REPOS_LOCAL
 $RSYNC_EXCLUDES
+$PACKAGE_LICENSE
+$ANDROID_RULES
 )
 
 # 遍历数组里的文件进行复制
 for file in ${copy_files_name[@]}
 do
-	# echo $file 'exist, ready to backup...'
-	# file exists and is a regular file
+	# 先判断源文件是否存在,存在才执行备份操作
 	if [ -f $file ]; then
-		# 先创建一个空的对应目录的文件
-		# 从左往右取第一个子串('/')后面的字符串
-		# 即去掉最前面的'/'
-		touch ${file#*/}
+		dst_dir_tmp=${file%/*} 
+		dst_dir=${dst_dir_tmp#/*}
+		if [ ! -d ${dst_dir} ]; then
+			mkdir -p ${dst_dir}
+		fi
 
-		# 备份
+		# 备份相应目录的文件
 		cp $file ${file#*/}
-
-	#	echo "backup to" ${file#*/} "done!!"
 	fi
 done
 
