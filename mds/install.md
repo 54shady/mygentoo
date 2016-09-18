@@ -353,3 +353,6 @@ client $git push origin master
 ### 在其他客户端克隆该仓库
 
 client $git clone git@192.168.7.100:/newproject.git
+
+# 其它
+[Happy days in HS](https://github.com/54shady/hs/blob/master/x.md).
