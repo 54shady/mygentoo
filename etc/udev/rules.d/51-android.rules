@@ -1,2 +1,3 @@
 # for rockchip
 SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666"

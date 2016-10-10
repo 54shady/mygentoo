@@ -6,3 +6,7 @@
 =app-emulation/virtualbox-bin-5.0.20.106931 ~amd64
 =app-emulation/virtualbox-modules-5.0.20 ~amd64
 =app-emulation/virtualbox-additions-5.0.20 ~amd64
+# required by media-video/luvcview (argument)
+=media-video/luvcview-0.2.6 ~amd64
+
+=sys-apps/rkflashkit-0.1.4 ~amd64
