@@ -372,3 +372,20 @@ sudo smbpasswd -a zeroway
 开启服务
 
 sudo /etc/init.d/samba start
+
+## 设置某个目录为共享目录
+
+在/etc/samba/smb.conf最后添加下面内容
+
+```shell
+[myshare]
+comment = zeroway's share on gentoo
+path = /home/zeroway/Downloads
+valid users = zeroway
+browseable = yes
+guest ok = yes
+public = yes
+writable = no
+printable = no
+create mask = 0765
+```
