@@ -356,3 +356,19 @@ client $git clone git@192.168.7.100:/newproject.git
 
 # 其它
 [Happy days in HS](https://github.com/54shady/hs/blob/master/x.md).
+
+# Samba
+
+sudo emerge -v net-fs/samba
+
+拷贝一个配置文件,在此基础上修改
+
+sudo cp /etc/samba/smb.conf.default /etc/samba/smb.conf
+
+添加用户并设置密码
+
+sudo smbpasswd -a zeroway
+
+开启服务
+
+sudo /etc/init.d/samba start
