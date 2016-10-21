@@ -8,6 +8,7 @@ app-i18n/fcitx-cloudpinyin
 app-i18n/fcitx-configtool
 app-i18n/fcitx-libpinyin
 app-i18n/fcitx-sunpinyin
+app-misc/lcd4linux
 app-misc/tmux
 app-office/libreoffice-bin
 app-portage/eix
@@ -15,7 +16,9 @@ app-portage/gentoolkit
 app-portage/layman
 app-shells/bash-completion
 app-text/dos2unix
+app-text/pandoc
 app-text/tree
+dev-python/pip
 dev-vcs/git
 kde-apps/ark
 kde-apps/kcalc
@@ -37,6 +40,7 @@ net-analyzer/wireshark
 net-dialup/minicom
 net-fs/cifs-utils
 net-fs/samba
+net-misc/netkit-telnetd
 net-misc/networkmanager
 sys-apps/mlocate
 sys-apps/rkflashkit
@@ -49,3 +53,4 @@ sys-process/lsof
 www-client/firefox-bin
 x11-base/xorg-x11
 x11-misc/plank
+x11-misc/xsnap
