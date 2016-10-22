@@ -4,3 +4,6 @@
 <sys-apps/openrc-0.13.0
 <sys-process/procps-3.3.9-r2
 <dev-lang/perl-5.18.0
+
+# for android compile
+>sys-devel/make-3.81-r2
