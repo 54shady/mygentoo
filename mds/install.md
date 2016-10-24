@@ -390,6 +390,28 @@ printable = no
 create mask = 0765
 ```
 
+## samba高级设置
+
+单独为使用samba的用户设置一个组,该组成员不能通过终端登入,只能访问samba服务
+
+### 新建一个samba组
+
+	groupadd samba
+
+### 添加一个hsdz的用户到该组(samba)
+
+使用/bin/false作为shell,且不设置用户密码
+
+	useradd -g samba -s /bin/false hsdz
+
+注意:在/etc/samba/smb.conf里要添加这个用户访问权限
+
+### 设置该用户samba访问密码
+
+	smbpasswd -a hsdz
+
+重启samba服务后即可访问
+
 ## aria2 + apache + yaaw 下载服务器搭建
 
 [安装apache参考https://wiki.gentoo.org/wiki/Apache](https://wiki.gentoo.org/wiki/Apache)
