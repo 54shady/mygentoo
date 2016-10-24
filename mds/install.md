@@ -400,6 +400,8 @@ create mask = 0765
 
 ### 安装aria2
 
+	添加必要的USE
+	echo "net-misc/aria2 bittorrent metalink" >> /etc/portage/package.use/use
 	emerge -v net-misc/aria2
 
 ### 配置aria2
