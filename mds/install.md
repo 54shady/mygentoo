@@ -389,3 +389,27 @@ writable = no
 printable = no
 create mask = 0765
 ```
+
+## apache服务器搭建
+
+使用的是gentoo的portage,没有使用第三方overlay,如果本地有第三方overlay可能在安装的时候会有错误
+
+### 软件安装
+
+	sudo emerge -v www-servers/apache
+
+### 将普通用户(zeroway)添加到apache组
+
+	sudo usermod -a -G apache zeroway
+
+### 在/etc/hosts中确保有下面的内容
+
+	127.0.0.1 zeroway
+
+### 启动服务器
+
+	sudo /etc/init.d/apache2 start
+
+### 在浏览器里输入服务器IP(192.168.7.111)就可以访问了
+
+	192.168.7.111:80
