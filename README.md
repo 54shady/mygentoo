@@ -13,3 +13,13 @@
 	sudo emerge -uDN @world
 	sudo emerge -c
 	revdep-rebuild
+
+## Branches
+
+i56500 : [hs](https://github.com/54shady/hs)
+
+i73700 : [ks](https://github.com/54shady/KS)
+
+i76700kz170p : home
+
+thinkpadE460 : [forelders](https://github.com/54shady/forelders)
