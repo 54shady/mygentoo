@@ -155,7 +155,7 @@ menuentry "Widnwos 8" {
 	uvcvideo: Failed to query (130) UVC probe control : -32 (exp. 26).
 
 	解决办法,修改UVC驱动的参数后发现可以正常使用:
-	echo 2 > /sys/modules/uvcvideo/parameters/quirks
+	echo 2 > /sys/module/uvcvideo/parameters/quirks
 
 	参考:https://www.mail-archive.com/linux-uvc-devel@lists.berlios.de/msg03737.html
 
@@ -202,8 +202,8 @@ menuentry "Widnwos 8" {
 	添加开机启动:
 	rc-update add nfs default
 
-11. 交叉编译工具环境配置(全局环境变量配置)
-	使用其它发行版本的linux做法一般是在.bashrc里添加或是export配置PATH(本地环境配置)
+11. 环境变量设置
+	a. 全局环境变量配置
 
 	在/etc/env.d/添加一个文件,名字随意,自己知道是给什么软件配置的就可以
 	由于是给arm-linux-gcc 4.3.2版本配置,所以我写成了432arm-linux-gcc
@@ -216,5 +216,6 @@ menuentry "Widnwos 8" {
 	之后执行下面的命令就可以更新环境变量了:
 	env-update && source /etc/profile
 
-	个人觉得gentoo这样的方法更为统一,方便管理
+	b. 局部环境变量配置
+	在.bashrc里添加或是export配置PATH
 ```

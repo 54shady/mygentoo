@@ -40,7 +40,7 @@ diff -aurNp dir1 dir2 > mygrep.patch
 	安装系统的portage里的grep:
 		emerge grep::gentoo
 	安装本地mobzoverlay里的grep:
-		emerge grep::mobzoverlay
+		emerge grep::localoverlay
 
 
 例子2:
@@ -77,4 +77,17 @@ emerge pandoc
 >=dev-haskell/cmark-0.5.1 ~adm64
 >=dev-haskell/pandoc-types-1.16.1 ~amd64
 之后就可以安装高版本的pandoc了,解决了低版本无法识别markdown里index的问题
+
+例子3:
+比如现在想要调试或修改一个应用软件,这里用kdiff3作为例子
+
+1. 首先可以安装正常的方法先安装或是通过emerge指定只下载kdiff3的源码
+2. 解压源码,根据个人需要修改源码,重新打包源码,比如名字为kdiff3-0.9.98.tar.gz
+3. 在local overlay 里拷贝一份kdiff3的ebuild文件,修改其中的SRC_URI
+	SRC_URI="file:///usr/portage/distfiles/kdiff3-0.9.98.tar.gz"
+	这样做的目的是为了不重新下载而是使用本地修改过的代码
+4. 重新生成manifest
+	ebuild /usr/local/portage/kde-misc/kdiff3/kdiff3-0.9.98.ebuild manifest
+5. 安装修改过的kdiff3,这里需要指定使用的是哪个overlay,这里使用的是上面创建的名为mobzoverlay的overlay
+	emerge -v kdiff3::mobzoverlay
 ```
