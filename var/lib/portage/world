@@ -64,6 +64,8 @@ media-sound/audacity
 media-video/cheese
 media-video/kazam
 media-video/pitivi
+net-analyzer/iftop
+net-analyzer/nethogs
 net-analyzer/tcpdump
 net-dialup/minicom
 net-fs/nfs-utils
@@ -98,6 +100,7 @@ sys-power/suspend::localoverlay
 sys-power/upower-pm-utils
 sys-process/htop
 sys-process/lsof
+www-client/chromium
 www-client/firefox-bin
 www-plugins/adobe-flash
 x11-base/xorg-x11
