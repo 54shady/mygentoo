@@ -73,3 +73,5 @@ net-misc/iputils -caps -filecaps
 # required by net-fs/samba-4.2.11::gentoo
 # required by net-fs/samba (argument)
 >=sys-libs/tdb-1.3.8 python
+
+>=app-editors/vim-7.4.769 python cscope
