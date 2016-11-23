@@ -486,3 +486,17 @@ create mask = 0765
 原因是root用户没有加入到zeroway访问X server的权限里
 
 	$ sudo usbview 就可以执行了
+
+## plantuml
+
+安装
+
+	sudo emerge -v media-gfx/plantuml
+
+使用
+
+	java -jar /usr/share/plantuml/lib/plantuml.jar sequenceDiagram.txt
+	其中sequenceDiagram.txt内容如下
+	@startuml
+	Alice -> Bob: test
+	@enduml
