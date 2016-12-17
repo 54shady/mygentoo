@@ -1,458 +1,469 @@
-```shell
-1. 系统安装:
-用fdisk工具将分区准备好,这里是在装了ubuntu的基础上,所以就没有这些操作了
-把/ /boot /home都格式话位ext4格式
-这里假设它们依次是/dev/sda1 /dev/sda2 /dev/sda3
-/dev/sda4是swap分区
+# GENTOO 使用手册
 
-mkfs.ext4 /dev/sda1
-mkfs.ext4 /dev/sda2
-mkfs.ext4 /dev/sda3
+## 系统安装
 
-mount /dev/sda1 /mnt/gentoo
-mkdir /mnt/gentoo/boot
-mount /dev/sda2 /mnt/gentoo/boot
+分区
 
-cd /mnt/gentoo
-tar xvjpf stage3-*.tar.bz2 --xattrs
+	/dev/sda4 ==> swap分区
+	/dev/sda5 ==> /boot
+	/dev/sda7 ==> /
+	/dev/sda8 ==> /home
 
-make.conf文件配置如下：
-/mnt/gentoo/etc/portage/make.conf
-GENTOO_MIRRORS="http://mirrors.sohu.com/gentoo/ http://mirrors.163.com/gentoo/ "
-SYNC="rsync://mirrors.163.com/gentoo-portage"
-MAKEOPTS="-j8" 
-FEATURES = "ccache"
-CCACHE_SIZE="3G" 
-CCACHE_DIR="/var/tmp/ccache"
-FETCHCOMMAND="/usr/bin/axel -a -o \${DISTDIR}/\${FILE} \${URI}"
-RESUMECOMMAND="${FETCHCOMMAND}"
+	mkfs.ext4 /dev/sda5
+	mkfs.ext4 /dev/sda7
+	mkfs.ext4 /dev/sda8
 
-最好把/home分区单独划分出来作为一个挂在点
-fstab内容:
-/dev/sda2   /boot        ext4    defaults,noatime     0 2
-/dev/sda4  none         swap    sw                   0 0
-/dev/sda1   /            ext4    noatime              0 1
-/dev/sda3 /home ext4 noatime	0	3
+挂载相应分区,解包stage3
 
-cp -L /etc/resolv.conf /mnt/gentoo/etc/
+	mount /dev/sda7 /mnt/gentoo
+	mkdir /mnt/gentoo/boot
+	mount /dev/sda5 /mnt/gentoo/boot
 
-mount -t proc proc /mnt/gentoo/proc
-mount --rbind /sys /mnt/gentoo/sys
-mount --make-rslave /mnt/gentoo/sys
-mount --rbind /dev /mnt/gentoo/dev
-mount --make-rslave /mnt/gentoo/dev
+	cd /mnt/gentoo
+	tar xvjpf stage3-*.tar.bz2 --xattrs
 
-chroot /mnt/gentoo /bin/bash
-source /etc/profile
-export PS1="(chroot) $PS1"
+make.conf(/mnt/gentoo/etc/portage/make.conf)内容如下：
 
-安装portage:
-方法1：
-emerge --sync
+	CFLAGS="-O2 -pipe"
+	CXXFLAGS="${CFLAGS}"
+	CHOST="x86_64-pc-linux-gnu"
+	USE="bindist mmx sse sse2 dbus policykit udev udisks icu"
+	PORTDIR="/usr/portage"
+	DISTDIR="${PORTDIR}/distfiles"
+	PKGDIR="${PORTDIR}/packages"
+	GENTOO_MIRRORS="http://mirrors.sohu.com/gentoo/ http://mirrors.163.com/gentoo/"
+	MAKEOPTS="-j8"
 
-方法2:
+/etc/fstab内容:
+
+	/dev/sda5       /boot   ext4    defaults,noatime        0       2
+	/dev/sda6       none    swap    sw      0       0
+	/dev/sda7       /       ext4    noatime 0       1
+	/dev/sda8       /home   ext4    noatime 0       3
+
+拷贝DNS信息
+
+	cp -L /etc/resolv.conf /mnt/gentoo/etc/
+
+挂载必要目录
+
+	mount -t proc proc /mnt/gentoo/proc
+	mount --rbind /sys /mnt/gentoo/sys
+	mount --make-rslave /mnt/gentoo/sys
+	mount --rbind /dev /mnt/gentoo/dev
+	mount --make-rslave /mnt/gentoo/dev
+
+	chroot /mnt/gentoo /bin/bash
+	source /etc/profile
+
+安装portage
+
 先下载好portage的snapshot压缩包直接解压到/usr/
 
 先使用profile 1
+
 eselect profile set 1
 
-emerge -a sys-kernel/gentoo-sources
+[1]   default/linux/amd64/13.0
 
-emerge --ask sys-kernel/genkernel
-genkernel all
 
-安装grub2(因为在安装ubuntu的时候就已经安装了,所以这里可以省去)
-emerge sys-boot/grub
-grub2-install /dev/sda
-grub2-mkconfig -o /boot/grub/grub.cfg
+下载编译内核代码
 
-nano -w /etc/conf.d/hostname
-hostname="mobz"
+	emerge -v sys-kernel/gentoo-sources
+	emerge -v sys-kernel/genkernel
+	genkernel all
 
-emerge --noreplace net-misc/netifrc
+安装grub
 
-修改网络配置文件：
-/etc/conf.d/net
-config_eth0="dhcp"
+	emerge sys-boot/grub
+	grub2-install /dev/sda --target=i386-pc
+	grub2-mkconfig -o /boot/grub/grub.cfg
 
-cd /etc/init.d
-ln -s net.lo net.eth0
-rc-update add net.eth0 default
+配置主机名
 
-passwd root
+	nano -w /etc/conf.d/hostname
+	hostname="zeroway"
 
-2. 安装KDE桌面环境
-eselect profile set 6
+配置网络文件
+
+	/etc/conf.d/net
+	config_eth0="dhcp"
+
+	cd /etc/init.d
+	ln -s net.lo net.eth0
+	rc-update add net.eth0 default
+
+修改root密码
+
+	passwd root
+
+安装到这里最好重启系统后再安装后面的桌面环境
+
+不需要安装图形界面的话安装到这里就可以了
+
+=============================================
+
+安装KDE桌面环境
+
+	eselect profile set 6
 
 添加下面的几个USE
-USE＝"...dbus policykit udev udisks"
-emerge --changed-use --deep @world
-emerge kde-apps/kdebase-meta
-emerge xorg-x11
-emerge kde-base/kdm
 
-/etc/conf.d/xdm
-DISPLAYMANAGER="kdm"
-rc-update add xdm default
+	USE＝"...dbus policykit udev udisks"
+	emerge --changed-use --deep @world
+	emerge kde-apps/kdebase-meta
+	emerge xorg-x11
+	emerge kde-base/kdm
 
-修改KDE配置文件，让root可以登入
-/usr/share/config/kdm/kdmrc
-AllowRootlogon = true
+	/etc/conf.d/xdm
+	DISPLAYMANAGER="kdm"
+	rc-update add xdm default
 
-网上一个KDE桌面参考:
-https://fitzcarraldoblog.wordpress.com/2012/07/10/a-guided-tour-of-my-kde-4-8-4-desktop-part-1/
+修改KDE配置文件(/usr/share/config/kdm/kdmrc),让root可以登入
 
-3. 安装字体和输入法
-emerge -av wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts
+	AllowRootlogon = true
 
-安装输入法和配置fcitx的工具
-emerge -av fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
+kconsole solarized
 
-我使用的是KDE桌面环境所以在~/.xprofile里添加如下内容：
-在每个用户目录下都要有这个才能使用输入法
-export XMODIFIERS="@im=fcitx"
-export QT_IM_MODULE=fcitx
-export GTK_IM_MODULE=fcitx
-eval "$(dbus-launch --sh-syntax --exit-with-session)"
-
-http://blog.sina.com.cn/s/blog_510ac7490100u2wb.html
-
-设置locale:
-在/etc/locale.gen中添加:
-en_US ISO-8859-1
-en_US.UTF-8 UTF-8
-zh_CN GB18030
-zh_CN.GBK GBK
-zh_CN.GB2312 GB2312
-zh_CN.UTF-8 UTF-8
-
-保存执行locale-gen
-#locale-gen
-
-emerge arphicfonts wqy-bitmapfont  corefonts ttf-bitstream-vera
-
-建立 /etc/env.d/100i18n
-在/etc/env.d/100i18n中添加:
-LANG=en_US.UTF-8
-LC_CTYPE=zh_CN.UTF-8
-LC_NUMERIC="en_US.UTF-8"
-LC_TIME="en_US.UTF-8"
-LC_COLLATE="en_US.UTF-8"
-LC_MONETARY="en_US.UTF-8"
-LC_MESSAGES="en_US.UTF-8"
-LC_PAPER="en_US.UTF-8"
-LC_NAME="en_US.UTF-8"
-LC_ADDRESS="en_US.UTF-8"
-LC_TELEPHONE="en_US.UTF-8"
-LC_MEASUREMENT="en_US.UTF-8"
-LC_IDENTIFICATION="en_US.UTF-8"
-
-安装完成后重启添加pinyin输入法
-
-4. 访问google
-直接安装miredo就可以了
-emerge miredo
-之后启动miredo就能看到一张teredo的虚拟网卡
-ping6 ipv6.google.com 测试是否可以ping 通
-
-5. 安装ADB 和FASTBOOT
-方法1：这个方法没成功
-emerge --ask android-sdk-update-manager
-由于安装时需要去google的网上下代码，下载太慢导致无法下载成功，所以这里手动下载了需要的代码，我下载的是android-sdk_r23-linux.tgz
-下载完后把该文件放到了/usr/portage/distfiles目录下即可
-方法2：
-直接把ubuntu上的/usr/bin/adb 和 /usr/bin/fastboot拷贝到gentoo的/opt/tools/下
-export PATH=$PATH:/opt/tools
-
-把ubuntu上的下面几个动态库拷贝到gentoo里来（按照操作提示即可）：
-cp /lib/x86_64-linux-gnu/libselinux.so.1 /usr/lib/
-cp /lib/x86_64-linux-gnu/libpcre.so.3.13.1 /usr/lib/
-ln -s /usr/lib/libpcre.so.3.13.1 /usr/lib/libpcre.so.3
-之后就可以使用adb 和fastboot了
-
-6. kconsole solarized
-https://techoverflow.net/blog/2013/11/08/installing-konsole-solarized-theme/
-
-Problem: You’re using the KDE4 Konsole and you want to install the Solarized color scheme plugin. However, you are way too lazy to figure out how to do that manually.
-
-Solution:
+[参考链接](https://techoverflow.net/blog/2013/11/08/installing-konsole-solarized-theme/)
 
 Just copy-n-paste this into your favourite shell:
 
-if [ -d ~/.kde4 ]; then
-	wget -qO ~/.kde4/share/apps/konsole/Solarized\ Light.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Light.colorscheme"
-	wget -qO ~/.kde4/share/apps/konsole/Solarized\ Dark.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Dark.colorscheme"
-else
-	wget -qO ~/.kde/share/apps/konsole/Solarized\ Light.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Light.colorscheme"
-	wget -qO ~/.kde/share/apps/konsole/Solarized\ Dark.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Dark.colorscheme"
-fi
+	if [ -d ~/.kde4 ]; then
+		wget -qO ~/.kde4/share/apps/konsole/Solarized\ Light.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Light.colorscheme"
+		wget -qO ~/.kde4/share/apps/konsole/Solarized\ Dark.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Dark.colorscheme"
+	else
+		wget -qO ~/.kde/share/apps/konsole/Solarized\ Light.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Light.colorscheme"
+		wget -qO ~/.kde/share/apps/konsole/Solarized\ Dark.colorscheme "https://raw.github.com/phiggins/konsole-colors-solarized/master/Solarized%20Dark.colorscheme"
+	fi
 
 After that, you only have to select the appropriate color profile (Settings —> Edit current profile —> Appearance).
 
-7. Let tmux automatic load the .bashrc file
 让tmux自动加载.bashrc文件在.bash_profile文件里添加下面这句话
-. ~/.bashrc
 
-8.  WIN键的设置
-8.1 使用WIN+D来像WINDOWS一样显示桌面
-System Settings > Shortcuts and Gestures > Global Keyboard Shortcuts > KDE component: KWin > Show Desktop
-设置成win+d即可
+	. ~/.bashrc
 
-8.2 WIN+e 绑定dolphin程序
-CustomShortcuts里设置即可
+添加新用户zeroway 默认组为users,附加组为adm,sys
 
-8.3 下面这个设置so nice :)
-根据字母在键盘排布位置对应桌面的位置
-使用WIN+CTRL+q
-KWin->Quick Tile Window to the Top Left
-
-使用WIN+CTRL+a
-KWin->Quick Tile Window to the Left
-
-使用WIN+CTRL+z
-KWin->Quick Tile Window to the Bottom Left
-
-使用WIN+CTRL+p
-KWin->Quick Tile Window to the Top Right
-
-使用WIN+CTRL+l
-KWin->Quick Tile Window to the Right
-
-使用WIN+CTRL+m
-KWin->Quick Tile Window to the Bottom Right
-
-使用WIN+CTRL+o
-KWin->Maxmize Window
-
-使用WIN+CTRL+x
-KWin->Minimize Window
-
-9. virtual box 安装：
-在package.accept_keywords添加如下内容来安装最新的virtualbox和相应的增强工具：
->=app-emulation/virtualbox-5.0.14 ~amd64
->=app-emulation/virtualbox-additions-5.0.14 ~amd64
-
-安装虚拟机:
-emerge  app-emulation/virtualbox
-
-安装WINDOWS虚拟机相应的增强工具:
-emerge app-emulation/virtualbox-additions
-
-因为我用root登入,所以添加root到vboxusers
-gpasswd -a root vboxusers
-
-根据gentoo virtualbox wiki,Rebuild the VirtualBox kernel modules with:
-emerge -1 @module-rebuild
-
-手动加载虚拟机的驱动：
-modprobe vboxdrv
-
-将虚拟机驱动模块加入到系统启动加载模块中：
-在/etc/conf.d/modules中添加下面一行
-modules="vboxdrv"
-
-10. 添加新用户mobz 默认组为users,附加组为adm,sys
-useradd  -m -g users -G adm,sys -s /bin/bash mobz
-passwd mobz
+	useradd  -m -g users -G adm,sys -s /bin/bash zeroway
+	passwd zeroway
 
 安装sudo
-emerge sudo
+
+	emerge sudo
+
 在/etc/sudoers中添加一行设置相应的用户比如
-mobz ALL=(ALL) ALL
 
-11. 开机警告：Warning: Cannot open ConsoleKit session: Unable to open session: Failed to connect to socket /var/run/dbus/system_bus_socket: No such file or directory.
+	zeroway ALL=(ALL) ALL
+
+virtual box 安装
+
+添加下面内容到/etc/portage/package.accept_keywords
+
+	=app-emulation/virtualbox-bin-5.0.20.106931 ~amd64
+	=app-emulation/virtualbox-modules-5.0.20 ~amd64
+	=app-emulation/virtualbox-additions-5.0.20 ~amd64
+
+	emerge  app-emulation/virtualbox
+	gpasswd -a zerowaytp vboxusers
+	emerge -1 @module-rebuild
+	modprobe vboxdrv
+
+将虚拟机驱动模块加入到系统启动加载模块中
+
+在/etc/conf.d/modules中添加下面一行
+
+	modules="vboxdrv"
+
 添加dbus 和 consolekit 默认启动
-rc-update add dbus default
-rc-update add consolekit default
 
-12. sudo的时候能自动补全
-emerge bash-completion
-echo "complete -cf sudo" >> /home/mobz/.bashrc
+解决开机警告：Warning: Cannot open ConsoleKit session: Unable to open session: Failed to connect to socket /var/run/dbus/system_bus_socket: No such file or directory.
 
-13. 安装wicd //图标太丑陋不安装这个,安装后面的kde networkmanagement
-emerge wicd
-rc-update add wicd default
-rc-update del net.enp5s0 我的网卡不是eth0是enp5s
-添加下面的内容到/etc/rc.conf里
-rc_hotplug="!net.*"
+	rc-update add dbus default
+	rc-update add consolekit default
 
-14. NetworkManager
-删除系统默认的网络管理
-rc-update del net.enp5s0
-rm /etc/conf.d/net
-rm  /etc/init.d/net.enp5s0
+sudo的时候能自动补全
 
-安装NetworkManager 和 networkmanagement
-emerge net-misc/networkmanager
-emerge kde-misc/networkmanagement  //这个使用的是local overlay装的
+	emerge bash-completion
+	echo "complete -cf sudo" >> /home/mobz/.bashrc
+
+NetworkManager(删除系统默认的网络管理)
+
+	rc-update del net.enp5s0
+	rm /etc/conf.d/net
+	rm  /etc/init.d/net.enp5s0
+
+安装NetworkManager和networkmanagement
+
+	emerge net-misc/networkmanager
+	emerge kde-misc/networkmanagement
+
 之后需要添加相应的widget才可以看到有系统托盘出现
-rc-update add NetworkManager  default
 
-15. 实用的widgets,比如rssnow等
-emerge kde-base/kdeplasma-addons
+	rc-update add NetworkManager  default
 
-rssnow安装后字体显示不方便阅读,可以修改字体显示
-System Settings->Application Appearance->Fonts->Small 修改合适的字体大小即可
+安装字体和输入法
 
-让rssnow用安装好的火狐浏览器查看网页,设置火狐为默认的浏览器
-System Settings->Default Applications->Web Browser:设置为火狐浏览器的位置比如/usr/bin/firefox-bin即可
+	emerge -av wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts
 
-rssnow配置文件在宿主目录下：
-/root/.kde4/share/config/plasma-desktop-appletsrc
+安装输入法和配置fcitx的工具
 
-16. 删除桌面右上角的tool box
-先把/usr/share/kde4/services里下面这三个文件备份下
-plasma-toolbox-desktoptoolbox.desktop
-plasma-toolbox-paneltoolbox.desktop
-plasma-toolbox-nettoolbox.desktop
-删除该目录下的这三个文件重新登入下就可以了
-只想删除右上角的话只要删除plasma-toolbox-desktoptoolbox.desktop这个文件就可以了
+	emerge -av fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
 
-17. 安装cairo-dock
-去overlay网站上下载ebuild文件,使用localoverlay的方法安装
-http://gpo.zugaina.org/x11-misc/cairo-dock
-下载的是第一个cairo-dock-9999-r1 ebuild文件
-添加新的launcher用的图标都是/usr/share/icons/hicolor/32x32/apps/下的图标
-发现安装后有黑边框,估计是集成显卡的原因
+我使用的是KDE桌面环境所以在~/.xprofile里添加如下内容：
+在每个用户目录下都要有这个才能使用输入法
 
-18. 安装声卡驱动相关
-首先查看声卡驱动
-lspci | grep -i audio
-在内核中添加相关的驱动支持
-确认下面这几个包都安装了
-media-sound/alsa-utils
-media-libs/alsa-lib
+	export XMODIFIERS="@im=fcitx"
+	export QT_IM_MODULE=fcitx
+	export GTK_IM_MODULE=fcitx
+	eval "$(dbus-launch --sh-syntax --exit-with-session)"
 
-安装kmix
-emerge kde-apps/kmix
-安装完后点击音量控制图标
-勾选Autostart和Dock in system tray
-以后开机就能看到该图标了
-设置音量调节快捷键
-WIN+PageUp音量增
-WIN+PageDn音量减
-WIN+Del	  静音
+设置locale(/etc/locale.gen中添加下面内容):
 
-19. linux访问windows共享文件夹(访问samba共享也可以)
-先看下共享权限和目录
--L指定共享服务器地址
--U指定共享用户名
-smbclient -L //10.1.4.201 -U linwei
+	en_US ISO-8859-1
+	en_US.UTF-8 UTF-8
+	zh_CN GB18030
+	zh_CN.GBK GBK
+	zh_CN.GB2312 GB2312
+	zh_CN.UTF-8 UTF-8
 
-将某个目录挂在到本地(需要安装CIFS工具集)
-emerge cifs-utils
+保存执行locale-gen
 
-mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/HR /mnt/win7/
-mount.cifs -o user=linwei,password=lgw37h97 //10.1.4.201/id /mnt/win7/
+	locale-gen
 
-访问手机WIFI共享文件夹
-查看共享的文件夹
-smbclient -L //192.168.1.100 -U BlackBerry
+安装字体
 
-通过上面知道media文件夹可访问,挂在到/mnt下
-sudo mount.cifs -o user=BlackBerry,password=mypassword //192.168.1.100/media /mnt/
+	emerge arphicfonts wqy-bitmapfont  corefonts ttf-bitstream-vera
 
-20. 在system tray显示国旗
-在System settings里Input Device->keyboard->layout里勾选Show flag
-在panel上的system tray右键选择system tray setting后勾选keyboard layout即可显示国旗
+在/etc/env.d/100i18n中添加如下内容
 
-21. kazam安装
-发现在overlay网站下载sabayon的kazam ebuild文件用localoverlay安装无法成功
-原因是无法下载到相应的补丁包
-必须要要用layman添加sabayon的overlay来安装才可以
-步骤如下:
-先安装layman如果安装里就不需要
-emerge layman
-echo "source /var/lib/layman/make.conf" >> /etc/portage/make.conf
+	LANG=en_US.UTF-8
+	LC_CTYPE=zh_CN.UTF-8
+	LC_NUMERIC="en_US.UTF-8"
+	LC_TIME="en_US.UTF-8"
+	LC_COLLATE="en_US.UTF-8"
+	LC_MONETARY="en_US.UTF-8"
+	LC_MESSAGES="en_US.UTF-8"
+	LC_PAPER="en_US.UTF-8"
+	LC_NAME="en_US.UTF-8"
+	LC_ADDRESS="en_US.UTF-8"
+	LC_TELEPHONE="en_US.UTF-8"
+	LC_MEASUREMENT="en_US.UTF-8"
+	LC_IDENTIFICATION="en_US.UTF-8"
 
-添加sabayon的overlay
-layman -a sabayon
+安装完成后重启添加pinyin输入法
 
-安装kazam
-emerge -av media-video/kazam
+## 使用gentoo搭建git server
 
-22. 安装plank
-用的是sabayon overlay里的plank
-emerge x11-misc/plank
-其中火狐会无法pin到plank上
-在宿主目录下手动添加下面文件
-/home/zeroway/.config/plank/dock1/launchers
-内容如下:
-[PlankItemsDockItemPreferences]
-Launcher=file:///usr/share/applications/firefox-bin.desktop
+###分区,只分了/boot / swap三个分区 (/etc/fstab内容如下)
 
-23. 安装suspend
-发现用默认的gentoo portage安装会有冲突
-所以就用localoverlay的方法安装
-使用的Overlay: bircoph (layman)
+	/dev/sda2       /boot   ext4    defaults,noatime        0       2
+	/dev/sda3       none    swap    sw      0       0
+	/dev/sda4       /       ext4    noatime 0       1
 
-root# layman -a bircoph
+基本安装过程和上面一样,只不过没有安装图形界面
 
-emerge sys-power/suspend
+### git server 搭建
 
-卸载upower
-emerge --unmerge sys-power/upower
+静态IP地址配置 (/etc/conf.d/net)
 
-安装pm utils
-emerge sys-power/upower-pm-utils
+	config_enp1s0="192.168.7.100 netmask 255.255.255.0"
+	routes_enp1s0="default via 192.168.7.1"
+	dns_servers_enp1s0="192.168.7.1 8.8.8.8"
 
-ctrl+alt+F7可以切换到图形登入界面
+安装git
 
-Suspend to disk with sys-power/pm-utils
-配置SWAPFILE
-用swapon -s 查看swap分区,我的是/dev/sda8
+	emerge dev-vcs/git
 
-在/etc/default/grub文件里添加下面内容
-GRUB_CMDLINE_LINUX_DEFAULT="resume=/dev/sda8"
+添加git用户
 
-重新生成grub配置文件
-grub2-mkconfig -o /boot/grub/grub.cfg
+	groupadd git
+	useradd -m -g git -d /var/git -s /bin/bash git
 
-更新initramfs
-genkernel --install initramfs
+编辑/etc/conf.d/git-daemon内容如下
 
-在/etc/pm/config.d/gentoo中添加下面的内容
-SLEEP_MODULE="kernel"
+	GIT_USER="git"
+	GIT_GROUP="git"
 
-重启系统
-reboot
+启动相应服务
 
-使用pm utils的工具测试,就可以suspend to disk
-pm-hibernate
+	/etc/init.d/git-daemon start
 
-也就是点击Hibernate的效果
-会把当前电脑所有状态保存在SWAP分区中,之后待机
-出发键盘任意键可以唤醒系统,唤醒过程和正常开机一样,只是进入系统后会回复到保存的地方
+添加开机启动
 
-24. partitionmanager 软件的安装
-emerge sys-block/partitionmanager
-安装后需要使用root权限启动软件才能查看完整的磁盘信息
-我使用的普通用户zeroway,所以要用sudo partitionmanager
-但是发现提示下面的错误:
-partitionmanager: cannot connect to X server :0
+	rc-update add git-daemon  default
+
+SSH keys 添加到下面文件
+
+在客户端执行ssh-keygen -t rsa
+
+将客户端生成的id_rsa.pub里的内容拷贝到服务器上下面的文件里
+
+/var/git/.ssh/authorized_keys
+
+服务器上创建仓库(在服务器上操作,ip:192.168.7.100)
+
+	root # su git
+	server $cd /var/git
+	server $mkdir /var/git/newproject.git
+	server $cd /var/git/newproject.git
+	server $git init --bare
+
+在客户端上把要添加文件到刚才创建的仓库
+
+	client $mkdir ~/newproject
+	client $cd ~/newproject
+	client $git init
+	client $touch test
+	client $git add test
+	client $git config --global user.email "M_O_Bz@163.com"
+	client $git config --global user.name "zeroway"
+	client $git commit -m 'initial commit'
+	client $git remote add origin git@192.168.7.100:/var/git/newproject.git
+	client $git push origin master
+
+在其他客户端(client)克隆该仓库
+
+	git clone git@192.168.7.100:/newproject.git
+
+Samba安装和配置
+
+	sudo emerge -v net-fs/samba
+
+拷贝一个配置文件,在此基础上修改
+
+	sudo cp /etc/samba/smb.conf.default /etc/samba/smb.conf
+
+添加用户并设置密码
+
+	sudo smbpasswd -a zeroway
+
+开启服务
+
+	sudo /etc/init.d/samba start
+
+设置某个目录为共享目录
+
+在/etc/samba/smb.conf最后添加下面内容
+
+	[myshare]
+	comment = zeroway's share on gentoo
+	path = /home/zeroway/Downloads
+	valid users = zeroway
+	browseable = yes
+	guest ok = yes
+	public = yes
+	writable = no
+	printable = no
+	create mask = 0765
+
+samba高级设置
+
+单独为使用samba的用户设置一个组,该组成员不能通过终端登入,只能访问samba服务
+
+新建一个samba组
+
+	groupadd samba
+
+添加一个hsdz的用户到该组(samba)
+
+使用/bin/false作为shell,且不设置用户密码
+
+	useradd -g samba -s /bin/false hsdz
+
+注意:在/etc/samba/smb.conf里要添加这个用户访问权限
+
+设置该用户samba访问密码
+
+	smbpasswd -a hsdz
+
+重启samba服务后即可访问
+
+### aria2 + apache + yaaw 下载服务器搭建
+
+[安装apache参考https://wiki.gentoo.org/wiki/Apache](https://wiki.gentoo.org/wiki/Apache)
+
+使用的是gentoo的portage,没有使用第三方overlay,如果本地有第三方overlay可能在安装的时候会有错误
+
+所有操作都使用root用户
+
+安装aria2
+
+	添加必要的USE
+	echo "net-misc/aria2 bittorrent metalink" >> /etc/portage/package.use/use
+	emerge -v net-misc/aria2
+
+配置aria2
+
+	mkdir -p /etc/aria2/
+	touch /etc/aria2/aria2.session
+	添加/etc/aria2/aria2.conf
+
+[aria2.conf内容https://github.com/54shady/mygentoo/blob/i56500/etc/aria2/aria2.conf](https://github.com/54shady/mygentoo/blob/i56500/etc/aria2/aria2.conf)
+
+安装apache
+
+	emerge -v www-servers/apache
+
+在/etc/hosts中确保有下面的内容(其中zeroway是hostname)
+
+	127.0.0.1 zeroway
+
+启动服务器
+
+	sudo /etc/init.d/apache2 start
+
+测试apache是否安装成功,在浏览器里输入服务器IP(192.168.7.103)就可以访问了
+
+修改apache默认访问目录
+
+从apache的配置文件/etc/apache2/vhosts.d/default_vhost.include
+中可以知道默认的访问目录是/var/www/localhost/htdocs
+这里修改为如下:
+
+	DocumentRoot "/var/www/html"
+	<Directory "/var/www/html">
+
+安装yaaw
+
+  git clone https://github.com/binux/yaaw.git /var/www/html
+
+启动aria2
+
+  aria2c --conf-path=/etc/aria2/aria2.conf
+
+再次在浏览器中访问测试是否安装成功
+
+USBView
+
+软件安装
+
+	sudo emerge -v app-admin/usbview
+
+因为该软件需要访问/sys/kernel/debug/usb目录需要root权限
+
+但是使用root用户会有下面的错误
+
+	(usbview:4377): Gtk-WARNING **: cannot open display: :0
+
+需要在非root用户下执行
+
+	$ xhost local:root
+
 原因是root用户没有加入到zeroway访问X server的权限里
-只要添加就可以了
-xhost local:root
-现在就能用sudo partitionmanager启动软件了
 
-以后凡是需要有root权限的GUI程序都可以这样
-例如porthole(portage图形安装方式)软件也是一样的
+	$ sudo usbview 就可以执行了
 
-25. Fix Valgrind's must-be-redirected error in Gentoo
-参考链接 http://www.cnblogs.com/yangyingchao/archive/2013/12/20/3483712.html
-In order to fix this error, it is necessary to:
-1. enable the splitdebug feature (or rather: it is "recommended" to enable).
-2. enable debugging symbols for glibc.
-3. recompile sys-libs/glibc.
+### plantuml
 
-1. 修改/etc/portage/make.conf添加splitdebug,应该也可以只修改glibc的
-FEATURES="$FEATURES splitdebug"
-2. 单独修改编译glibc时的编译选项(也可以在make.conf里配置成全局的)
-Create the file /etc/portage/env/debug.conf and add:
-CFLAGS="${CFLAGS} -ggdb"
-CXXFLAGS="${CFLAGS} -ggdb"
-3. 创建/etc/portage/package.env/glibc添加如下内容
-sys-libs/glibc debug.conf
-4. 重新编译安装glibc
-emerge sys-libs/glibc
-```
+安装
+
+	sudo emerge -v media-gfx/plantuml
+
+使用
+
+	java -jar /usr/share/plantuml/lib/plantuml.jar sequenceDiagram.txt
+	其中sequenceDiagram.txt内容如下
+	@startuml
+	Alice -> Bob: test
+	@enduml
