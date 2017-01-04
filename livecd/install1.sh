@@ -19,31 +19,17 @@ mount $BOOT_PARTITION $BOOT_MOUNTPOINT
 # copy the dvd to filesystem
 eval `grep '^ROOT_' /usr/share/genkernel/defaults/initrd.defaults`
 cd $LIVECD_ROOTFS
-cp -avx $LIVECD_ROOTFS/$ROOT_LINKS /mnt/gentoo
-cp -avx $LIVECD_ROOTFS/$ROOT_TREES /mnt/gentoo
+rsync --archive --hard-links $LIVECD_ROOTFS/$ROOT_LINKS $ROOT_MOUNTPOINT/
+rsync --archive --hard-links $LIVECD_ROOTFS/$ROOT_TREES $ROOT_MOUNTPOINT/
 
 tar cvf - -C $LIVECD_ROOTFS/dev/ . | tar xvf - -C /mnt/gentoo/dev/
 tar cvf - -C $LIVECD_ROOTFS/etc/ . | tar xvf - -C /mnt/gentoo/etc/
 
 # config the filesystem
+mkdir -p $ROOT_MOUNTPOINT/proc
+mkdir -p $ROOT_MOUNTPOINT/dev
 mount -t proc none $ROOT_MOUNTPOINT/proc
 mount -o bind $LIVECD_ROOTFS/dev $ROOT_MOUNTPOINT/dev
 
-# chroot into the filesystem
+# chroot into the filesystem, install stage1 done
 chroot $ROOT_MOUNTPOINT /bin/bash
-env-update && source /etc/profile
-rm -rf null zero console
-mknod null c 1 3
-mknod console c 5 1
-mknod zero c 1 5
-chmod 666 null
-chmod 600 console
-chmod 666 zero
-
-rc-update del autoconfig default
-rc-update del fixinittab boot
-
-# config fstab
-
-# copy kernel and initramfs to filesystem
-cp /dev/cdrom/boot/* /boot/
