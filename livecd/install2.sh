@@ -1,7 +1,9 @@
 #!/bin/bash
+set -x
 
 # install stage 2 start
 env-update && source /etc/profile
+cd /dev/
 rm -rf null zero console
 mknod null c 1 3
 mknod console c 5 1
@@ -14,6 +16,3 @@ rc-update del autoconfig default
 rc-update del fixinittab boot
 
 # config fstab
-
-# copy kernel and initramfs to filesystem
-cp /dev/cdrom/boot/* /boot/

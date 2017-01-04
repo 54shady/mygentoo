@@ -1,0 +1,6 @@
+/dev/sda3   /            ext4    defaults,noatime     1 1
+/dev/sda1   /boot        ext2    defaults,noatime     1 2
+/dev/sda2   none         swap    sw                   0 0
+/dev/cdrom  /mnt/cdrom   auto    noauto,user          0 0
+proc        /proc        proc    defaults             0 0
+shm         /dev/shm     tmpfs   nodev,nosuid,noexec  0 0
