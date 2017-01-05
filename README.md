@@ -299,6 +299,14 @@ sudo的时候能自动补全
 
 	exec startkde
 
+添加可执行权限
+
+	chmod u+x ~/.xsession
+
+也需要将xdm添加到默认启动项里
+
+	rc-update add xdm default
+
 ## 使用UEFI模式启动的电脑安装GENTOO
 
 下面只说明差异部分
