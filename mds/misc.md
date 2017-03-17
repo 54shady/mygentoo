@@ -173,6 +173,10 @@ menuentry "Widnwos 8" {
 	mkdir /export/nfs_rootfs
 	mount --bind /home/zeroway/armlinux/rootfs_for_3.4.2 /export/nfs_rootfs
 
+或修改/etc/fstab
+
+	/home/zeroway/armlinux/rootfs_for_3.4.2 /export/nfs_rootfs none bind 0 0
+
 	在/etc/exports文件中添加如下内容:
 	/export/nfs_rootfs *(rw,sync,no_root_squash)
 	修改了该文件后需要执行:
