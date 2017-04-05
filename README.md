@@ -593,7 +593,7 @@ Create the file /etc/portage/env/debug.conf and add:
 
 ## git 服务器搭建
 
-###分区,只分了/boot / swap三个分区 (/etc/fstab内容如下)
+### 分区,只分了/boot / swap三个分区 (/etc/fstab内容如下)
 
 	/dev/sda2       /boot   ext4    defaults,noatime        0       2
 	/dev/sda3       none    swap    sw      0       0
