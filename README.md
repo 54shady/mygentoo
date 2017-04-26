@@ -32,20 +32,20 @@ thinkpadE460 : [forelders](https://github.com/54shady/forelders)
 
 ### 分区
 
-	/dev/sda4 ==> swap分区
-	/dev/sda5 ==> /boot
-	/dev/sda7 ==> /
-	/dev/sda8 ==> /home
+	/dev/sda1 ==> /boot
+	/dev/sda2 ==> swap分区
+	/dev/sda3 ==> /
+	/dev/sda4 ==> /home
 
-	mkfs.ext4 /dev/sda5
-	mkfs.ext4 /dev/sda7
-	mkfs.ext4 /dev/sda8
+	mkfs.ext4 /dev/sda1
+	mkfs.ext4 /dev/sda3
+	mkfs.ext4 /dev/sda4
 
 ### 挂载相应分区,安装stage3
 
-	mount /dev/sda7 /mnt/gentoo
+	mount /dev/sda3 /mnt/gentoo
 	mkdir /mnt/gentoo/boot
-	mount /dev/sda5 /mnt/gentoo/boot
+	mount /dev/sda1 /mnt/gentoo/boot
 
 	cd /mnt/gentoo
 	tar xvjpf stage3-*.tar.bz2 --xattrs
@@ -64,10 +64,10 @@ make.conf(/mnt/gentoo/etc/portage/make.conf)内容如下：
 
 ### /etc/fstab内容
 
-	/dev/sda5       /boot   ext4    defaults,noatime        0       2
-	/dev/sda6       none    swap    sw      0       0
-	/dev/sda7       /       ext4    noatime 0       1
-	/dev/sda8       /home   ext4    noatime 0       3
+	/dev/sda1       /boot   ext4    defaults,noatime        0       2
+	/dev/sda2       none    swap    sw      0       0
+	/dev/sda3       /       ext4    noatime 0       1
+	/dev/sda4       /home   ext4    noatime 0       3
 
 拷贝DNS信息
 
@@ -104,8 +104,8 @@ eselect profile set 1
 ### 安装grub
 
 	emerge sys-boot/grub
-	grub2-install /dev/sda --target=i386-pc
-	grub2-mkconfig -o /boot/grub/grub.cfg
+	grub-install /dev/sda --target=i386-pc
+	grub-mkconfig -o /boot/grub/grub.cfg
 
 ### 配置主机名
 
@@ -141,10 +141,10 @@ eselect profile set 1
 	emerge --changed-use --deep @world
 	emerge kde-apps/kdebase-meta
 	emerge xorg-x11
-	emerge kde-base/kdm
+	emerge slim
 
 	/etc/conf.d/xdm
-	DISPLAYMANAGER="kdm"
+	DISPLAYMANAGER="slim"
 	rc-update add xdm default
 
 修改KDE配置文件(/usr/share/config/kdm/kdmrc),让root可以登入
@@ -191,14 +191,8 @@ sudo的时候能自动补全
 
 ### virtual box 安装
 
-添加下面内容到/etc/portage/package.accept_keywords
-
-	=app-emulation/virtualbox-bin-5.0.20.106931 ~amd64
-	=app-emulation/virtualbox-modules-5.0.20 ~amd64
-	=app-emulation/virtualbox-additions-5.0.20 ~amd64
-
-	emerge  app-emulation/virtualbox
-	gpasswd -a zerowaytp vboxusers
+	emerge app-emulation/virtualbox-bin
+	gpasswd -a zeroway vboxusers
 	emerge -1 @module-rebuild
 	modprobe vboxdrv
 
@@ -207,6 +201,8 @@ sudo的时候能自动补全
 在/etc/conf.d/modules中添加下面一行
 
 	modules="vboxdrv"
+
+### Dbus & consolekit
 
 添加dbus 和 consolekit 默认启动
 
@@ -465,7 +461,7 @@ WIN+Del	  静音
 
 ### 安装plank
 
-用的是sabayon overlay里的plank
+使用localoverlay方法安装
 
 	emerge x11-misc/plank
 
