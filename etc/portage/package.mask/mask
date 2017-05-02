@@ -7,3 +7,4 @@
 
 # for android compile
 >sys-devel/make-3.81-r2
+>sys-boot/grub-0.97-r16

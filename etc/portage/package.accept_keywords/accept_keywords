@@ -10,3 +10,66 @@
 =media-video/luvcview-0.2.6 ~amd64
 
 =sys-apps/rkflashkit-0.1.4 ~amd64
+=dev-lang/ruby-2.2.4 ~amd64
+# required by virtual/rubygems-11::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/power_assert-0.2.7::gentoo[-test,ruby_targets_ruby20]
+# required by dev-lang/ruby-2.2.4::gentoo
+# required by dev-ruby/racc-1.4.14::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/rdoc-4.2.2::gentoo[ruby_targets_ruby20]
+# required by dev-lang/ruby-2.0.0_p647-r1::gentoo[rdoc]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby20]
+=dev-ruby/rubygems-2.6.4 ~amd64
+# required by dev-ruby/rake-11.1.2::gentoo[-test,ruby_targets_ruby22]
+# required by dev-lang/ruby-2.2.4::gentoo
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby21]
+=virtual/rubygems-11 ~amd64
+# required by dev-lang/ruby-2.2.4::gentoo
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby21]
+=dev-ruby/minitest-5.8.4 ~amd64
+# required by dev-lang/ruby-2.0.0_p647-r1::gentoo
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby20]
+# required by dev-lang/ruby-2.2.4::gentoo
+# required by dev-ruby/racc-1.4.14::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/rdoc-4.2.2::gentoo[ruby_targets_ruby20]
+# required by dev-lang/ruby-2.1.7::gentoo[rdoc]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby21]
+=dev-ruby/rake-11.1.2 ~amd64
+# required by dev-ruby/rdoc-4.2.2::gentoo[ruby_targets_ruby21]
+# required by dev-lang/ruby-2.2.4::gentoo[rdoc]
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby21]
+=dev-ruby/json-1.8.3 ~amd64
+# required by dev-lang/ruby-2.2.4::gentoo
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby22]
+=dev-ruby/test-unit-3.1.9 ~amd64
+# required by dev-lang/ruby-2.2.4::gentoo[rdoc]
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby21]
+=dev-ruby/rdoc-4.2.2 ~amd64
+# required by dev-ruby/rdoc-4.2.2::gentoo[ruby_targets_ruby20]
+# required by dev-lang/ruby-2.2.4::gentoo[rdoc]
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby21]
+=dev-ruby/racc-1.4.14 ~amd64
+# required by dev-lang/ruby-2.2.4::gentoo
+# required by dev-ruby/racc-1.4.14::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/rdoc-4.2.2::gentoo[ruby_targets_ruby20]
+# required by dev-lang/ruby-2.0.0_p647-r1::gentoo[rdoc]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby20]
+=dev-ruby/power_assert-0.2.7 ~amd64
+# required by dev-lang/ruby-2.2.4::gentoo
+# required by dev-ruby/power_assert-0.2.7::gentoo[ruby_targets_ruby22]
+# required by dev-ruby/test-unit-3.1.9::gentoo[ruby_targets_ruby21]
+=app-eselect/eselect-ruby-20151229 ~amd64
+
+=dev-util/cflow-1.4 ~amd64
+=media-gfx/plantuml-7999 ~amd64
+=media-libs/svgalib-1.9.25-r1 **
+# required by dev-python/sqlite3dbm (argument)
+=dev-python/sqlite3dbm-0.1.4-r1 ~amd64
+# required by qemu-user (argument)
+=app-emulation/qemu-user-9999 **
+# required by app-emulation/qemu-init-scripts (argument)
+=app-emulation/qemu-init-scripts-0.3.0 ~amd64
