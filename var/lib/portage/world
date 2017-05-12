@@ -69,6 +69,7 @@ net-misc/aria2
 net-misc/axel
 net-misc/netkit-telnetd
 net-misc/networkmanager
+sys-apps/dmidecode
 sys-apps/memtest86+
 sys-apps/mlocate
 sys-apps/rkflashkit
