@@ -1,2 +1,3 @@
 cross-arm-none-linux-gnueabi
 cross-armv7a-hardfloat-linux-gnueabi
+cross-aarch64-unknown-linux-gnu

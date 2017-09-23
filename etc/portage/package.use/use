@@ -3,7 +3,6 @@ net-misc/iputils -caps -filecaps
 # required by x11-base/xorg-drivers-1.17::gentoo[video_cards_vmware]
 # required by x11-base/xorg-server-1.17.4::gentoo[xorg]
 # required by x11-drivers/xf86-input-mouse-1.9.1::gentoo
->=media-libs/mesa-11.0.6 xa
 # required by x11-drivers/xf86-video-vmware-13.1.0::gentoo
 # required by x11-base/xorg-drivers-1.17::gentoo[video_cards_vmware]
 # required by x11-base/xorg-server-1.17.4::gentoo[xorg]
@@ -106,3 +105,47 @@ media-libs/opencv v4l
 # required by dev-python/sqlite3dbm-0.1.4-r1::gentoo[python_targets_python2_7]
 # required by dev-python/sqlite3dbm (argument)
 >=dev-lang/python-2.7.10-r1:2.7 sqlite
+# required by kde-plasma/kwin-5.7.5::gentoo
+# required by kde-plasma/plasma-desktop-5.7.5::gentoo
+# required by kde-plasma/plasma-meta-5.7.5::gentoo
+# required by kde-apps/kdebase-meta-16.04.3::gentoo
+# required by @selected
+# required by @world (argument)
+# required by kde-frameworks/kfilemetadata-5.26.0-r1::gentoo[pdf]
+# required by kde-apps/gwenview-16.04.3::gentoo[semantic-desktop]
+# required by @selected
+# required by @world (argument)
+# required by www-client/chromium-54.0.2840.59::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/libvpx-1.5.0 svc
+# required by kde-apps/kdebase-runtime-meta-16.04.3::gentoo
+# required by kde-apps/kdecore-meta-16.04.3::gentoo[-minimal]
+# required by kde-apps/kdebase-meta-16.04.3::gentoo
+# required by @selected
+# required by @world (argument)
+>=kde-apps/solid-runtime-16.04.3 -bluetooth
+#>=kde-plasma/plasma-meta-5.7.5 -sddm
+kde-plasma/plasma-meta -sddm -handbook
+# required by x11-terms/terminator-0.97-r1::gentoo
+# required by x11-terms/terminator (argument)
+>=dev-libs/keybinder-0.3.1-r200:0 python
+# required by x11-terms/terminator-0.97-r1::gentoo
+# required by x11-terms/terminator (argument)
+>=x11-libs/vte-0.28.2-r207:0 python
+>=app-text/poppler-0.42.0 qt5
+=media-libs/mesa-11.0.6 wayland
+dev-libs/gobject-introspection -cairo
+# required by app-emulation/qemu-2.5.1::gentoo[-qemu_softmmu_targets_lm32,-qemu_softmmu_targets_mips,-qemu_softmmu_targets_alpha,-qemu_softmmu_targets_mips64,-qemu_softmmu_targets_s390x,-qemu_softmmu_targets_xtensaeb,-qemu_softmmu_targets_mipsel,opengl,-qemu_softmmu_targets_cris,-qemu_softmmu_targets_moxie,-qemu_softmmu_targets_m68k,-qemu_softmmu_targets_xtensa,-qemu_softmmu_targets_or32,-qemu_softmmu_targets_ppcemb,-qemu_softmmu_targets_microblaze,-qemu_softmmu_targets_arm,-qemu_softmmu_targets_sh4eb,-qemu_softmmu_targets_unicore32,-qemu_softmmu_targets_i386,-qemu_softmmu_targets_mips64el,-qemu_softmmu_targets_ppc64,-qemu_softmmu_targets_sparc,-qemu_softmmu_targets_tricore,-qemu_softmmu_targets_ppc,qemu_softmmu_targets_x86_64,-qemu_softmmu_targets_microblazeel,-qemu_softmmu_targets_sparc64,-qemu_softmmu_targets_aarch64,-static-softmmu,-qemu_softmmu_targets_sh4]
+# required by app-emulation/qemu-init-scripts-0.3.0::gentoo
+# required by app-emulation/qemu-init-scripts (argument)
+>=media-libs/mesa-11.0.6 gles2
+# required by app-emulation/qemu-2.5.1::gentoo[-qemu_softmmu_targets_mips,-qemu_softmmu_targets_alpha,-qemu_softmmu_targets_aarch64,-qemu_softmmu_targets_mips64,-qemu_softmmu_targets_s390x,-qemu_user_targets_sparc64,-qemu_user_targets_mipsn32el,-qemu_user_targets_sparc,-qemu_user_targets_ppc64le,-qemu_user_targets_cris,-qemu_softmmu_targets_xtensaeb,xattr,-qemu_user_targets_sh4,-qemu_softmmu_targets_mipsel,-qemu_user_targets_x86_64,-qemu_user_targets_i386,-qemu_user_targets_m68k,-qemu_user_targets_armeb,-qemu_softmmu_targets_moxie,-qemu_user_targets_mips,-qemu_user_targets_sparc32plus,-qemu_softmmu_targets_m68k,-qemu_softmmu_targets_microblazeel,-qemu_softmmu_targets_xtensa,-qemu_user_targets_or32,-qemu_softmmu_targets_or32,-qemu_softmmu_targets_ppcemb,-qemu_softmmu_targets_microblaze,-qemu_softmmu_targets_arm,-qemu_user_targets_alpha,-qemu_softmmu_targets_sh4eb,-qemu_user_targets_microblaze,-qemu_softmmu_targets_unicore32,-qemu_user_targets_unicore32,-qemu_user_targets_microblazeel,-qemu_softmmu_targets_i386,static-user,-qemu_user_targets_mips64el,-qemu_softmmu_targets_ppc64,-qemu_softmmu_targets_sparc,-qemu_softmmu_targets_tricore,-qemu_softmmu_targets_ppc,qemu_softmmu_targets_x86_64,-qemu_user_targets_mipsel,-qemu_user_targets_mipsn32,-qemu_softmmu_targets_mips64el,-qemu_softmmu_targets_cris,qemu_user_targets_arm,-qemu_user_targets_ppc64,-qemu_user_targets_ppc64abi32,-qemu_softmmu_targets_sparc64,-qemu_user_targets_aarch64,-qemu_softmmu_targets_lm32,-qemu_user_targets_s390x,-static-softmmu,-qemu_user_targets_sh4eb,-qemu_user_targets_ppc,-qemu_user_targets_mips64,-qemu_user_targets_tilegx,-qemu_softmmu_targets_sh4]
+# required by app-emulation/qemu (argument)
+>=sys-apps/attr-2.4.47-r2 static-libs
+# required by app-emulation/qemu-2.5.1::gentoo[-qemu_softmmu_targets_mips,-qemu_softmmu_targets_alpha,-qemu_softmmu_targets_aarch64,-qemu_softmmu_targets_mips64,-qemu_softmmu_targets_s390x,-qemu_user_targets_sparc64,-qemu_user_targets_mipsn32el,-qemu_user_targets_sparc,-qemu_user_targets_ppc64le,-qemu_user_targets_cris,-qemu_softmmu_targets_xtensaeb,-qemu_user_targets_sh4,-qemu_softmmu_targets_mipsel,-qemu_user_targets_x86_64,-qemu_user_targets_i386,-qemu_user_targets_m68k,-qemu_user_targets_armeb,-qemu_softmmu_targets_moxie,-qemu_user_targets_mips,-qemu_user_targets_sparc32plus,-qemu_softmmu_targets_m68k,-qemu_softmmu_targets_microblazeel,-qemu_softmmu_targets_xtensa,-qemu_user_targets_or32,-qemu_softmmu_targets_or32,-qemu_softmmu_targets_ppcemb,-qemu_softmmu_targets_microblaze,-qemu_softmmu_targets_arm,-qemu_user_targets_alpha,-qemu_softmmu_targets_sh4eb,-qemu_user_targets_microblaze,-qemu_softmmu_targets_unicore32,-qemu_user_targets_unicore32,-qemu_user_targets_microblazeel,-qemu_softmmu_targets_i386,static-user,-qemu_user_targets_mips64el,-qemu_softmmu_targets_ppc64,-qemu_softmmu_targets_sparc,-qemu_softmmu_targets_tricore,-qemu_softmmu_targets_ppc,qemu_softmmu_targets_x86_64,-qemu_user_targets_mipsel,-qemu_user_targets_mipsn32,-qemu_softmmu_targets_mips64el,-qemu_softmmu_targets_cris,qemu_user_targets_arm,-qemu_user_targets_ppc64,-qemu_user_targets_ppc64abi32,-qemu_softmmu_targets_sparc64,-qemu_user_targets_aarch64,-qemu_softmmu_targets_lm32,-qemu_user_targets_s390x,-static-softmmu,-qemu_user_targets_sh4eb,-qemu_user_targets_ppc,-qemu_user_targets_mips64,-qemu_user_targets_tilegx,-qemu_softmmu_targets_sh4]
+# required by app-emulation/qemu (argument)
+>=dev-libs/glib-2.46.2-r3 static-libs
+# required by app-emulation/qemu-2.5.1::gentoo[-qemu_softmmu_targets_mips,-qemu_softmmu_targets_alpha,-qemu_softmmu_targets_aarch64,-qemu_softmmu_targets_mips64,-qemu_softmmu_targets_s390x,-qemu_user_targets_sparc64,-qemu_user_targets_mipsn32el,-qemu_user_targets_sparc,-qemu_user_targets_ppc64le,-qemu_user_targets_cris,-qemu_softmmu_targets_xtensaeb,-qemu_user_targets_sh4,-qemu_softmmu_targets_mipsel,-qemu_user_targets_x86_64,-qemu_user_targets_i386,-qemu_user_targets_m68k,-qemu_user_targets_armeb,-qemu_softmmu_targets_moxie,-qemu_user_targets_mips,-qemu_user_targets_sparc32plus,-qemu_softmmu_targets_m68k,-qemu_softmmu_targets_microblazeel,-qemu_softmmu_targets_xtensa,-qemu_user_targets_or32,-qemu_softmmu_targets_or32,-qemu_softmmu_targets_ppcemb,-qemu_softmmu_targets_microblaze,-qemu_softmmu_targets_arm,-qemu_user_targets_alpha,-qemu_softmmu_targets_sh4eb,-qemu_user_targets_microblaze,-qemu_softmmu_targets_unicore32,-qemu_user_targets_unicore32,-qemu_user_targets_microblazeel,-qemu_softmmu_targets_i386,static-user,-qemu_user_targets_mips64el,-qemu_softmmu_targets_ppc64,-qemu_softmmu_targets_sparc,-qemu_softmmu_targets_tricore,-qemu_softmmu_targets_ppc,qemu_softmmu_targets_x86_64,-qemu_user_targets_mipsel,-qemu_user_targets_mipsn32,-qemu_softmmu_targets_mips64el,-qemu_softmmu_targets_cris,qemu_user_targets_arm,-qemu_user_targets_ppc64,-qemu_user_targets_ppc64abi32,-qemu_softmmu_targets_sparc64,-qemu_user_targets_aarch64,-qemu_softmmu_targets_lm32,-qemu_user_targets_s390x,-static-softmmu,-qemu_user_targets_sh4eb,-qemu_user_targets_ppc,-qemu_user_targets_mips64,-qemu_user_targets_tilegx,-qemu_softmmu_targets_sh4]
+# required by app-emulation/qemu (argument)
+>=sys-libs/zlib-1.2.8-r1 static-libs
