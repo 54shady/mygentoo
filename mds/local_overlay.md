@@ -25,6 +25,9 @@ root # pushd /usr/local/portage/sys-apps/grep
 root # repoman manifest
 root # popd 
 
+或者执行下面命令安装
+root # ebuild /usr/local/portage/sys-apps/grep/grep-2.21-r1.ebuild manifest
+
 注意：每次修改了ebuild文件后就需要重新生成manifest文件
 
 其中我在原有的ebuild文件里添加下面第二行打mygrep.patch的代码
