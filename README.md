@@ -770,28 +770,32 @@ samba高级设置
 
 ## linux开发环境搭建
 
-### TFTP
+### TFTP服务器搭建
 
-安装tftp
+- 在gentoo上安装tftp软件
 
   sudo emerge -v net-ftp/atftp
 
-配置(/etc/conf.d/atftp)
+- 配置(使用默认安装的配置文件,修改了根目录)
 
+	cat /etc/conf.d/atftp
 
+内容如下
+
+	# Config file for tftp server
 	TFTPD_ROOT="/home/zeroway/github/matrix"
 	TFTPD_OPTS="--daemon --user nobody --group nobody"
 
-开启tftp服务(假设服务器IP:192.168.1.100)
+- 开启tftp服务(服务器IP:192.168.1.100)
 
 	/etc/init.d/atftp start
 
-在开发板上使用tftp(比如从tftp服务器上获取libfahw.so)
+- 在开发板上使用tftp(比如从tftp服务器上获取libfahw.so)
 
 	tftp -g 192.168.1.100 -r lib/libfahw.so
 	cp libfahw.so lib/
 
-拷贝一个测试程序
+- 拷贝一个测试程序
 
 	tftp -g 192.168.1.100 -r demo/matrix-pwm/matrix-pwm
 	chmod +x matrix-pwm
@@ -928,18 +932,18 @@ local overlay的用法,官网上也有详细说明,这里只是个人积累
 
 用的时候需要修改源码后再安装软件,这里就可以用local overlay的方法来操作
 
-### 例子1
+### 例子(改造grep)
 
 默认grep出来的结果是用":"分割的
 
-我想把这个":"分割号改成"+"号,以便可以用vi直接打开相应的文件和对应的行
+现在想把这个":"分割号改成"+"号,以便可以用vi直接打开相应的文件和对应的行
 
-创建一个本地的overlay,我这里取名叫localoverlay
+- 创建一个本地的overlay,我这里取名叫localoverlay
 
-	# mkdir -p /usr/local/portage/{metadata,profiles}
-	# echo 'localoverlay' > /usr/local/portage/profiles/repo_name
-	# echo 'masters = gentoo' > /usr/local/portage/metadata/layout.conf
-	# chown -R portage:portage /usr/local/portage
+	root # mkdir -p /usr/local/portage/{metadata,profiles}
+	root # echo 'mobzoverlay' > /usr/local/portage/profiles/repo_name
+	root # echo 'masters = gentoo' > /usr/local/portage/metadata/layout.conf
+	root # chown -R portage:portage /usr/local/portage
 
 cat /etc/portage/repos.conf/local.conf
 
@@ -948,16 +952,29 @@ cat /etc/portage/repos.conf/local.conf
 	masters = gentoo
 	auto-sync = no
 
-拷贝相应的ebuild文件,生成manifest
+创建相关目录
 
-	# mkdir -p /usr/local/portage/sys-apps/grep
-	# cp /usr/portage/sys-apps/grep/grep-2.21-r1.ebuild  /usr/local/portage/sys-apps/grep/
-	# chown -R portage:portage /usr/local/portage
-	# pushd /usr/local/portage/sys-apps/grep
-	# repoman manifest
-	# popd
+	root # mkdir -p /usr/local/portage/sys-apps/grep
 
-注意：每次修改了ebuild文件后就需要重新生成manifest文件
+拷贝ebuild文件
+
+	root # cp /usr/portage/sys-apps/grep/grep-2.21-r1.ebuild  /usr/local/portage/sys-apps/grep/
+
+设置权限
+
+	root # chown -R portage:portage /usr/local/portage
+
+生成manifest并下载依赖文件
+
+	root # pushd /usr/local/portage/sys-apps/grep
+	root # repoman manifest
+	root # popd
+
+或者执行下面命令
+
+	root # ebuild /usr/local/portage/sys-apps/grep/grep-2.21-r1.ebuild manifest
+
+注意:每次修改了ebuild文件后就需要重新生成manifest文件
 
 其中我在原有的ebuild文件里添加下面第二行打mygrep.patch的代码
 
@@ -975,12 +992,11 @@ cat /etc/portage/repos.conf/local.conf
 
 	emerge grep::gentoo
 
-安装本地localoverlay里的grep
+安装本地mobzoverlay里的grep
 
 	emerge grep::localoverlay
 
-
-### 例子2
+### 例子(安装高版本pandoc)
 
 由于碰到pandoc的版本比较低,现在需要更像高版本的
 
@@ -993,7 +1009,7 @@ cat /etc/portage/repos.conf/local.conf
 
 所以还是和local overlay一样,只要有ebuild文件即可
 
-首先需要到到下面这个网站上查找需要的ebuild文件
+- 首先需要到到下面这个网站上查找需要的ebuild文件
 
 [http://gpo.zugaina.org/Overlays/bgo-overlay](http://gpo.zugaina.org/Overlays/bgo-overlay)
 
@@ -1021,9 +1037,9 @@ cat /etc/portage/repos.conf/local.conf
 
 所以还需要安装两外两个包,安装的时候就知道了,是cmark和pandoc-types
 
-下载cmark的ebuild文件放到/usr/local/portage/dev-haskell/cmark 下
+下载cmark的ebuild文件放到/usr/local/portage/dev-haskell/cmark下
 
-下载pandoc-types的ebuild文件放到/usr/local/portage/dev-haskell/pandoc-types 下
+下载pandoc-types的ebuild文件放到/usr/local/portage/dev-haskell/pandoc-types下
 
 在/etc/portage/package.accept_keywords里添加下面的内容
 
@@ -1032,25 +1048,24 @@ cat /etc/portage/repos.conf/local.conf
 
 之后就可以安装高版本的pandoc了,解决了低版本无法识别markdown里index的问题
 
-### 例子3
+### 例子3(修改本地软件)
 
 比如现在想要调试或修改一个应用软件,这里用kdiff3作为例子
 
-首先可以安装正常的方法先安装或是通过emerge指定只下载kdiff3的源码
-
-解压源码,根据个人需要修改源码,重新打包源码,比如名字为kdiff3-0.9.98.tar.gz
-
-在local overlay 里拷贝一份kdiff3的ebuild文件,修改其中的SRC_URI
+- 首先可以安装正常的方法先安装或是通过emerge指定只下载kdiff3的源码
+- 解压源码,根据个人需要修改源码,重新打包源码,比如名字为kdiff3-0.9.98.tar.gz
+- 在local overlay 里拷贝一份kdiff3的ebuild文件,修改其中的SRC_URI
 
 	SRC_URI="file:///usr/portage/distfiles/kdiff3-0.9.98.tar.gz"
 
 这样做的目的是为了不重新下载而是使用本地修改过的代码
 
-重新生成manifest
+- 重新生成manifest
 
 	ebuild /usr/local/portage/kde-misc/kdiff3/kdiff3-0.9.98.ebuild manifest
 
-安装修改过的kdiff3,这里需要指定使用的是哪个overlay,这里使用的是上面创建的名为localoverlay的overlay
+- 安装修改过的kdiff3,这里需要指定使用的是哪个overlay,这里使用的是上面创建的名为localoverlay的overlay
+
 	emerge -v kdiff3::localoverlay
 
 ## 更新内核
@@ -1080,15 +1095,13 @@ cat /etc/portage/repos.conf/local.conf
 
 ## 如何编写一个gentoo的ebuild
 
-可以参考官网上的例子,这里多写点内容
-
-在localoverlay里创建相应的ebuild文件
+- 在localoverlay里创建相应的ebuild文件
 
 创建/usr/local/portage/app-misc/hello-world/hello-world-1.0.ebuild文件内容如下
 
 其中SRC_URI这里用的是本地的一个文件
 
-hello-world-1.0.ebuild内容
+cat hello-world-1.0.ebuild
 
 	EAPI=6
 
@@ -1108,26 +1121,24 @@ hello-world-1.0.ebuild内容
 		dobin hello-world
 	}
 
-指定我们的源码路径,这里用的是本地的文件
+- 指定我们的源码路径,这里用的是本地的文件
 
 hello-world-1.0.tar.gz里包含的文件如下
 
 	hello-world-1.0/hello.c
 	hello-world-1.0/Makefile
 
-hello.c内容
+cat hello.c
 
-```c
-#include <stdio.h>
+	#include <stdio.h>
 
-int main(int argc, char **argv)
-{
-	printf("hello my first ebuild\n");
-	return 0;
-}
-```
+	int main(int argc, char **argv)
+	{
+		printf("hello my first ebuild\n");
+		return 0;
+	}
 
-Makefile内容
+cat Makefile
 
 	all:hello.c
 		gcc -o hello-world hello.c
@@ -1136,15 +1147,15 @@ Makefile内容
 
 	tar czvf hello-world-1.0.tar.gz hello-world-1.0/*
 
-生成相应的Manifest文件
+- 生成相应的Manifest文件
 
 	ebuild /usr/local/portage/app-misc/hello-world/hello-world-1.0.ebuild manifest
 
-测试安装软件
+- 测试安装软件
 
 	emerge app-misc/hello-world
 
-执行软件
+- 执行软件
 
 	hello-world
 
