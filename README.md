@@ -579,11 +579,11 @@ Create the file /etc/portage/env/debug.conf and add:
 	CFLAGS="${CFLAGS} -ggdb"
 	CXXFLAGS="${CFLAGS} -ggdb"
 
-- 创建/etc/portage/package.env/glibc添加如下内容
+创建/etc/portage/package.env/glibc添加如下内容
 
 	sys-libs/glibc debug.conf
 
-- 重新编译安装glibc
+重新编译安装glibc
 
 	emerge sys-libs/glibc
 
@@ -625,15 +625,17 @@ Create the file /etc/portage/env/debug.conf and add:
 
 添加开机启动
 
-	rc-update add git-daemon  default
+	rc-update add git-daemon default
 
-SSH keys 添加到下面文件
+SSH keys添加到下面文件
 
-在客户端执行ssh-keygen -t rsa
+在客户端执行
+
+	ssh-keygen -t rsa
 
 将客户端生成的id_rsa.pub里的内容拷贝到服务器上下面的文件里
 
-/var/git/.ssh/authorized_keys
+	/var/git/.ssh/authorized_keys
 
 服务器上创建仓库(在服务器上操作,ip:192.168.7.100)
 
@@ -772,30 +774,26 @@ samba高级设置
 
 ### TFTP服务器搭建
 
-- 在gentoo上安装tftp软件
+在gentoo上安装tftp软件
 
   sudo emerge -v net-ftp/atftp
 
-- 配置(使用默认安装的配置文件,修改了根目录)
-
-	cat /etc/conf.d/atftp
-
-内容如下
+配置文件(/etc/conf.d/atftp)内容如下
 
 	# Config file for tftp server
 	TFTPD_ROOT="/home/zeroway/github/matrix"
 	TFTPD_OPTS="--daemon --user nobody --group nobody"
 
-- 开启tftp服务(服务器IP:192.168.1.100)
+开启tftp服务(服务器IP:192.168.1.100)
 
 	/etc/init.d/atftp start
 
-- 在开发板上使用tftp(比如从tftp服务器上获取libfahw.so)
+在开发板上使用tftp(比如从tftp服务器上获取libfahw.so)
 
 	tftp -g 192.168.1.100 -r lib/libfahw.so
 	cp libfahw.so lib/
 
-- 拷贝一个测试程序
+拷贝一个测试程序
 
 	tftp -g 192.168.1.100 -r demo/matrix-pwm/matrix-pwm
 	chmod +x matrix-pwm
@@ -938,7 +936,7 @@ local overlay的用法,官网上也有详细说明,这里只是个人积累
 
 现在想把这个":"分割号改成"+"号,以便可以用vi直接打开相应的文件和对应的行
 
-- 创建一个本地的overlay,我这里取名叫localoverlay
+创建一个本地的overlay,我这里取名叫localoverlay
 
 	root # mkdir -p /usr/local/portage/{metadata,profiles}
 	root # echo 'mobzoverlay' > /usr/local/portage/profiles/repo_name
@@ -1009,7 +1007,7 @@ cat /etc/portage/repos.conf/local.conf
 
 所以还是和local overlay一样,只要有ebuild文件即可
 
-- 首先需要到到下面这个网站上查找需要的ebuild文件
+首先需要到到下面这个网站上查找需要的ebuild文件
 
 [http://gpo.zugaina.org/Overlays/bgo-overlay](http://gpo.zugaina.org/Overlays/bgo-overlay)
 
@@ -1052,19 +1050,21 @@ cat /etc/portage/repos.conf/local.conf
 
 比如现在想要调试或修改一个应用软件,这里用kdiff3作为例子
 
-- 首先可以安装正常的方法先安装或是通过emerge指定只下载kdiff3的源码
-- 解压源码,根据个人需要修改源码,重新打包源码,比如名字为kdiff3-0.9.98.tar.gz
-- 在local overlay 里拷贝一份kdiff3的ebuild文件,修改其中的SRC_URI
+首先可以安装正常的方法先安装或是通过emerge指定只下载kdiff3的源码
+
+解压源码,根据个人需要修改源码,重新打包源码,比如名字为kdiff3-0.9.98.tar.gz
+
+在local overlay 里拷贝一份kdiff3的ebuild文件,修改其中的SRC_URI
 
 	SRC_URI="file:///usr/portage/distfiles/kdiff3-0.9.98.tar.gz"
 
 这样做的目的是为了不重新下载而是使用本地修改过的代码
 
-- 重新生成manifest
+重新生成manifest
 
 	ebuild /usr/local/portage/kde-misc/kdiff3/kdiff3-0.9.98.ebuild manifest
 
-- 安装修改过的kdiff3,这里需要指定使用的是哪个overlay,这里使用的是上面创建的名为localoverlay的overlay
+安装修改过的kdiff3,这里需要指定使用的是哪个overlay,这里使用的是上面创建的名为localoverlay的overlay
 
 	emerge -v kdiff3::localoverlay
 
@@ -1095,7 +1095,7 @@ cat /etc/portage/repos.conf/local.conf
 
 ## 如何编写一个gentoo的ebuild
 
-- 在localoverlay里创建相应的ebuild文件
+在localoverlay里创建相应的ebuild文件
 
 创建/usr/local/portage/app-misc/hello-world/hello-world-1.0.ebuild文件内容如下
 
@@ -1121,7 +1121,7 @@ cat hello-world-1.0.ebuild
 		dobin hello-world
 	}
 
-- 指定我们的源码路径,这里用的是本地的文件
+指定我们的源码路径,这里用的是本地的文件
 
 hello-world-1.0.tar.gz里包含的文件如下
 
@@ -1147,15 +1147,15 @@ cat Makefile
 
 	tar czvf hello-world-1.0.tar.gz hello-world-1.0/*
 
-- 生成相应的Manifest文件
+生成相应的Manifest文件
 
 	ebuild /usr/local/portage/app-misc/hello-world/hello-world-1.0.ebuild manifest
 
-- 测试安装软件
+测试安装软件
 
 	emerge app-misc/hello-world
 
-- 执行软件
+执行软件
 
 	hello-world
 
