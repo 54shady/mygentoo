@@ -1185,6 +1185,32 @@ cat Makefile
 
 	emerge -v media-libs/libpng:1.2
 
+## 安装二进制(BinaryPackage)的软件包
+
+### 主机上操作(BinaryHost)
+
+在主机上生成当前系统里所有已安装软件的binary包
+
+	emerge -uDN @world --buildpkg
+
+生成的所有包都在/usr/portage/packages目录里
+
+设置BinaryHost主机(使用SSH协议)
+
+这里将客户端root用户的公钥添加到主机root用户的authorized文件
+
+	# cat .id_rsa.pub >> /root/.ssh/authorized_keys
+
+### 客户端操作(BinaryClient)
+
+添加下面内容到/etc/portage/make.conf文件(BinaryHost IP 192.168.1.100)
+
+	PORTAGE_BINHOST="ssh://root@192.168.1.100/usr/portage/packages"
+
+安装Binary软件
+
+	emerge -G package_name
+
 ## Misc
 
 ### umount busy
