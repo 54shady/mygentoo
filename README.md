@@ -26,7 +26,6 @@ thinkpadE460 : [forelders](https://github.com/54shady/forelders)
 
 ===================================================================
 
-# GENTOO 使用手册
 
 ## 系统安装
 
@@ -1371,3 +1370,7 @@ dmesg发现打开摄像头的时候恢报下面的错误
 	echo 2 > /sys/module/uvcvideo/parameters/quirks
 
 [参考文章](https://www.mail-archive.com/linux-uvc-devel@lists.berlios.de/msg03737.html)
+
+## Install Gentoo from LiveDVD
+
+[Quick Way Install Gentoo](mds/livedvd_install.md)
