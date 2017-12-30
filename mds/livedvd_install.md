@@ -1,15 +1,18 @@
-# Quick Install Gentoo (on DELL 3550) with UEFI only
+# Quick Install Gentoo (on DELL Latitude 3550) with UEFI only
+
+## LiveDVD
+
+livedvd-amd64-multilib-20160704.iso
 
 ## Partition Prepare
 
-Partition table as below
+Partition table as below(/etc/fstab)
 
-	/dev/sda1	/boot
-	/dev/sda2	swap
-	/dev/sda3	/
+	/dev/sda1       /boot   vfat    defaults,noatime        0       2
+	/dev/sda2       none    swap    sw      0       0
+	/dev/sda3       /       ext4    noatime 0       1
 
-
-Format partition(Boot partition must be fat)
+Format partition(The ESP must be a FAT variant)
 
 	mkfs.fat -F 32 /dev/sda1
 	mkfs.ext4 /dev/sda3
