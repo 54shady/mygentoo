@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# :%s/\(.*\)/echo '\1' >> dot_xprofile/g
+
+echo 'export XMODIFIERS="@im=fcitx"' >> dot_xprofile
+echo 'export QT_IM_MODULE=fcitx' >> dot_xprofile
+echo 'export GTK_IM_MODULE=fcitx' >> dot_xprofile
+echo 'eval "$(dbus-launch --sh-syntax --exit-with-session)"' >> dot_xprofile
+mv -f dot_xprofile ~/.xprofile

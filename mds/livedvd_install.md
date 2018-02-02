@@ -21,6 +21,7 @@ Format partition for UEFI(The ESP must be a FAT variant)
 Mount partition
 
 	mount /dev/sda3 /mnt/gentoo
+	mkdir /mnt/gentoo/boot
 	mount /dev/sda1 /mnt/gentoo/boot
 
 ## PreInstall Configuration
