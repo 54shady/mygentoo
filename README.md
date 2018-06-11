@@ -778,6 +778,13 @@ id_rsa_rk是用于和远程外网服务器通信的私钥
 	IdentityFile ~/.ssh/id_rsa_rk
 	user zeroway
 
+	# github
+	Host github
+	HostName https://github.com/54shady
+	PreferredAuthentications publickey
+	IdentityFile ~/.ssh/id_rsa_code
+	user linwei
+
 对上面配置文件介个关键地方解释下
 
 本地电脑上下载远程服务器是通过git
