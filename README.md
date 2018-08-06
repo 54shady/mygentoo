@@ -1010,6 +1010,12 @@ gentoo上先测试是否可以挂载
 
 上面把/home/zeroway/Tools这个目录添加到sudo搜索工具的目录
 
+### 挂载WINDOWS共享目录
+
+假设WINDOWS(192.168.1.123)共享目录名为WinShare,挂载目录/mnt/test(fstab如下)
+
+	//192.168.1.123/WinShare  /mnt/test  cifs defaults,iocharset=utf8,uid=1000,gid=1000,rw,dir_mode=0777,file_mode=0777,username=AAA,password=BBB
+
 ## Local overlay使用
 
 local overlay的用法,官网上也有详细说明,这里只是个人积累
