@@ -111,7 +111,7 @@ eselect profile set 1
 	nano -w /etc/conf.d/hostname
 	hostname="zeroway"
 
-### 配置网络文件
+### 配置网络文件(假设网卡是eth0, 替换实际名字)
 
 	/etc/conf.d/net
 	config_eth0="dhcp"
@@ -132,18 +132,36 @@ eselect profile set 1
 
 ### 安装KDE桌面环境
 
+选择适当的profile
+
 	eselect profile set 6
 
 添加下面的几个USE
 
 	USE＝"...dbus policykit udev udisks"
-	emerge --changed-use --deep @world
-	emerge kde-apps/kdebase-meta
-	emerge xorg-x11
-	emerge slim
 
-	/etc/conf.d/xdm
+更新系统USE
+
+	emerge --changed-use --deep @world
+
+安装KDE组件
+
+	emerge kde-apps/kdebase-meta
+
+安装xorg
+
+	emerge xorg-x11
+
+安装Display Manager(slim)
+
+	emerge x11-misc/slim
+
+X window Display Manager(/etc/conf.d/xdm)
+
 	DISPLAYMANAGER="slim"
+
+添加开机默认启动
+
 	rc-update add xdm default
 
 修改KDE配置文件(/usr/share/config/kdm/kdmrc),让root可以登入
