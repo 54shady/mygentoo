@@ -34,7 +34,7 @@ for file in ${copy_files_name[@]}
 do
 	# 先判断源文件是否存在,存在才执行备份操作
 	if [ -f $file ]; then
-		dst_dir_tmp=${file%/*} 
+		dst_dir_tmp=${file%/*}
 		dst_dir=${dst_dir_tmp#/*}
 		if [ ! -d ${dst_dir} ]; then
 			mkdir -p ${dst_dir}

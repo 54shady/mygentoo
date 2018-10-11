@@ -71,7 +71,7 @@ done
 case $option in
 1)
    stage4Name=$stage4Location/$stage4prefix-minimal
-   final_command="tar $default_exclude_list $custom_exclude_list $tarOptions $stage4Name.tar.bz2 / /var/log/emerge.log"
+   final_command="tar $default_exclude_list $custom_exclude_list $tarOptions $stage4Name.tar.bz2 /"
    ;;
 2)
    for folder in $custom_exclude_list; do
