@@ -33,3 +33,13 @@
 
 	chmod +s /sbin/reboot
 	chmod +s /sbin/poweroff
+
+## luvcview
+
+使用luvcview需要权限
+
+	crw-rw----+ 1 root video 81, 0 Oct 19 19:57 /dev/video0
+
+添加到video组即可
+
+	usermod -a -G video your_user_name
