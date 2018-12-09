@@ -604,6 +604,44 @@ Create the file /etc/portage/env/debug.conf and add:
 
 	emerge sys-libs/glibc
 
+## 无线网络配置
+
+假设无线网卡名为wlp3s0
+
+	cd /etc/init.d
+	ln -s net.lo net.wlp3s0
+
+添加如下代码到/etc/con.d/net中,才能自动获取IP地址
+
+	modules_wlp3s0="wpa_supplicant"
+	config_wlp3s0="dhcp"
+
+添加如下配置到/etc/conf.d/wpa_supplicant中
+
+	wpa_supplicant_args="-B -M -c/etc/wpa_supplicant/wpa_supplicant.conf"
+
+设置权限(限制查看wifi密码)
+
+	chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
+
+配置/etc/wpa_supplicant/wpa_supplicant.conf文件
+
+	ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=users
+	update_config=1
+	network={
+		ssid="ap_ssid_name"
+		bssid=94:d9:b3:a4:01:de
+		psk="aka_wifi_passwd"
+	}
+
+开机启动wpa_supplicant
+
+	rc-update add wpa_supplicant default
+
+手动开启和关闭wpa_supplicant
+
+	/etc/init.d/wpa_supplicant <start | stop | restart>
+
 ## git 服务器搭建
 
 ### 分区,只分了/boot / swap三个分区 (/etc/fstab内容如下)
