@@ -1,0 +1,8 @@
+# required by dev-libs/libevent-2.1.8::gentoo[-libressl,ssl]
+# required by app-misc/tmux-2.7::gentoo
+# required by @selected
+# required by @world (argument)
+# /usr/portage/profiles/package.mask:
+# Lars Wendler <polynomial-c@gentoo.org> (26 Aug 2016)
+# Masked while being tested and reverse deps aren't fully compatible
+=dev-libs/openssl-1.1.1

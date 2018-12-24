@@ -1,0 +1,8 @@
+/var/lib/portage/world
+/etc/udev/rules.d
+/etc/portage/make.conf
+/etc/portage/package.accept_keywords
+/etc/portage/package.license
+/etc/portage/package.mask
+/etc/portage/package.unmask
+/etc/portage/package.use/use
