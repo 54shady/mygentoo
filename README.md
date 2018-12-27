@@ -1361,6 +1361,18 @@ cat Makefile
 
 ## Misc
 
+### 自动挂载网络共享
+
+假设在/etc/fstab里有如下内容
+
+	//192.168.1.123/sharedir  /mnt/share	cifs defaults,iocharset=utf8,uid=1000,gid=1000,rw,dir_mode=0777,file_mode=0777,username=gentoo,password=pwd_goes_here
+
+需要开机自动挂载该远程共享目录到本地
+挂载网络文件的脚本为/etc/init.d/netmount
+将该脚本启动级别改为boot即可
+
+	rc-update add netmount boot
+
 ### umount busy
 
 假设/dev/sda8 挂在到了/mnt
