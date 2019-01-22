@@ -31,3 +31,8 @@ app-editors/vim python -python_single_target_python3_6 python_single_target_pyth
 # required by dev-python/qtconsole-4.3.1::gentoo
 >=dev-lang/python-2.7.14-r1:2.7 sqlite
 gnome-base/gvfs mtp
+# required by net-wireless/wpa_supplicant-2.6-r6::gentoo[-libressl,ssl,-gnutls]
+# required by @selected
+# required by @world (argument)
+=dev-libs/openssl-1.0.2o-r3 -bindist
+sys-libc/glic debug

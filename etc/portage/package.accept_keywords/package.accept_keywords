@@ -14,3 +14,14 @@
 =app-vim/jedi-0.8_p20171015 ~amd64
 # required by net-misc/teamviewer (argument)
 =net-misc/teamviewer-13.1.8286 ~amd64
+# required by app-text/extract_url-1.6.2::gentoo
+# required by app-text/extract_url (argument)
+=dev-perl/URI-Find-20160806.0.0 ~amd64
+# required by app-text/extract_url (argument)
+=app-text/extract_url-1.6.2 ~amd64
+# required by app-emulation/qemu-init-scripts (argument)
+=app-emulation/qemu-init-scripts-0.3.0 ~amd64
+# required by mkstage4 (argument)
+=app-backup/mkstage4-0.1 ~amd64
+# required by media-video/simplescreenrecorder (argument)
+=media-video/simplescreenrecorder-0.3.11 ~amd64

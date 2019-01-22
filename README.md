@@ -26,6 +26,11 @@ thinkpadE460 : [forelders](https://github.com/54shady/forelders)
 
 ===================================================================
 
+## USB启动盘
+
+烧写镜像
+
+	dd bs=4M if=/path/to/gentoo.iso of=/dev/sdx status=progress oflag=sync
 
 ## 系统安装
 
@@ -839,7 +844,7 @@ id_rsa_rk是用于和远程外网服务器通信的私钥
 	HostName https://github.com/54shady
 	PreferredAuthentications publickey
 	IdentityFile ~/.ssh/id_rsa_code
-	user linwei
+	user zeroway
 
 对上面配置文件介个关键地方解释下
 
