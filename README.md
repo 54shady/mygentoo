@@ -165,6 +165,16 @@ X window Display Manager(/etc/conf.d/xdm)
 
 	DISPLAYMANAGER="slim"
 
+Slim的配置文件
+
+	/etc/slim.conf
+
+其中启动会话命令如下(可以配置使用.xinitrc)
+
+	# login_cmd           exec /bin/sh - ~/.xinitrc %session
+	# login_cmd           exec /bin/bash -login ~/.xinitrc %session
+	login_cmd           exec /bin/bash -login /usr/share/slim/Xsession %session
+
 添加开机默认启动
 
 	rc-update add xdm default
@@ -609,7 +619,19 @@ Create the file /etc/portage/env/debug.conf and add:
 
 	emerge sys-libs/glibc
 
-## 无线网络配置
+## 无线网络(wifi)配置
+
+Gentoo中有多种方式配置网络
+
+- wpa_supplicant
+- nmcli/nmtui
+- NetworkManager
+
+其中每种之前都是冲突的
+
+所以只能选择一种
+
+只需要在rc-update里关闭NetworkManager(如果默认有启动的话)
 
 假设无线网卡名为wlp3s0
 
