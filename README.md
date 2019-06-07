@@ -669,6 +669,24 @@ Gentoo中有多种方式配置网络
 
 	/etc/init.d/wpa_supplicant <start | stop | restart>
 
+## 普通用户声卡设置(alsa)
+
+设置i3wm后没有声音
+
+执行aplay -l
+
+	aplay: device_list:268: no soundcards found...
+
+执行alsamixer
+
+	cannot open mixer: No such file or directory
+
+由于当前用户不是audio组中的用户,所以会找不到声卡
+
+只需要将当前用户加到audio组中
+
+	gpasswd -a zeroway audio
+
 ## git 服务器搭建
 
 ### 分区,只分了/boot / swap三个分区 (/etc/fstab内容如下)
