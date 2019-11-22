@@ -397,6 +397,31 @@ sda6 ==> swap
 	Alice -> Bob: test
 	@enduml
 
+### 远程桌面(Xvnc, xrdp)
+
+通过windows默认远程连接到linux(gentoo i3wm)
+
+linux安装如下软件(Xvnc)
+
+	tigervnc (需要的use : server)
+	xrdp (使用ace的overlay安装)
+
+启动Xvnc和xrdp
+
+	/etc/init.d/xrdp start
+
+配置开机启动
+
+	rc-update add xrdp default
+
+宿主目录下VNC配置文件(~/.vnc/xstartup)
+
+	unset SESSION_MANAGER
+	unset DBUS_SESSION_BUS_ADDRESS
+	#exec /etc/X11/xinit/xinitrc
+
+windows端mstsc远程连接使用Xvnc作为Session
+
 ## 桌面环境配置(KDE)
 
 ### KDE win键设置
