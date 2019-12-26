@@ -761,6 +761,10 @@ samba高级设置
 
 	smbclient -U hsdz -L //server_ip_addr/myshare
 
+将远程目录挂载到本地
+
+	sudo mount.cifs //server_ip/myshare /mnt/dst -o username=hsdz,password=1
+
 ## 在同一台电脑上管理多个ssh key
 
 在开发过程中存在同步内网和外网代码的情况,会存在需求切换ssh key的场景
