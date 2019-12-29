@@ -1518,3 +1518,7 @@ dmesg发现打开摄像头的时候恢报下面的错误
 ## Install Gentoo from LiveDVD
 
 [Quick Way Install Gentoo](mds/livedvd_install.md)
+
+## Fork System the quick way
+
+[Mirror The Current System](mds/fork/fork_system.md)
