@@ -26,6 +26,26 @@ thinkpadE460 : [forelders](https://github.com/54shady/forelders)
 
 ===================================================================
 
+## USB启动盘
+
+### 单一系统启动盘
+
+烧写镜像(单一系统启动)
+
+	dd bs=4M if=/path/to/gentoo.iso of=/dev/sdx status=progress oflag=sync
+
+### 多系统启动盘(支持legacy和uefi)
+
+使用multibootusb制作
+
+	git clone https://github.com/aguslr/multibootusb
+	./makeUSB.sh -b -e /dev/sdX
+
+将可引导的iso文件拷贝到/dev/sdX3下的isos目录里
+
+使用虚拟机测试
+
+	sudo qemu-system-x86_64 -smp 4 -enable-kvm -rtc base=localtime -m 2G -vga std -drive file=/dev/sdX,readonly,cache=none,format=raw,if=virtio
 
 ## 系统安装
 
@@ -159,6 +179,16 @@ eselect profile set 1
 X window Display Manager(/etc/conf.d/xdm)
 
 	DISPLAYMANAGER="slim"
+
+Slim的配置文件
+
+	/etc/slim.conf
+
+其中启动会话命令如下(可以配置使用.xinitrc)
+
+	# login_cmd           exec /bin/sh - ~/.xinitrc %session
+	# login_cmd           exec /bin/bash -login ~/.xinitrc %session
+	login_cmd           exec /bin/bash -login /usr/share/slim/Xsession %session
 
 添加开机默认启动
 
@@ -629,6 +659,74 @@ Create the file /etc/portage/env/debug.conf and add:
 
 	emerge sys-libs/glibc
 
+## 无线网络(wifi)配置
+
+Gentoo中有多种方式配置网络
+
+- wpa_supplicant
+- nmcli/nmtui
+- NetworkManager
+
+其中每种之前都是冲突的
+
+所以只能选择一种
+
+只需要在rc-update里关闭NetworkManager(如果默认有启动的话)
+
+假设无线网卡名为wlp3s0
+
+	cd /etc/init.d
+	ln -s net.lo net.wlp3s0
+
+添加如下代码到/etc/con.d/net中,才能自动获取IP地址
+
+	modules_wlp3s0="wpa_supplicant"
+	config_wlp3s0="dhcp"
+
+添加如下配置到/etc/conf.d/wpa_supplicant中
+
+	wpa_supplicant_args="-B -M -c/etc/wpa_supplicant/wpa_supplicant.conf"
+
+设置权限(限制查看wifi密码)
+
+	chmod 600 /etc/wpa_supplicant/wpa_supplicant.conf
+
+配置/etc/wpa_supplicant/wpa_supplicant.conf文件
+
+	ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=users
+	update_config=1
+	network={
+		ssid="ap_ssid_name"
+		bssid=94:d9:b3:a4:01:de
+		psk="aka_wifi_passwd"
+	}
+
+开机启动wpa_supplicant
+
+	rc-update add wpa_supplicant default
+
+手动开启和关闭wpa_supplicant
+
+	/etc/init.d/wpa_supplicant <start | stop | restart>
+
+## 普通用户声卡设置(alsa)
+
+设置i3wm后没有声音
+
+执行aplay -l
+
+	aplay: device_list:268: no soundcards found...
+
+执行alsamixer
+
+	cannot open mixer: No such file or directory
+
+由于当前用户不是audio组中的用户,所以会找不到声卡
+
+只需要将当前用户加到audio组中
+
+	gpasswd -a zeroway audio
+
 ## git 服务器搭建
 
 ### 分区,只分了/boot / swap三个分区 (/etc/fstab内容如下)
@@ -834,7 +932,7 @@ id_rsa_rk是用于和远程外网服务器通信的私钥
 	HostName https://github.com/54shady
 	PreferredAuthentications publickey
 	IdentityFile ~/.ssh/id_rsa_code
-	user linwei
+	user zeroway
 
 对上面配置文件介个关键地方解释下
 
@@ -1356,6 +1454,18 @@ cat Makefile
 
 ## Misc
 
+### 自动挂载网络共享
+
+假设在/etc/fstab里有如下内容
+
+	//192.168.1.123/sharedir  /mnt/share	cifs defaults,iocharset=utf8,uid=1000,gid=1000,rw,dir_mode=0777,file_mode=0777,username=gentoo,password=pwd_goes_here
+
+需要开机自动挂载该远程共享目录到本地
+挂载网络文件的脚本为/etc/init.d/netmount
+将该脚本启动级别改为boot即可
+
+	rc-update add netmount boot
+
 ### umount busy
 
 假设/dev/sda8 挂在到了/mnt
@@ -1521,4 +1631,4 @@ dmesg发现打开摄像头的时候恢报下面的错误
 
 ## Fork System the quick way
 
-[Mirror The Current System](mds/fork/fork_system.md)
+[Mirror The Current system](mds/fork/fork_system.md)
