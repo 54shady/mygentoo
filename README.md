@@ -843,15 +843,16 @@ samba高级设置
 
 添加一个hsdz的用户到该组(samba)
 
-使用/bin/false作为shell,且不设置用户密码
+使用/bin/false作为shell,不创建宿主目录,不设置用户密码
 
-	useradd -g samba -s /bin/false hsdz
+	useradd -M -g samba -s /bin/false hsdz
 
 注意:在/etc/samba/smb.conf里要添加这个用户访问权限
 
-设置该用户samba访问密码
+添加samba用户并设置访问密码
 
 	smbpasswd -a hsdz
+	smbpasswd hsdz
 
 重启samba服务后即可访问
 
