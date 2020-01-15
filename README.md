@@ -446,9 +446,13 @@ linux安装如下软件(Xvnc)
 
 宿主目录下VNC配置文件(~/.vnc/xstartup)
 
+	#!/bin/sh
+
 	unset SESSION_MANAGER
 	unset DBUS_SESSION_BUS_ADDRESS
-	#exec /etc/X11/xinit/xinitrc
+	exec /home/zeroway/.remote_xinitrc
+
+其中[.remote_xinitrc文件](./remote_xinitrc)参考这里
 
 windows端mstsc远程连接使用Xvnc作为Session
 
