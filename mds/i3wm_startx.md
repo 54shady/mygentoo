@@ -43,3 +43,42 @@
 添加到video组即可
 
 	usermod -a -G video your_user_name
+
+## mpd and ncmpcpp configuation
+
+package
+
+	media-sound/mpd (sqlite libmpdclient)
+	media-sound/ncmpcpp
+
+mpd : media player server
+ncmpcpp : client for mpd
+
+### MPD
+
+mpd config
+
+	mkdir -p ~/.mpd/playlists/
+
+edit the config file[~/.mpd/mpd.conf](mpd.conf)
+
+add user to the audio group
+
+	sudo gpasswd -a audio zeroway
+
+test config
+
+	$ mpd
+	$ ss -tunelp | grep 6600
+	tcp     LISTEN   0        5              127.0.0.1:6600          0.0.0.0:*
+	users:(("mpd",pid=14167,fd=10)) uid:1000 ino:73469 sk:d2 <->
+
+### NCMPCPP
+
+ncmpcpp config
+
+	mkdir -p ~/.ncmpcpp/lyrics
+
+config file for ncmpcpp[~/.ncmpcpp/config](ncmpcpp_config)
+
+startup the ncmpcpp and update the database by press 'u'
