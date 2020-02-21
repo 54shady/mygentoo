@@ -448,3 +448,6 @@ media-gfx/graphviz examples
 app-text/zathura doc
 www-servers/lighttpd minimal
 dev-python/PyQt5 -multimedia
+sys-devel/gdb
+net-misc/spice usbredir
+net-misc/spice-gtk usbredir

@@ -13,3 +13,9 @@ net-vpn/networkmanager-l2tp ~amd64
 sys-fs/jmtpfs ~amd64
 app-vim/jedi ~amd64
 net-print/pnm2ppa ~amd64
+dev-vcs/repo ~amd64
+app-text/extract_url ~amd64
+app-emulation/bochs ~amd64
+dev-util/perf ~amd64
+dev-util/kernelshark ~amd64
+sys-apps/yarn ~amd64
