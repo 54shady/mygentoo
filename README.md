@@ -452,6 +452,13 @@ linux安装如下软件(Xvnc)
 
 windows端mstsc远程连接使用Xvnc作为Session
 
+进入系统后打开终端配置显示设备(否则应用会在主机上显示)
+
+	echo $DISPLAY
+	:10.0
+
+	export DISPLAY=:10.0
+
 ## 桌面环境配置(KDE)
 
 ### KDE win键设置
