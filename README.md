@@ -385,8 +385,9 @@ sda6 ==> swap
 
 	echo GRUB_PLATFORMS="efi-64" >> /etc/portage/make.conf
 	emerge sys-boot/grub:2
-	grub2-install  --target=x86_64-efi --efi-directory=/boot/efi
-	grub2-mkconfig -o /boot/grub/grub.cfg
+	grub-install --target=x86_64-efi --efi-directory=/boot --removable
+	grub-mkconfig -o /boot/grub/grub.cfg
+
 ## 应用软件安装
 
 ### USBView
@@ -587,7 +588,7 @@ Suspend to disk with sys-power/pm-utils
 
 重新生成grub配置文件
 
-	grub2-mkconfig -o /boot/grub/grub.cfg
+	grub-mkconfig -o /boot/grub/grub.cfg
 
 更新initramfs
 
@@ -1383,7 +1384,7 @@ cat /etc/portage/repos.conf/local.conf
 
 更新grub
 
-	grub2-mkconfig -o /boot/grub/grub.cfg
+	grub-mkconfig -o /boot/grub/grub.cfg
 
 ## 如何编写一个gentoo的ebuild
 

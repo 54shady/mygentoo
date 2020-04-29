@@ -49,20 +49,20 @@ Build kernel and ramdisk
 
 	genkernel all
 
-## Install grub2
+## Install grub
 
 Grub with UEFI support
 
 	echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 	emerge sys-boot/grub:2
 
-	grub2-install --target=x86_64-efi --efi-directory=/boot --removable
-	grub2-mkconfig -o /boot/grub/grub.cfg
+	grub-install --target=x86_64-efi --efi-directory=/boot --removable
+	grub-mkconfig -o /boot/grub/grub.cfg
 
-Grub No UEFI support
+Grub Legacy BIOS support
 
-	grub2-install /dev/sda
-	grub2-mkconfig -o /boot/grub/grub.cfg
+	grub-install /dev/sda
+	grub-mkconfig -o /boot/grub/grub.cfg
 
 ## References Documentation
 
