@@ -1,0 +1,16 @@
+umount /mnt/gentoo/proc
+umount /mnt/gentoo/sys/kernel/security
+umount /mnt/gentoo/sys/kernel/debug
+umount /mnt/gentoo/sys/kernel/config
+umount /mnt/gentoo/sys/fs/fuse/connections
+umount /mnt/gentoo/sys/fs/cgroup/openrc
+umount /mnt/gentoo/sys/fs/cgroup/cpuset
+umount /mnt/gentoo/sys/fs/cgroup/cpu
+umount /mnt/gentoo/sys/fs/cgroup/cpuacct
+umount /mnt/gentoo/sys/fs/cgroup/net_cls
+umount /mnt/gentoo/sys/fs/cgroup
+umount /mnt/gentoo/sys
+umount /mnt/gentoo/dev/pts
+umount /mnt/gentoo/dev/mqueue
+umount /mnt/gentoo/dev/shm
+umount /mnt/gentoo/dev

@@ -1,6 +1,6 @@
-mount -t proc proc /mnt/proc
-mount --rbind /sys /mnt/sys
-mount --make-rslave /mnt/sys
-mount --rbind /dev /mnt/dev
-mount --make-rslave /mnt/dev
-chroot /mnt /bin/bash
+mount -t proc proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys
+mount --make-rslave /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
+mount --make-rslave /mnt/gentoo/dev
+chroot /mnt/gentoo /bin/bash

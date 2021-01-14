@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIVECD="/home/zeroway/livecd"
-LOCAL_ROOTFS="/home/zeroway/new_rootfs/rootfs"
+LIVECD="/tmp/livecd"
+LOCAL_ROOTFS=$1
 
 copy_files_name=(
 "bin"
