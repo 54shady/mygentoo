@@ -1086,6 +1086,10 @@ Host和HostName都需写为远程服务器ip
 	chmod +x matrix-pwm
 	./matrix-pwm
 
+交互式ftp客户端使用
+
+	lftp -e 'set ssl:verify-certificate false' -u username,password -p 21 192.168.1.100
+
 ### NFS服务器
 
 内核配置(gentoo内核配置NFS相关选项参考官网即可)
