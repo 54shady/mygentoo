@@ -925,6 +925,20 @@ app-text/poppler PDF转化txt
 
 	pdftotext demo.pdf
 
+### 快速翻译八千多页的arm手册
+
+1. 将手册分割成单页(获得到单页pdf pg_0001.pdf...)
+
+	pdftk armv8.pdf burst
+
+2. 将第68页pdf转成txt(这里输出pg_0068.txt)
+
+	pdftotext pg_0068.pdf
+
+3. 将单页的内容进行中文翻译(app-i18n/translate-shell)
+
+	cat pg_0068.txt | trans -e bing en:zh-CN -
+
 ## 在同一台电脑上管理多个ssh key
 
 在开发过程中存在同步内网和外网代码的情况,会存在需求切换ssh key的场景
