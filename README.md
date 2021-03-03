@@ -915,6 +915,16 @@ samba高级设置
 
 	sudo mount.cifs //server_ip/myshare /mnt/dst -o username=hsdz,password=1
 
+## PDF 操作
+
+app-text/pdftk PDF 分割成单页
+
+	pdftk all.pdf burst
+
+app-text/poppler PDF转化txt
+
+	pdftotext demo.pdf
+
 ## 在同一台电脑上管理多个ssh key
 
 在开发过程中存在同步内网和外网代码的情况,会存在需求切换ssh key的场景
