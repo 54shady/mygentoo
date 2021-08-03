@@ -1367,6 +1367,20 @@ cat /etc/portage/repos.conf/local.conf
 
 之后就可以安装高版本的pandoc了,解决了低版本无法识别markdown里index的问题
 
+### pandoc简单使用实例
+
+使用Pandoc将input.md文件输出为output.pdf
+
+pandoc中需要设置中文字体,keying使用fc-list查询
+
+使用模板转换
+
+	pandoc input.md -f markdown-implicit_figures --latex-engine=xelatex --template=chinese.template -o output.pdf
+
+手动配置
+
+	pandoc --latex-engine=xelatex -V geometry:paperwidth=12in -V geometry:paperheight=20in -V geometry:margin=.5in -o output.pdf input.md -V mainfont="SourceHanSansCN-Normal"
+
 ### 例子3(修改本地软件)
 
 比如现在想要调试或修改一个应用软件,这里用kdiff3作为例子
