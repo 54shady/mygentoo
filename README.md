@@ -142,9 +142,30 @@ eselect profile set 1
 
 安装到这里最好重启系统后再安装后面的桌面环境
 
-不需要安装图形界面的话安装到这里就可以了
+### 关于passwd
 
-=============================================
+新版本pam的默认配置被修改为强口令
+
+This system is configured to permit randomly generated passwords only
+
+修改对应文件解决该问题
+
+文件/etc/pam.d/passwd中有对password的配置
+
+	password    include     system-auth
+
+对应的文件是/etc/pam.d/system-auth,其中有配置password的文件
+
+	password    required    pam_passwdqc.so config=/etc/security/passwdqc.conf
+
+其中passwdqc.conf(可以man passwdqc.conf)
+
+	min=0,0,0,0,0
+	max=40
+	enforce=none #需要将enforce修改为none
+	retry=3
+
+不需要安装图形界面的话安装到这里就可以了
 
 ### ~~安装KDE桌面环境~~
 
