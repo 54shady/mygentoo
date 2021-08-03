@@ -12,13 +12,13 @@ Just copy each specify file respectively
 
 ## Branches
 
-i56500 : [hs](https://github.com/54shady/hs)
+i76700kz170p : main forces
 
-i73700 : [ks](https://github.com/54shady/KS)
+~~i56500~~ : [hs](https://github.com/54shady/hs)
 
-i76700kz170p : home
+~~i73700~~ : [ks](https://github.com/54shady/KS)
 
-thinkpadE460 : [forelders](https://github.com/54shady/forelders)
+~~thinkpadE460~~ : [forelders](https://github.com/54shady/forelders)
 
 ===================================================================
 
@@ -146,7 +146,7 @@ eselect profile set 1
 
 =============================================
 
-### 安装KDE桌面环境
+### ~~安装KDE桌面环境~~
 
 选择适当的profile
 
@@ -167,6 +167,14 @@ eselect profile set 1
 安装xorg
 
 	emerge xorg-x11
+
+安装X需要的组件
+
+	emerge twm xclock xterm
+
+测试X window是否安装成功
+
+	startx
 
 安装Display Manager(slim)
 
@@ -194,7 +202,7 @@ Slim的配置文件
 
 	AllowRootlogon = true
 
-### kconsole solarized
+### ~~kconsole solarized~~
 
 [参考链接](https://techoverflow.net/blog/2013/11/08/installing-konsole-solarized-theme/)
 
