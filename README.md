@@ -303,14 +303,29 @@ sudo的时候能自动补全
 	emerge wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts corefonts ttf-bitstream-vera
 	emerge fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
 
-如果使用的是KDE桌面环境,需要在~/.xprofile里添加如下内容
+~~如果使用的是KDE桌面环境,需要在~/.xprofile里添加如下内容~~
 
-在每个用户目录下都要有这个才能使用输入法
+~~在每个用户目录下都要有这个才能使用输入法~~
 
 	export XMODIFIERS="@im=fcitx"
 	export QT_IM_MODULE=fcitx
 	export GTK_IM_MODULE=fcitx
 	eval "$(dbus-launch --sh-syntax --exit-with-session)"
+
+### 设置时区和区域
+
+查看可用的时区
+
+	ls /usr/share/zoneinfo
+
+OpenRC设置时区
+
+	echo 'Asia/Chongqing' > /etc/timezone
+	emerge --config sys-libs/timezone-data
+
+ntp同步时间
+
+	ntpdate ntp.api.bz
 
 设置locale(/etc/locale.gen中添加下面内容):
 
