@@ -4,6 +4,8 @@
 
 Just copy each specify file respectively
 
+~~带有删除线条的部分已经不再维护和更新~~
+
 ## 常用命令
 
 	sudo emerge -uDN @world
@@ -12,15 +14,10 @@ Just copy each specify file respectively
 
 ## Branches
 
-i76700kz170p : main forces
-
-~~i56500~~ : [hs](https://github.com/54shady/hs)
-
-~~i73700~~ : [ks](https://github.com/54shady/KS)
-
-~~thinkpadE460~~ : [forelders](https://github.com/54shady/forelders)
-
-===================================================================
+- i76700kz170p : main forces
+- ~~i56500 : [hs](https://github.com/54shady/hs)~~
+- ~~i73700 : [ks](https://github.com/54shady/KS)~~
+- ~~thinkpadE460 : [forelders](https://github.com/54shady/forelders)~~
 
 ## USB启动盘
 
@@ -470,7 +467,7 @@ sda6 ==> swap
 
 ### 远程桌面(Xvnc, xrdp)
 
-通过windows默认远程连接到linux(gentoo i3wm)
+通过windows默认远程连接到linux(gentoo dwm)
 
 linux安装如下软件(Xvnc)
 
@@ -503,101 +500,6 @@ windows端mstsc远程连接使用Xvnc作为Session
 	:10.0
 
 	export DISPLAY=:10.0
-
-## 桌面环境配置(KDE)
-
-### KDE win键设置
-
-WIN键的设置
-
-使用WIN+D来像WINDOWS一样显示桌面
-
-System Settings > Shortcuts and Gestures > Global Keyboard Shortcuts > KDE component: KWin > Show Desktop
-
-设置成win+d即可
-
-WIN+e 绑定dolphin程序
-
-CustomShortcuts里设置即可
-
-根据字母在键盘排布位置对应桌面的位置
-
-使用WIN+CTRL+q
-
-KWin->Quick Tile Window to the Top Left
-
-使用WIN+CTRL+a
-
-KWin->Quick Tile Window to the Left
-
-使用WIN+CTRL+z
-
-KWin->Quick Tile Window to the Bottom Left
-
-使用WIN+CTRL+p
-
-KWin->Quick Tile Window to the Top Right
-
-使用WIN+CTRL+l
-
-KWin->Quick Tile Window to the Right
-
-使用WIN+CTRL+m
-
-KWin->Quick Tile Window to the Bottom Right
-
-使用WIN+CTRL+o
-
-KWin->Maxmize Window
-
-使用WIN+CTRL+x
-
-KWin->Minimize Window
-
-### 安装声卡驱动相关
-
-首先查看声卡驱动
-
-lspci | grep -i audio
-
-在内核中添加相关的驱动支持,确认下面这几个包都安装了
-
-	media-sound/alsa-utils
-	media-libs/alsa-lib
-
-安装kmix
-
-	emerge kde-apps/kmix
-
-安装完后点击音量控制图标
-
-勾选Autostart和Dock in system tray
-
-以后开机就能看到该图标了
-
-设置音量调节快捷键
-
-WIN+PageUp音量增
-
-WIN+PageDn音量减
-
-WIN+Del	  静音
-
-### 安装plank
-
-使用localoverlay方法安装
-
-	emerge x11-misc/plank
-
-其中火狐会无法pin到plank上
-
-在宿主目录下手动添加下面文件
-
-/home/zeroway/.config/plank/dock1/launchers
-内容如下:
-
-	[PlankItemsDockItemPreferences]
-	Launcher=file:///usr/share/applications/firefox-bin.desktop
 
 ### 安装suspend
 
@@ -681,35 +583,6 @@ Suspend to disk with sys-power/pm-utils
 以后凡是需要有root权限的GUI程序都可以这样
 
 例如porthole(portage图形安装方式)软件也是一样的
-
-### Fix Valgrind's must-be-redirected error in Gentoo
-
-[参考链接](http://www.cnblogs.com/yangyingchao/archive/2013/12/20/3483712.html)
-
-In order to fix this error, it is necessary to:
-
-- enable the splitdebug feature (or rather: it is "recommended" to enable).
-- enable debugging symbols for glibc.
-- recompile sys-libs/glibc.
-
-- 修改/etc/portage/make.conf添加splitdebug,应该也可以只修改glibc的
-
-	FEATURES="$FEATURES splitdebug"
-
-- 单独修改编译glibc时的编译选项(也可以在make.conf里配置成全局的)
-
-Create the file /etc/portage/env/debug.conf and add:
-
-	CFLAGS="${CFLAGS} -ggdb"
-	CXXFLAGS="${CFLAGS} -ggdb"
-
-创建/etc/portage/package.env/glibc添加如下内容
-
-	sys-libs/glibc debug.conf
-
-重新编译安装glibc
-
-	emerge sys-libs/glibc
 
 ## 打印机设置(HP DeskJet 1112)
 
@@ -822,7 +695,7 @@ Gentoo中有多种方式配置网络
 
 	gpasswd -a zeroway audio
 
-## git 服务器搭建
+## Git 服务器搭建
 
 ### 分区,只分了/boot / swap三个分区 (/etc/fstab内容如下)
 
@@ -830,9 +703,7 @@ Gentoo中有多种方式配置网络
 	/dev/sda3       none    swap    sw      0       0
 	/dev/sda4       /       ext4    noatime 0       1
 
-基本安装过程和上面一样,只不过没有安装图形界面
-
-### git server 搭建
+基本安装过程和上面一样,只不过没有安装图形界面,配置如下
 
 静态IP地址配置 (/etc/conf.d/net)
 
@@ -896,6 +767,8 @@ SSH keys添加到下面文件
 在其他客户端(client)克隆该仓库
 
 	git clone git@192.168.7.100:/newproject.git
+
+## Samba 服务器搭建
 
 Samba安装和配置
 
@@ -1125,7 +998,7 @@ Host和HostName都需写为远程服务器ip
 
 再次在浏览器中访问测试是否安装成功
 
-## linux开发环境搭建
+## Linux开发环境搭建
 
 ### TFTP服务器搭建
 
@@ -1473,7 +1346,6 @@ pandoc中需要设置中文字体,keying使用fc-list查询
 	grub-mkconfig -o /boot/grub/grub.cfg
 
 ## 如何编写一个gentoo的ebuild
-
 在localoverlay里创建相应的ebuild文件
 
 创建/usr/local/portage/app-misc/hello-world/hello-world-1.0.ebuild文件内容如下
@@ -1763,6 +1635,35 @@ dmesg发现打开摄像头的时候恢报下面的错误
 
 [参考文章](https://www.mail-archive.com/linux-uvc-devel@lists.berlios.de/msg03737.html)
 
+### Fix Valgrind's must-be-redirected error in Gentoo
+
+[参考链接](http://www.cnblogs.com/yangyingchao/archive/2013/12/20/3483712.html)
+
+In order to fix this error, it is necessary to:
+
+- enable the splitdebug feature (or rather: it is "recommended" to enable).
+- enable debugging symbols for glibc.
+- recompile sys-libs/glibc.
+
+- 修改/etc/portage/make.conf添加splitdebug,应该也可以只修改glibc的
+
+	FEATURES="$FEATURES splitdebug"
+
+- 单独修改编译glibc时的编译选项(也可以在make.conf里配置成全局的)
+
+Create the file /etc/portage/env/debug.conf and add:
+
+	CFLAGS="${CFLAGS} -ggdb"
+	CXXFLAGS="${CFLAGS} -ggdb"
+
+创建/etc/portage/package.env/glibc添加如下内容
+
+	sys-libs/glibc debug.conf
+
+重新编译安装glibc
+
+	emerge sys-libs/glibc
+
 ## Install Gentoo from LiveDVD
 
 [Quick Way Install Gentoo](mds/livedvd_install.md)
@@ -1850,3 +1751,97 @@ dmesg发现打开摄像头的时候恢报下面的错误
 	 + - savedconfig : Use this to restore your config from
 					   /etc/portage/savedconfig ${CATEGORY}/${PN}. Make sure
 					   your USE flags allow f`
+## ~~桌面环境配置(KDE)~~
+
+### KDE win键设置
+
+WIN键的设置
+
+使用WIN+D来像WINDOWS一样显示桌面
+
+System Settings > Shortcuts and Gestures > Global Keyboard Shortcuts > KDE component: KWin > Show Desktop
+
+设置成win+d即可
+
+WIN+e 绑定dolphin程序
+
+CustomShortcuts里设置即可
+
+根据字母在键盘排布位置对应桌面的位置
+
+使用WIN+CTRL+q
+
+KWin->Quick Tile Window to the Top Left
+
+使用WIN+CTRL+a
+
+KWin->Quick Tile Window to the Left
+
+使用WIN+CTRL+z
+
+KWin->Quick Tile Window to the Bottom Left
+
+使用WIN+CTRL+p
+
+KWin->Quick Tile Window to the Top Right
+
+使用WIN+CTRL+l
+
+KWin->Quick Tile Window to the Right
+
+使用WIN+CTRL+m
+
+KWin->Quick Tile Window to the Bottom Right
+
+使用WIN+CTRL+o
+
+KWin->Maxmize Window
+
+使用WIN+CTRL+x
+
+KWin->Minimize Window
+
+### 安装声卡驱动相关
+
+首先查看声卡驱动
+
+	lspci | grep -i audio
+
+在内核中添加相关的驱动支持,确认下面这几个包都安装了
+
+	media-sound/alsa-utils
+	media-libs/alsa-lib
+
+安装kmix
+
+	emerge kde-apps/kmix
+
+安装完后点击音量控制图标
+
+勾选Autostart和Dock in system tray
+
+以后开机就能看到该图标了
+
+设置音量调节快捷键
+
+WIN+PageUp音量增
+
+WIN+PageDn音量减
+
+WIN+Del	  静音
+
+### 安装plank
+
+使用localoverlay方法安装
+
+	emerge x11-misc/plank
+
+其中火狐会无法pin到plank上
+
+在宿主目录下手动添加下面文件
+
+/home/zeroway/.config/plank/dock1/launchers
+内容如下:
+
+	[PlankItemsDockItemPreferences]
+	Launcher=file:///usr/share/applications/firefox-bin.desktop

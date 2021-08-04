@@ -48,7 +48,6 @@ rm -f ${LIVECD}/target/livecd.squashfs
 # use current system rootfs
 #mksquashfs / ${LIVECD}/target/livecd.squashfs -ef /home/zeroway/livecd/gentoo_livecd/exclude_file
 mksquashfs source ${LIVECD}/target/livecd.squashfs -ef /home/zeroway/livecd/gentoo_livecd/exclude_file
-#mksquashfs source ${LIVECD}/target/livecd.squashfs -ef /home/zeroway/livecd/gentoo_livecd/exclude_file
 
 cd ${LIVECD}
 
