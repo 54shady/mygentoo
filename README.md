@@ -1874,3 +1874,7 @@ WIN+Del	  静音
 
 	[PlankItemsDockItemPreferences]
 	Launcher=file:///usr/share/applications/firefox-bin.desktop
+
+## VPS服务器配置
+
+[网络代理配置](vps/README.md)
