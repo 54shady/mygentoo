@@ -1709,6 +1709,8 @@ Create the file /etc/portage/env/debug.conf and add:
 
 	emerge sys-libs/glibc
 
+### [unknown filesystem type 'LVM2_member'](./lvm.md)
+
 ## Install Gentoo from LiveDVD
 
 [Quick Way Install Gentoo](mds/livedvd_install.md)
