@@ -1896,3 +1896,36 @@ WIN+Del	  静音
 ## VPS服务器配置
 
 [网络代理配置](vps/README.md)
+
+## FAQ
+
+安装软件遇到license问题
+
+	!!! The following installed packages are masked:
+	- sys-kernel/linux-firmware-99999999::gentoo (masked by: || ( )
+	  linux-fw-redistributable no-source-code license(s))
+	  A copy of the 'linux-fw-redistributable' license is located at
+	  '/usr/portage/licenses/linux-fw-redistributable'.
+
+	  A copy of the 'no-source-code' license is located at
+	  '/usr/portage/licenses/no-source-code'.
+
+单独添加对应的license
+
+	echo 'sys-kernel/linux-firmware linux-fw-redistributable no-source-code' >> /etc/portage/package.license
+
+或者在make.conf中添加如下内容
+
+	ACCEPT_LICENSE="linux-fw-redistributable no-source-code"
+
+缺少keyword问题
+
+  !!! All ebuilds that could satisfy "sys-kernel/linux-firmware" have been
+  masked.
+  !!! One of the following masked packages is required to complete your request:
+  - sys-kernel/linux-firmware-99999999::gentoo (masked by: || ( )
+    linux-fw-redistributable no-source-code license(s), missing keyword)
+
+在ebuild文件中添加对应的keyword比如下面
+
+	KEYWORDS="~arm64"
