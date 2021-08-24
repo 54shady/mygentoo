@@ -1899,6 +1899,8 @@ WIN+Del	  静音
 
 ## FAQ
 
+### 软件安装
+
 安装软件遇到license问题
 
 	!!! The following installed packages are masked:
@@ -1929,3 +1931,17 @@ WIN+Del	  静音
 在ebuild文件中添加对应的keyword比如下面
 
 	KEYWORDS="~arm64"
+
+### 系统使用
+
+替换内核后系统启动时用auto类型挂载磁盘导致卡住
+
+	Using mount -t auto -o ro /dev/sdc2 /newroot
+
+查看genkernel中linuxrc源码,可以在cmdline中配置这个(rootfstype=ext4)
+
+	rootfstype=*)
+		ROOTFSTYPE=${x#*=}
+
+	good_msg "Using mount -t ${ROOTFSTYPE} -o ${MOUNT_STATE} ${REAL_ROOT} ${NEW_ROOT}"
+	run mount -t ${ROOTFSTYPE} -o ${MOUNT_STATE} ${REAL_ROOT} ${NEW_ROOT}
