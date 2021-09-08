@@ -1,0 +1,5 @@
+/dev/bootp       /boot   vfat    defaults,noatime        0       2
+/dev/swapp       none    swap    sw      0       0
+/dev/rootp      /       ext4    noatime 0       1
+/dev/homep       /home   ext4    noatime 0       3
+tmpfs       /dev/shm      tmpfs    defaults,size=1G     0   0
