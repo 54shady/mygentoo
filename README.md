@@ -116,7 +116,7 @@ eselect profile set 1
 ### 安装grub
 
 	emerge sys-boot/grub
-	grub-install /dev/sda --target=i386-pc
+    grub-install --target=x86_64-efi --efi-directory=/boot --removable
 	grub-mkconfig -o /boot/grub/grub.cfg
 
 ### 配置主机名
@@ -322,6 +322,7 @@ OpenRC设置时区
 
 ntp同步时间
 
+	emerge net-misc/ntp
 	ntpdate ntp.api.bz
 
 设置locale(/etc/locale.gen中添加下面内容):
@@ -1934,6 +1935,8 @@ WIN+Del	  静音
 
 ### 系统使用
 
+#### 无法挂载根文件系统
+
 替换内核后系统启动时用auto类型挂载磁盘导致卡住
 
 	Using mount -t auto -o ro /dev/sdc2 /newroot
@@ -1945,3 +1948,13 @@ WIN+Del	  静音
 
 	good_msg "Using mount -t ${ROOTFSTYPE} -o ${MOUNT_STATE} ${REAL_ROOT} ${NEW_ROOT}"
 	run mount -t ${ROOTFSTYPE} -o ${MOUNT_STATE} ${REAL_ROOT} ${NEW_ROOT}
+
+#### 无法启动X window
+
+错误如下
+
+	parse_vt_settings: Cannot open /dev/tty0 (Permission denied)
+
+问题是由于xorg安装时未配置当前用户权限,尝试重新安装xorg解决,如果无法解决手动修改
+
+	chmod +s /usr/bin/Xorg
