@@ -300,14 +300,22 @@ sudo的时候能自动补全
 	emerge wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts corefonts ttf-bitstream-vera
 	emerge fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
 
-~~如果使用的是KDE桌面环境,需要在~/.xprofile里添加如下内容~~
+在~/.xprofile里或~/.bashrc里添加如下内容
 
-~~在每个用户目录下都要有这个才能使用输入法~~
+在每个用户目录下都要有这个才能使用输入法
 
 	export XMODIFIERS="@im=fcitx"
 	export QT_IM_MODULE=fcitx
 	export GTK_IM_MODULE=fcitx
 	eval "$(dbus-launch --sh-syntax --exit-with-session)"
+
+有些应用无法弹出输入法框时通过诊断看看
+
+	fcitx-diagnose
+
+gtk2/gtk3/qt都有对应的安装包,比如qt5的应用(qutebrowser)需要安装下面的包
+
+	app-i18n/fcitx-qt5
 
 ### 设置时区和区域
 
