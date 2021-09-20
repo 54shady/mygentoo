@@ -1908,17 +1908,7 @@ WIN+Del	  静音
 
 ## ffmpeg使用
 
-给视频添加静态水印
-
-	ffmpeg -y -i input.mp4 -vf "drawtext=fontfile=luxirb.ttf: text='this is water mark' :x=10:y=10:fontsize=24:fontcolor=white:shadowy=2" output.mp4
-
-在视频底部添加移动的水印
-
-	ffmpeg -y -i input.mp4 -vf "drawtext=fontfile=Arial.ttf: text='this is water makr': y=h-line_h-10:x=(mod(2*n\,w+tw)-tw):fontsize=34:fontcolor=yellow:shadowy=2" -b:v 3000k output.mp4
-
-将图片埋在视频中
-
-	ffmpeg -y -i watermark.png -i input.mp4 -filter_complex "[0:v]geq=a='122':lum='lum(X,Y)':cb='cb(X,Y)':cr='cr(X,Y)'[topV];[1:v][topV]overlay=(W-w)/2:(H-h)/2" output.mp4
+[ffmpeg 常用例子](./ffmpeg.md)
 
 ## FAQ
 
