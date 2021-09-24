@@ -1970,3 +1970,25 @@ WIN+Del	  静音
 问题是由于xorg安装时未配置当前用户权限,尝试重新安装xorg解决,如果无法解决手动修改
 
 	chmod +s /usr/bin/Xorg
+
+#### Address already in use(端口被占用)
+
+查看是哪个程序占用,发现时Xorg,直接杀掉相应的进程
+
+	$ sudo netstat -plunt
+	Active Internet connections (only servers)
+	Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+	tcp        0      0 0.0.0.0:5900            0.0.0.0:*               LISTEN      6412/Xorg
+	...
+
+	$ top -p 6412 -H
+	top - 17:02:53 up 2 days, 3 min,  1 user,  load average: 0.22, 0.31, 0.48
+	Threads:   3 total,   0 running,   3 sleeping,   0 stopped,   0 zombie
+	%Cpu(s):  1.1 us,  2.2 sy,  0.0 ni, 96.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+	GiB Mem :      7.6 total,      0.8 free,      3.1 used,      3.8 buff/cache
+	GiB Swap:      8.0 total,      6.9 free,      1.1 used.      3.9 avail Mem
+
+	  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+	 6412 root      20   0  595984  25500  12156 S   0.0   0.3   0:00.08 Xorg
+	 6413 root      20   0  595984  25500  12156 S   0.0   0.3   0:00.00 SPICE Worker
+	 6417 root      20   0  595984  25500  12156 S   0.0   0.3   0:00.00 InputThread
