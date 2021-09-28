@@ -1992,3 +1992,17 @@ WIN+Del	  静音
 	 6412 root      20   0  595984  25500  12156 S   0.0   0.3   0:00.08 Xorg
 	 6413 root      20   0  595984  25500  12156 S   0.0   0.3   0:00.00 SPICE Worker
 	 6417 root      20   0  595984  25500  12156 S   0.0   0.3   0:00.00 InputThread
+
+#### process status in 'D' status
+
+某应用程的运行状态是D状态时,通过top可查看到
+
+	D = uninterruptible sleep 不可打断的睡眠状态
+
+查看系统中所有处在D状态的进程的调用栈
+
+	echo w > /proc/sysrq-trigger && dmesg
+
+查看该指定程序的调用栈情况
+
+	cat /proc/<pid>/stack
