@@ -1910,6 +1910,10 @@ WIN+Del	  静音
 
 [ffmpeg 常用例子](./ffmpeg.md)
 
+## Docker on Gentoo
+
+[在gentoo上使用Docker](docker/README.md)
+
 ## FAQ
 
 ### 软件安装
