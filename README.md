@@ -2010,3 +2010,14 @@ WIN+Del	  静音
 查看该指定程序的调用栈情况
 
 	cat /proc/<pid>/stack
+
+#### 高版本openssh导致问题
+
+Unable to negotiate with XX.XXX.XX.XX: no matching host key type found.
+Their offer: ssh-dss no matching host key type found. Their offer: ssh-rsa,ssh-dss
+
+需要在~/.ssh/config添加如下内容(使用rsa算法支持)
+
+	Host *
+	HostKeyAlgorithms +ssh-rsa
+	PubkeyAcceptedKeyTypes +ssh-rsa
