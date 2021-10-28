@@ -806,7 +806,7 @@ SSH keys添加到下面文件
 
 	git clone git@192.168.7.100:/newproject.git
 
-## Samba 服务器搭建
+## Samba 服务器搭建[使用docker搭建参考这里](./docker/README.md)
 
 Samba安装和配置
 
@@ -1085,7 +1085,7 @@ Host和HostName都需写为远程服务器ip
 
 	lftp -e 'set ssl:verify-certificate false' -u username,password -p 21 192.168.1.100
 
-### NFS服务器
+### NFS服务器[使用docker搭建参考这里](./docker/README.md)
 
 内核配置(gentoo内核配置NFS相关选项参考官网即可)
 
