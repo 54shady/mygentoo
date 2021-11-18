@@ -1,6 +1,6 @@
 # Docker Usage
 
-## docker本质
+## Docker本质
 
 docker利用主机资源跑rootfs
 
@@ -78,7 +78,7 @@ docker利用主机资源跑rootfs
 
 	docker rm $(docker ps -aq)
 
-## 制作samba服务docker镜像
+## Samba Server
 
 执行相应操作
 
@@ -124,7 +124,7 @@ docker利用主机资源跑rootfs
 
 [参考文件samba.sh](./samba.sh)
 
-## NFS docker镜像
+## NFS Server
 
 [参考镜像 docker-nfs-server](https://github.com/ehough/docker-nfs-server)
 
@@ -166,7 +166,7 @@ docker利用主机资源跑rootfs
 
 	mount -t nfs -o nolock,vers=3 hostip:/share/ /local/path/to/mount
 
-## web server
+## Web server(nginx)
 
 下载nginx的docker镜像
 
