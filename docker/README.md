@@ -178,6 +178,24 @@ docker利用主机资源跑rootfs
 
 在浏览器中访问ip:999即可
 
+配置nginx支持多个网页([default.conf](./web/default.conf)中添加如下)
+将网页内容放在/kernel下,访问http://serverip/kdoc时就是访问这个目录
+
+	# http://serverip/kdoc
+	location /kdoc {
+		alias /kernel;
+		index index.html index.htm;
+	}
+
+启动docker配置多个目录([index.html参考这里](./web/index.html))
+
+	docker run -d --name web -p 80:80 \
+		-v /path-to-index.html:/usr/share/nginx/html/index.html \
+		-v /path-to-default.conf:/etc/nginx/conf.d/default.conf \
+		-v /path-to-qemu-src/docs/_build:/qemu \
+		-v /path-to-linux/Documentation/output:/kernel \
+		nginx
+
 ## prometheus and grafana
 
 	docker run -d --name myprometheus -p 9090:9090 -v /path-cotain-prometheus.yml:/etc/prometheus prom/prometheus:v2.30.0
