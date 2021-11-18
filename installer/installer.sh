@@ -4,8 +4,7 @@ UTIL_PATH=$PWD
 CHROOT="/mnt/gentoo"
 HOST_NAME="Gentoo"
 
-grep "/mnt/gentoo" /proc/mounts
-[ $? -eq 0 ] && { umount $CHROOT; rm -rf $CHROOT; mkdir $CHROOT; }
+mkdir $CHROOT; mkdir $CHROOT/boot
 
 read -p "Install gentoo;-) [Y]es/[N]o: " TMP
 [ $TMP == y ] && \

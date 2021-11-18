@@ -15,7 +15,7 @@ for command in $command_list; do
 done
 
 # options for the tar command
-tarOptions="--create --absolute-names --preserve-permissions --totals --bzip2 --ignore-failed-read --verbose --file"
+tarOptions="--create --absolute-names --preserve-permissions --totals --ignore-failed-read --verbose --file"
 
 # where to put the stage4
 stage4Location=/mnt/backups/stage4
@@ -24,24 +24,24 @@ if [ ! -d $stage4Location ]; then
 fi
 
 # name prefix
-stage4prefix=$(hostname)-stage4-`date +\%d.\%m.\%Y`
+stage4prefix=$(hostname)-stage4-`date '+%Y%m%d%H%M%S'`
 
 # these files/directories are always excluded
 default_exclude_list="
 --exclude=/tmp/*
---exclude=/var/tmp/*
 --exclude=/lost+found/*
 --exclude=/dev/*
 --exclude=/proc/*
 --exclude=/mnt/*
+--exclude=/usr/src/*
+--exclude=/usr/portage/distfiles/*
+--exclude=/usr/portage/metadata/*
 --exclude=/sys/*
---exclude=/usr/portage/*
---exclude=/var/log/*
+--exclude=/var/*
 --exclude=$stage4Location"
 
 # depending on your choice these files or directories will additionally be excluded
 custom_exclude_list="
---exclude=/usr/src/*
 --exclude=/home/*"
 
 # check the folder/files stored in $default_exclude_list exist
@@ -71,7 +71,7 @@ done
 case $option in
 1)
    stage4Name=$stage4Location/$stage4prefix-minimal
-   final_command="tar $default_exclude_list $custom_exclude_list $tarOptions $stage4Name.tar.bz2 / /var/log/emerge.log"
+   final_command="tar $default_exclude_list $custom_exclude_list $tarOptions $stage4Name.tar /"
    ;;
 2)
    for folder in $custom_exclude_list; do
@@ -87,7 +87,7 @@ case $option in
    done
 
    stage4Name=$stage4Location/$stage4prefix-custom
-   final_command="tar $default_exclude_list $tarOptions $stage4Name.tar.bz2 /  /var/log/emerge.log"
+   final_command="tar $default_exclude_list $tarOptions $stage4Name.tar /"
    ;;
 esac
 
@@ -130,9 +130,15 @@ if [ "$answer" == 'y' ]; then
    # do the backup
    time $final_command
 
+   # append for portage
+   tar -rvf $stage4Name.tar /var/cache/eix/portage.eix
+   tar -rvf $stage4Name.tar /var/lib/portage
+   tar -rvf $stage4Name.tar /var/db
+   bzip2 $stage4Name.tar
+
    # copy the current world file to the stage4 location
    echo -e "\n* creating stage4 overview $stage4Name.txt"
-   cp /var/lib/portage/world $stage4Name.txt >/dev/null 2>&1
+   #cp /var/lib/portage/world $stage4Name.txt >/dev/null 2>&1
 
    # we finished, clean up
    echo "* stage4 is done"
