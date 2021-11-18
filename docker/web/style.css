@@ -1,0 +1,303 @@
+:root {
+	--genwidth: 850px ;
+	--navwidth: 175px ;
+	--fg: #ddd ;
+	--altfg: #ccc ;
+	--fgemph: white ;
+	--bg: #111 ;
+	--altbg: #222 ;
+	--emph: #333 ;
+	--bordercolor: #555 ;
+	--limish: #0e0 ;
+	--bg: rgba(0,0,0,0.4) ;
+	--altbg: rgba(0,0,0,0.4) ;
+}
+
+body {
+	font-style: sans-serif ;
+	background: linear-gradient(indigo, darkslategray) fixed ;
+	margin-bottom: 100px ;
+}
+
+main, nav, footer {
+	box-shadow: 5px 5px 5px 5px rgba( 0, 0, 0, 0.3) ;
+}
+
+main {
+	margin: auto ;
+	color: var(--fg) ;
+	background: var(--bg) ;
+	border: dashed 1px var(--bordercolor) ;
+	padding: 1em ;
+	border-radius: 20px ;
+}
+
+header h1 {
+	font-size: xxx-large ;
+}
+
+p img, li img, h1 img, h2 img, h3 img, h4 img, dt img {
+	max-height: 1em;
+	max-width: 1em;
+	vertical-align: middle ;
+}
+
+sup {
+	vertical-align: top;
+	font-size: 0.6em;
+}
+
+nav,footer {
+	text-align: center ;
+	font-variant: small-caps ;
+	clear: both ;
+	background: var(--altbg) ;
+	border-radius: 20px ;
+	margin: auto ;
+	border: dashed 1px var(--bordercolor) ;
+	max-width: var(--genwidth) ;
+}
+
+footer {
+	color: var(--altfg) ;
+	margin-top: 1em ;
+}
+
+nav {
+	max-width: var(--genwidth) ;
+}
+
+footer { font-size: large ; }
+
+nav li,footer li {
+	display: inline-block ;
+	list-style: none ;
+	background: var(--bg) ;
+	border-radius: 10px ;
+	padding: .5em ;
+	max-width: 7em ;
+}
+
+nav ul, footer ul, #taglist {
+	padding: 0;
+	margin: .5em;
+}
+
+nav a:hover li, footer a:hover li,#tagcloud a:hover li {
+	background: steelblue ;
+	color: black ;
+	box-shadow: 2px 2px cyan ;
+}
+
+strong { color: var(--fgemph) ; }
+
+a strong { color: var(--limish) ; }
+
+details { padding-left: 20px ; text-decoration: underline; }
+
+pre {
+	background: #222 ;
+	border: 1px solid var(--limish) ;
+	border-radius: 20px ;
+	padding: 1em ;
+	margin: 1em ;
+	white-space: pre-wrap;
+}
+
+code {
+	background: #222 ;
+	color: var(--limish) ;
+	border-radius: 5px ;
+	overflow-wrap: break-word ;
+}
+
+.cryptocontainer {
+    display: flex ;
+    flex-wrap: wrap ;
+    justify-content: center ;
+}
+.cryptoinfo {
+    max-width: 350px ;
+    text-align: center ;
+    padding-left: 10px ;
+    padding-right: 10px ;
+}
+.cryptoinfo code {
+	font-size: small ;
+	overflow-wrap: break-word ;
+}
+ul {
+	margin-left: 20px ;
+	margin-right: 20px ;
+}
+
+li img, p img {
+	max-height: 1em ;
+	max-width: 1em ;
+}
+
+h1,h2,h3,h4 {
+	font-family: "EB Garamond", Garamond, Serif ;
+	text-align: center ;
+	text-shadow: 1px 1px var(--emph) ;
+	font-weight: normal ;
+}
+
+h1 { color: lightblue ; }
+
+h2 { color: goldenrod ; }
+
+h3 { color: tomato ; }
+
+h4 { color: deepskyblue ; }
+
+a { color: turquoise ; text-decoration: none ;}
+
+a:hover { color: greenyellow ;}
+
+dt { font-weight: bold ; color: lightgray ; }
+
+.disappear {
+	display: none ;
+}
+
+/* This should be genwidth + (navwidth*2) + padding */
+@media (min-width: 1200px) {
+	nav {
+		float: left ;
+		width: 175px ;
+		position: fixed ;
+		text-align: left ;
+		font-size: large ;
+	}
+	nav::before {
+		content: "Links" ;
+		text-align: center ;
+		display: block ;
+		font-size: large ;
+		color: violet ;
+		text-decoration: underline ;
+		margin-top: .5em ;
+	}
+	nav li {
+		display: block ;
+		text-align: center ;
+		margin: .5em auto ;
+	}
+
+}
+
+@media (min-width: 55em) {
+
+	.resright, .disappear {
+		display: block ;
+		float: right;
+		padding: 20px ;
+		clear: both ;
+		max-height: 300px ;
+		max-width: 300px ;
+	}
+
+	.resmid {
+		max-height: 300px ;
+		max-width: 300px ;
+	}
+
+	main {
+		max-width: var(--genwidth) ;
+	}
+
+	.column {
+		float: left;
+		width: 50% ;
+	}
+
+}
+
+.entry p, .entry li { margin-left: 2em ; }
+
+figure img { max-width: 100% ; margin: auto ; }
+
+figcaption { font-style: italic ; font-size: small ; }
+
+figure { text-align: center; }
+
+#toc {
+	font-size: x-large ;
+	margin-left: auto ;
+	margin-right: auto ;
+	max-width: 500px ;
+
+}
+
+#toc li { padding: 5px }
+
+.new a {
+	color: yellow ;
+}
+
+.new a:hover {
+	color: magenta ;
+}
+
+.new::after {
+	content: " ðŸ†•" ;
+	/* content: " (New ðŸŽ)" ; */
+	color: goldenrod ;
+}
+
+/* For QR codes for bitcoin and crypto */
+.qr { max-width: 150px ; padding: 10px }
+
+.entryinfo {
+	text-align: center ;
+	font-size: x-small ;
+	margin: 0 ;
+}
+
+#tagcloud {
+	font-size: large ;
+	padding: 0;
+	font-variant: small-caps ;
+	background: var(--altbg) ;
+	border-radius: 10px ;
+	text-align: center ;
+	margin: 0 auto ;
+}
+
+#tagcloud li {
+	display: inline-block ;
+	padding: 5px ;
+	margin: 3px ;
+	width: auto ;
+	background: var(--bg) ;
+	border-radius: 10px ;
+}
+
+#taglist {
+	max-width: 300px ;
+	margin: auto ;
+	text-align: center ;
+	display: block ;
+}
+
+#taglist li {
+	display: inline-block ;
+	padding-right: 0.5em ;
+	padding-left: 0.5em ;
+}
+
+#taglist::before { content: "This article is tagged as:" ; display: block; font-size: small ; }
+
+#taglist::after { content: "Click the links above for related articles." ; display: block ;  font-size: small ;}
+
+aside {
+	font-style: italic ;
+	font-size: small ;
+	color: lightgray ;
+	margin-left: 3em ;
+	margin-right: 3em ;
+	padding: 0 1em 0 1em ;
+	border: 1px solid black ;
+	border-radius: 20px ;
+}
