@@ -677,7 +677,11 @@ Gentoo中有多种方式配置网络
 
 所以只能选择一种
 
+### 使用wpa_supplicant配置方法
+
 只需要在rc-update里关闭NetworkManager(如果默认有启动的话)
+
+	/etc/init.d/NetworkManager stop
 
 假设无线网卡名为wlp3s0
 
@@ -714,6 +718,13 @@ Gentoo中有多种方式配置网络
 手动开启和关闭wpa_supplicant
 
 	/etc/init.d/wpa_supplicant <start | stop | restart>
+
+### 使用NetworkManager方法
+
+通过下面命令来连接wifi(热点)
+
+	sudo /etc/init.d/NetworkManager start
+	sudo nmcli device wifi connect <SSID> password <PASSWD>
 
 ## 普通用户声卡设置(alsa)
 
