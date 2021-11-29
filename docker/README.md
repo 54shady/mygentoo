@@ -134,11 +134,16 @@ docker利用主机资源跑rootfs
 
 	docker build . -t alpine/nfs
 
-主机上加载响应的驱动
+主机上手动加载响应的驱动
 
 	modprobe nfs
 	modprobe nfsd
 	modprobe rpcsec_gss_krb5
+
+让docker启动时自动加载,启动命令添加如下
+
+	-v /lib/modules:/lib/modules:ro \
+	--cap-add SYS_MODULE \
 
 启动镜像(在Dockerfile中已经设置好了默认的目录/share)
 
@@ -150,12 +155,14 @@ docker利用主机资源跑rootfs
 	/iso *(rw,sync,no_root_squash)
 	/app *(rw,sync,no_root_squash)
 
-启动docker用如下命令
+启动docker用如下命令(自动加载对应驱动模块)
 
 	docker run -d --restart always --net=host --privileged \
 		-v /host/path/to/share:/share \
 		-v /host/path/to/iso:/iso \
 		-v /host/path/to/app:/app \
+		-v /lib/modules:/lib/modules:ro \
+		--cap-add SYS_MODULE \
 		-v /path/to/exports.txt:/etc/exports alpine/nfs
 
 在客户端查看该nfs共享(hostip填写主机的ip地址)
