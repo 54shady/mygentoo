@@ -36,9 +36,21 @@ docker利用主机资源跑rootfs
 
 	docker pull centos:centos7
 
+下载不同架构镜像(比如在x86下下载arm的镜像)
+
+	docker pull --platform=linux/arm64 centos:centos8
+
+查询dockerhub上镜像tags
+
+	wget -q https://registry.hub.docker.com/v1/repositories/centos/tags -O - | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'
+
 查看系统中的image
 
 	docker images
+
+重命名镜像
+
+	docker image tag oldimage:oldtag newimage:newtag
 
 交互式运行image,运行起来后就叫container
 
