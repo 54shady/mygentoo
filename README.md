@@ -1515,7 +1515,7 @@ cat Makefile
 
 这里将客户端root用户的公钥添加到主机root用户的authorized文件
 
-	# cat .id_rsa.pub >> /root/.ssh/authorized_keys
+	# cat id_rsa.pub >> /root/.ssh/authorized_keys
 
 ### 客户端操作(BinaryClient)
 
@@ -1526,6 +1526,27 @@ cat Makefile
 安装Binary软件
 
 	emerge -G package_name
+
+## 使用Docker来作为(二进制包)编译主机
+
+直接用stage4的tarball来生成当前对应的docker镜像
+
+将stage4解压到rootfs
+
+	tar xvf stage4.tar -C rootfs
+
+使用下面的Dockerfile来生成docker镜像(docker build . -t binhost)
+
+	FROM scratch
+	COPY rootfs /
+
+使用docker生成git的二进制包
+
+	docker run --privileged -v /host/binary/packages:/usr/portage/packages --net=host --rm -it binhost /usr/bin/quickpkg git
+
+客户端配置中路径对应的是host/binary/packages
+
+	PORTAGE_BINHOST="ssh://<user>@<ip>/host/binary/packages"
 
 ## Misc
 
