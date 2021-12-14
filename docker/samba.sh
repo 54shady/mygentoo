@@ -4,6 +4,20 @@
 
 # docker pull dperson/samba
 
+# display share info
+# smbclient -NL //serverip
+#       Sharename       Type      Comment
+#       ---------       ----      -------
+#       share1          Disk      publicSharea
+#       share2          Disk      publicShareb
+#       IPC$            IPC       IPC Service (Samba Server)
+
+# cifs is dialect of samba
+# net-fs/cifs-utils
+# mount.cifs //serverip/share1 /mnt -o username=zero,password=0,vers=3.0
+# mount.cifs //serverip/share1 /mnt -o username=zero,password=0,vers=3.1.1
+# mount.smb3 //serverip/share1 /mnt -o username=zero,password=0
+
 # user zero, passwd 0
 # user admin, passwd 0
 docker run --name samba \
@@ -12,8 +26,8 @@ docker run --name samba \
     -p 139:139 -p 445:445 \
     -e USERID="0" \
     -e GROUPID="0" \
-    -v /host-share-dir1/:/share/d1 \
-    -v /host-share-dir2/:/share/d2 \
+    -v /host/share/dir1/:/share/d1 \
+    -v /host/share/dir2/:/share/d2 \
     dperson/samba:latest \
         -u "admin;0" \
         -u "zero;0" \
