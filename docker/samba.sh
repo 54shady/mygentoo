@@ -20,12 +20,16 @@
 
 # user zero, passwd 0
 # user admin, passwd 0
+# the uid and gid specify to a none root user(anonymous here)
+# using command `id'
+# uid=1000(anonymous) gid=100(users) groups=100(users),3(sys),4(adm),48(docker),78(kvm),79(libvirt)
+
 docker run --name samba \
     -d \
     --restart always \
     -p 139:139 -p 445:445 \
-    -e USERID="0" \
-    -e GROUPID="0" \
+    -e USERID="1000" \
+	-e GROUPID="100" \
     -v /host/share/dir1/:/share/d1 \
     -v /host/share/dir2/:/share/d2 \
     dperson/samba:latest \
