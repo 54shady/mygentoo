@@ -1550,6 +1550,45 @@ cat Makefile
 
 ## Misc
 
+### 双网卡(内外网同时通信)
+
+[Openrc, Netifrc](https://wiki.gentoo.org/wiki/Netifrc)
+
+- 有线网卡eth0作为内网通信的网卡,网关(178.2.10.1)
+- 无线网卡wlan0作为外网通信的网卡,网关(192.168.8.8)
+
+外网网卡配置
+
+	route add -net 0.0.0.0/0 wlan0
+	route add -net 0.0.0.0/0 gw 192.168.8.8
+
+内网网卡配置(内网网段178)
+
+	route add -net 178.0.0.0/8 eth0
+	route add -net 178.0.0.0/8 gw 178.2.10.1
+
+最终看到的路由情况如下
+
+	default via 192.168.8.8 dev wlan0
+	default dev wlan0 scope link
+	178.0.0.0/8 via 178.2.10.1 dev eth0
+	178.0.0.0/8 dev eth0 scope link
+	178.2.10.0/24 dev eth0 proto kernel scope link src 178.2.10.101
+	192.168.8.0/24 dev wlan0 proto kernel scope link src 192.168.8.48
+
+在系统中配置上诉路由表(修改文件/etc/conf.d/net)
+
+	config_wlan0="dhcp"
+	config_eth0="dhcp"
+	metric_eth0="0"
+	metric_wlan0="0"
+	routes_eth0="178.0.0.0/8 via 178.2.10.1"
+
+在gentoo openrc系统中是通过busybox的udhcpc来配置路由的
+
+	ps aux | grep udhcpc
+	/bin/busybox udhcpc -x --interface=wlan0 --now --script=/lib/netifrc/sh/udhcpc-hook.sh ...
+
 ### 通过ssh转发X11来实现打开远程服务器的gui程序
 
 - 对于单台Linux电脑,xserver和xclient都在本地,本地xserver接收xclinet
