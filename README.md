@@ -12,6 +12,37 @@ Just copy each specify file respectively
 	sudo emerge -c
 	revdep-rebuild
 
+## 使用网卡名eth0,wlan0
+
+systemd源码中对网卡命名规则注释
+
+	 Two character prefixes based on the type of interface:
+	   en — Ethernet
+	   sl — serial line IP (slip)
+	   wl — wlan
+	   ww — wwan
+
+	 Type of names:
+	   b<number>                             — BCMA bus core number
+	   c<bus_id>                             — CCW bus group name, without leading zeros [s390]
+	   o<index>[d<dev_port>]                 — on-board device index number
+	   s<slot>[f<function>][d<dev_port>]     — hotplug slot index number
+	   x<MAC>                                — MAC address
+	   [P<domain>]p<bus>s<slot>[f<function>][d<dev_port>]
+											 — PCI geographical location
+	   [P<domain>]p<bus>s<slot>[f<function>][u<port>][..][c<config>][i<interface>]
+											 — USB port number chain
+
+所以enp3s0对应的就是pci接口的以太网bus3,slot0
+
+将网卡名固定成eth0,在内核启动参数添加如下内容(修改/boot/grub/grub.cfg)
+
+	linux /vmlinuz ...   net.ifnames=0
+
+或/etc/default/grub 中GRUB_CMDLINE_LINUX中内容都可以
+
+	GRUB_CMDLINE_LINUX="net.ifnames=0"
+
 ## Branches
 
 - i76700kz170p : main forces
@@ -280,11 +311,11 @@ sudo的时候能自动补全
 	rc-update add dbus default
 	rc-update add consolekit default
 
-### NetworkManager(删除系统默认的网络管理)
+### NetworkManager(删除系统默认的网络管理,以太网卡名eth0)
 
-	rc-update del net.enp5s0
+	rc-update del net.eth0
 	rm /etc/conf.d/net
-	rm  /etc/init.d/net.enp5s0
+	rm  /etc/init.d/net.eth0
 
 安装NetworkManager和networkmanagement
 
@@ -683,15 +714,15 @@ Gentoo中有多种方式配置网络
 
 	/etc/init.d/NetworkManager stop
 
-假设无线网卡名为wlp3s0
+假设无线网卡名为wlan0
 
 	cd /etc/init.d
-	ln -s net.lo net.wlp3s0
+	ln -s net.lo net.wlan0
 
 添加如下代码到/etc/con.d/net中,才能自动获取IP地址
 
-	modules_wlp3s0="wpa_supplicant"
-	config_wlp3s0="dhcp"
+	modules_wlan0="wpa_supplicant"
+	config_wlan0="dhcp"
 
 添加如下配置到/etc/conf.d/wpa_supplicant中
 
@@ -756,9 +787,9 @@ Gentoo中有多种方式配置网络
 
 静态IP地址配置 (/etc/conf.d/net)
 
-	config_enp1s0="192.168.7.100 netmask 255.255.255.0"
-	routes_enp1s0="default via 192.168.7.1"
-	dns_servers_enp1s0="192.168.7.1 8.8.8.8"
+	config_eth0="192.168.7.100 netmask 255.255.255.0"
+	routes_eth0="default via 192.168.7.1"
+	dns_servers_eth0="192.168.7.1 8.8.8.8"
 
 安装git
 
