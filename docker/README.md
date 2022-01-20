@@ -213,6 +213,7 @@ docker利用主机资源跑rootfs
 		-v /path-to-default.conf:/etc/nginx/conf.d/default.conf \
 		-v /path-to-qemu-src/docs/_build:/qemu \
 		-v /path-to-linux/Documentation/output:/kernel \
+		-v /path-to-sharedir:/share \
 		nginx
 
 ## prometheus and grafana
@@ -247,6 +248,8 @@ docker利用主机资源跑rootfs
 使用spice客户端进行连接
 
 	remote-viewer spice://localhost:5901
+
+### [xorg-spice-html5 in docker](https://github.com/54shady/xspice)
 
 ## [running arm64 docker image on x86 host](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/)
 
