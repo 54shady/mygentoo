@@ -28,8 +28,8 @@ docker run --name samba \
     -d \
     --restart always \
     -p 139:139 -p 445:445 \
-    -e USERID="1000" \
-	-e GROUPID="100" \
+    -e USERID=`id -u` \
+	-e GROUPID=`id -g` \
     -v /host/share/dir1/:/share/d1 \
     -v /host/share/dir2/:/share/d2 \
     dperson/samba:latest \
