@@ -1,3 +1,9 @@
+# FFMPEG使用
+
+## 获取帮助
+
+	ffmpeg -h full
+
 ## 提取视频中的音频
 
 	ffmpeg -i input.mp4 -vn output.ogg
@@ -34,3 +40,6 @@
 
 	ffmpeg -y -i watermark.png -i input.mp4 -filter_complex "[0:v]geq=a='122':lum='lum(X,Y)':cb='cb(X,Y)':cr='cr(X,Y)'[topV];[1:v][topV]overlay=(W-w)/2:(H-h)/2" output.mp4
 
+## mkv转webm
+
+	ffmpeg -y -i input.mkv -vcodec libvpx -cpu-used 1 -deadline realtime output.webm
