@@ -1,21 +1,90 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Zeroway's WebSite</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel='stylesheet' type='text/css' href='style.css'>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+		<link rel='alternate' type='application/rss+xml' title='Zeroway RSS' href='/rss.xml'>
+	</head>
 
-<head>
-  <title>Zeroway’s Webpage</title>
-    <link rel='stylesheet' type='text/css' href='style.css'>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
-</head>
+	<body>
 
-<body>
-  <head><h1>Welcome to zeroway's documentation project</h1></head>
+		<header>
+			<h1>Zeroway's HomePage</h1>
+		</header>
 
-  <dl style=font-size:large>
-    <ul>
-        <dt><li><a class="reference internal" href="qdoc/index.html"> Qemu Doc </a></li></dt>
-        <dt><li><a class="reference internal" href="kdoc/index.html"> Kernel Doc </a></li></dt>
-        <dt><li><a class="reference internal" href="share"> Share </a></li></dt>
-    </ul>
-  </dl>
+		<nav>
+			<ul>
+				<a href="/index.html"><li> 🏡 Home</li></a>
+				<a href="zdoc/index.html"><li> 🗒 My Docs</li></a>
+				<a href="qdoc/index.html"><li> 📚 Qemu Doc</li></a>
+				<a href="kdoc/index.html"><li> 📚 Linux Kernel Doc</li></a>
+				<a href="winapp"><li> 📦 WinApp</li></a>
+				<a href="pdf"><li> 📁 PDFs</li></a>
+				<a href="video"><li> 📹 Videos</li></a>
+			</ul>
+		</nav>
 
-</body>
+		<main>
+			<img class=resright src="pix/Linux-Logo.png" alt="linux" title="linux-logo">
+			<h2> ⛳ Resources</h2>
+			<dl style=font-size:large>
+				<dt>
+					<a href="http://github.com/54shady/grice">
+						<img src="pix/files.png" alt="grice">  My Linux Setup
+					</a>
+				</dt><dd>Or access them on<a href="http://gitee.com/zeroway/grice">Gitee grice</a>
+					or<a href="http://github.com/54shady/grice">Github grice</a>.
+				</dd>
+				<dt>
+					<a href="zdoc/mygentoo/README.html">
+						<img src="pix/gentoo-signet.svg" alt="Gentoo logo">  My Gentoo
+					</a>
+				</dt><dd> My Gentoo Linux
+					<a href="https://github.com/54shady/mygentoo">on Github</a></dd>
+			</dl>
+
+			<h2 style=clear:both;> 📜 Writings</h2>
+
+			<div class=column>
+				<h3> 🎯 Recent Articles</h3>
+				<ul style="padding:0">
+					<li>0000 &ndash; <a href="http://localhost/zdoc/index.html"> Zeroway's Documentataions </a></li>
+					<strong><a href="blog.html">See all other blog posts...</a></strong>
+					</li>
+				</ul>
+			</div>
+
+			<div class=column>
+				<h3> 🚩 Topic Space</h3>
+				<ul id=tagcloud>
+					<a href=zdoc/linuxc/README.html><li> 💽 Linux Programming</li></a>
+					<a href=zdoc/kernel_drivers_examples/README.html><li> 💽 Linux Kernel Programming</li></a>
+					<a href=zdoc/fabvm/README.html><li> 💻 Virtual Machine scripts</li></a>
+				</ul>
+			</div>
+
+			<h3 style=clear:both><img src="pix/rss.svg" alt="rss logo"> Get updates via RSS</h3>
+
+			<pre style=max-width:300px;margin:auto;>
+<code>
+http://localhost/rss.xml
+</code>
+			</pre>
+
+			<h2><a href="http://localhost/donate"> 💰 Donate.</a></h2>
+			<ul>
+				<li><a href="http://localhost/donate">Donate with a credit/debit card.</a></li>
+
+				<li>
+					<img style="max-height:1em;max-width:1em" src=pix/xmr.svg>XMR: (<a href="pix/xmr.png">QR</a>)
+					<span style="font-size:small;word-wrap:break-word">heregoessomecode</span>
+				</li>
+			</ul>
+
+		</main>
+
+		<footer><a href="http://localhost">Power by nginx docker</a></footer>
+	</body>
+</html>
