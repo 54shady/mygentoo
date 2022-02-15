@@ -1,21 +1,20 @@
 :root {
 	--genwidth: 850px ;
-	--navwidth: 175px ;
+	--navwidth: 200px ;
 	--fg: #ddd ;
 	--altfg: #ccc ;
 	--fgemph: white ;
 	--bg: #111 ;
-	--altbg: #222 ;
+	--altbg: #333 ;
 	--emph: #333 ;
 	--bordercolor: #555 ;
 	--limish: #0e0 ;
-	--bg: rgba(0,0,0,0.4) ;
-	--altbg: rgba(0,0,0,0.4) ;
 }
 
 body {
 	font-style: sans-serif ;
-	background: linear-gradient(indigo, darkslategray) fixed ;
+	/* background: linear-gradient(indigo, darkslategray) fixed ; */
+	background: #100 ;
 	margin-bottom: 100px ;
 }
 
@@ -36,7 +35,7 @@ header h1 {
 	font-size: xxx-large ;
 }
 
-p img, li img, h1 img, h2 img, h3 img, h4 img, dt img {
+.lw, p img, li img, h1 img, h2 img, h3 img, h4 img, dt img, td img {
 	max-height: 1em;
 	max-width: 1em;
 	vertical-align: middle ;
@@ -47,9 +46,12 @@ sup {
 	font-size: 0.6em;
 }
 
+nav {
+	font-variant: small-caps ;
+}
+
 nav,footer {
 	text-align: center ;
-	font-variant: small-caps ;
 	clear: both ;
 	background: var(--altbg) ;
 	border-radius: 20px ;
@@ -61,13 +63,13 @@ nav,footer {
 footer {
 	color: var(--altfg) ;
 	margin-top: 1em ;
+    font-size: small ;
+	overflow-wrap: break-word ;
 }
 
 nav {
 	max-width: var(--genwidth) ;
 }
-
-footer { font-size: large ; }
 
 nav li,footer li {
 	display: inline-block ;
@@ -187,6 +189,13 @@ dt { font-weight: bold ; color: lightgray ; }
 
 }
 
+.resright, .resmid {
+    max-height: 300px ;
+    max-width: 90% ;
+    margin: auto ;
+    display: block ;
+}
+
 @media (min-width: 55em) {
 
 	.resright, .disappear {
@@ -300,4 +309,15 @@ aside {
 	padding: 0 1em 0 1em ;
 	border: 1px solid black ;
 	border-radius: 20px ;
+}
+
+.titleimg {
+	margin: auto ;
+	max-width: 90% ;
+	display: block ;
+}
+
+.resmid {
+	margin: auto ;
+	display: block ;
 }
