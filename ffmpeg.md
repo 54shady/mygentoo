@@ -40,6 +40,12 @@
 
 	ffmpeg -y -i watermark.png -i input.mp4 -filter_complex "[0:v]geq=a='122':lum='lum(X,Y)':cb='cb(X,Y)':cr='cr(X,Y)'[topV];[1:v][topV]overlay=(W-w)/2:(H-h)/2" output.mp4
 
-## mkv转webm
+## 音频视频转码成可用于网页播放的格式webm(ffmpeg需要vorbis,vpx支持)
+
+mkv转webm
 
 	ffmpeg -y -i input.mkv -vcodec libvpx -cpu-used 1 -deadline realtime output.webm
+
+aac转webm
+
+	ffmpeg -y -i 00.aac -vcodec libvpx -cpu-used 1 -deadline realtime 00.webm

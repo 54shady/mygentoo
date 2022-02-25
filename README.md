@@ -1,4 +1,4 @@
-# All the stuffs about my gentoo linux
+# Gentoo linux
 
 ## 使用方法
 
@@ -1596,6 +1596,11 @@ cat Makefile
 修改完执行env-update即可(参考)[https://wiki.gentoo.org/wiki/Handbook:AMD64/Working/EnvVar#The_env.d_directory]
 
 ## Misc
+
+### 在终端里插入表情包(insert color emoji in terminal)
+
+    ctrl+shift+u + unicode
+    ctrl+shift+u + 1fxxx
 
 ### 双网卡(内外网同时通信)
 
