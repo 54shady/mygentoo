@@ -1,0 +1,25 @@
+From d22a50561d504620e7fcdc5a13d138f24670040a Mon Sep 17 00:00:00 2001
+From: zeroway <M_O_Bz@163.com>
+Date: Fri, 15 Apr 2022 10:46:56 +0800
+Subject: [PATCH] Add ysmacro header file on gentoo
+
+---
+ eject.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/eject.c b/eject.c
+index b14d5f2..7dd6bf8 100644
+--- a/eject.c
++++ b/eject.c
+@@ -72,6 +72,8 @@
+ #include <scsi/scsi_ioctl.h>
+ #include <sys/time.h>
+ 
++#include <sys/sysmacros.h>
++
+ /* Used by the ToggleTray() function. If ejecting the tray takes this
+  * time or less, the tray was probably already ejected, so we close it
+  * again.
+-- 
+2.34.1
+
