@@ -1573,7 +1573,18 @@ cat Makefile
 
 使用docker生成git的二进制包
 
-	docker run --privileged -v /host/binary/packages:/usr/portage/packages --net=host --rm -it binhost /usr/bin/quickpkg git
+	~~docker run --privileged -v /host/binary/packages:/usr/portage/packages --net=host --rm -it binhost /usr/bin/quickpkg git~~
+
+用emerge选项来编译(使用alias方便操作)
+
+	~~alias bpkg='docker run --privileged -v /usr/portage:/usr/portage --net=host --rm -it binhost /usr/bin/emerge -b'~~
+	alias bpkg='docker run --privileged --net=host --rm -it binhost /usr/bin/emerge -b'
+	bpkg git
+
+编译当前系统所有二进制包(stage4中最好有内核代码和portage,就可以不用挂载目录)
+
+	~~docker run --privileged -v /usr/src/linux:/usr/src/linux -v /usr/portage:/usr/portage --net=host --rm -it binhost /usr/bin/quickpkg --include-config=y "*/*"~~
+	docker run --privileged -v /host/binary/packages:/tmp --net=host --rm -it binhost /usr/bin/quickpkg --include-unmodified-config=y "*/*"
 
 客户端配置中路径对应的是host/binary/packages
 
