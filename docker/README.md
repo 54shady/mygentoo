@@ -208,7 +208,7 @@ docker利用主机资源跑rootfs
 
 启动docker配置多个目录([index.html参考这里](./web/index.html))
 
-	docker run -d --name web -p 80:80 \
+	docker run -d --restart always --name web -p 80:80 \
 		-v /path-to-webroot:/usr/share/nginx/html \
 		-v /path-to-default.conf:/etc/nginx/conf.d/default.conf \
 		-v /path-to-qemu-src/docs/_build:/qemu \

@@ -1578,7 +1578,7 @@ cat Makefile
 用emerge选项来编译(使用alias方便操作)
 
 	~~alias bpkg='docker run --privileged -v /usr/portage:/usr/portage --net=host --rm -it binhost /usr/bin/emerge -b'~~
-	alias bpkg='docker run --privileged --net=host --rm -it binhost /usr/bin/emerge -b'
+	alias bpkg='docker run --privileged -v /path/to/a/dir/packages:/usr/portage/packages --net=host --rm -it binhost /usr/bin/emerge -b'
 	bpkg git
 
 编译当前系统所有二进制包(stage4中最好有内核代码和portage,就可以不用挂载目录)
@@ -1607,6 +1607,12 @@ cat Makefile
 修改完执行env-update即可(参考)[https://wiki.gentoo.org/wiki/Handbook:AMD64/Working/EnvVar#The_env.d_directory]
 
 ## Misc
+
+### Nmap 查看端口是否开放
+
+查看对应主机是否开放端口
+
+	nmap [-v] <ip> [-p <port>]
 
 ### 在终端里插入表情包(insert color emoji in terminal)
 
