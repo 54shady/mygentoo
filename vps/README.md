@@ -21,12 +21,16 @@
 
 torjan默认只有socks5代理,需要通过(net-proxy/privoxy)来转发支持http代理
 
-修改配置文件/etc/privoxy/config如下
+修改配置文件/etc/privoxy/config如下(只需要下面内容)
 
 	listen-address  0.0.0.0:8118 		#监听任意ip的8118端口
 	forward-socks5t / 127.0.0.1:1080 .  #设置转发到本地的socks5代理客户端端口
 	forward 10.*.*.*/ . 				#内网地址不走代理
 	forward .abc.com/ . 				#指定域名不走代理
+
+添加到开机启动
+
+	rc-update add privoxy default
 
 启动privoxy后查看privoxy运行情况
 

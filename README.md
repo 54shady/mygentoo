@@ -276,6 +276,10 @@ After that, you only have to select the appropriate color profile (Settings —>
 	useradd  -m -g users -G adm,sys -s /bin/bash zeroway
 	passwd zeroway
 
+添加用户zeroway到video组
+
+	sudo gpasswd -M zeroway video
+
 ### 安装sudo
 
 	emerge sudo
