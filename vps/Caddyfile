@@ -1,0 +1,36 @@
+{
+	servers 127.0.0.1:5001 {
+		listener_wrappers {
+			proxy_protocol
+		}
+		protocol {
+			allow_h2c
+		}
+	}
+	servers 127.0.0.1:5002 {
+		listener_wrappers {
+			proxy_protocol
+		}
+		protocol {
+			allow_h2c
+		}
+	}
+}
+
+:5001 {
+	root * /var/www/html
+	file_server
+	log
+	bind 127.0.0.1
+}
+
+http://vps.zeroway.xyz:5002 {
+	root * /var/www/html
+	file_server
+	log
+	bind 127.0.0.1
+}
+
+:80 {
+	redir https://{host}{uri} permanent
+}

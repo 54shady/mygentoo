@@ -44,17 +44,71 @@ vps server以debian10为例,先安装软件
 
 	iptables -I INPUT -p tcp --dport 8888 -j ACCEPT
 
-### 创建各种节点
-
-- vless 对应 xray
-- vmess 对应 v2ray
-- trojan 等等
+### 创建(vless)节点
 
 在面板上配置节点后,需要配置对应的端口才可以访问
 
 	iptables -I INPUT -p tcp --dport 443 -j ACCEPT
 
-客户端连接时v2ray-ng的android客户端关闭证书验证
+### Fallback配置
+
+[通过 SNI 回落功能实现伪装与按域名分流](https://xtls.github.io/document/level-1/fallbacks-with-sni.html)
+
+节点后配置一下fallbacks,配合Caddy做分流
+
+![fallback](./fallback.png)
+
+Caddy可以在同一端口上同时监听HTTP/1.1和h2c
+
+为了使Caddy能获取到访问者的真实IP,需要编译带有Proxy Protocol模块的Caddy
+
+	sudo curl -o /usr/bin/caddy "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fmastercactapus%2Fcaddy2-proxyprotocol&idempotency=79074247675458"
+	sudo chmod +x /usr/bin/caddy
+
+Caddyfile配置如下
+
+	{
+		servers 127.0.0.1:5001 {
+			listener_wrappers {
+				proxy_protocol
+			}
+			protocol {
+				allow_h2c
+			}
+		}
+		servers 127.0.0.1:5002 {
+			listener_wrappers {
+				proxy_protocol
+			}
+			protocol {
+				allow_h2c
+			}
+		}
+	}
+
+	:5001 {
+		root * /var/www/html
+		file_server
+		log
+		bind 127.0.0.1
+	}
+
+	http://vps.zeroway.xyz:5002 {
+		root * /var/www/html
+		file_server
+		log
+		bind 127.0.0.1
+	}
+
+	:80 {
+		redir https://{host}{uri} permanent
+	}
+
+配置好后通过浏览器反问https://vps.zeroway.xyz就能看到网页了
+
+### 客户端连接
+
+客户端连接时v2rayng的android客户端关闭证书验证
 
 ## trojan配置
 
