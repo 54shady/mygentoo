@@ -58,6 +58,10 @@ systemd源码中对网卡命名规则注释
 
 	dd bs=4M if=/path/to/gentoo.iso of=/dev/sdx status=progress oflag=sync
 
+从网络下载文件并烧写
+
+	curl http://server/gentoo.iso | sudo dd of=/dev/sdx bs=4M oflag=sync status=progress
+
 ### 多系统启动盘(支持legacy和uefi)
 
 使用multibootusb制作
