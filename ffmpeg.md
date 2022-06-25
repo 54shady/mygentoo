@@ -53,3 +53,7 @@ aac转webm
 ## 根据m3u8来下载视频
 
 	ffmpeg -i https://path/to/index.m3u8 -c copy -bsf:a aac_adtstoasc output.mp4
+
+## 制作mp4的m3u8文件
+
+	ffmpeg -i demo.mp4 -b:v 1M -g 60 -hls_time 2 -hls_list_size 0 -hls_segment_size 500000 demo.m3u8
