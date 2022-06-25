@@ -49,3 +49,7 @@ mkv转webm
 aac转webm
 
 	ffmpeg -y -i 00.aac -vcodec libvpx -cpu-used 1 -deadline realtime 00.webm
+
+## 根据m3u8来下载视频
+
+	ffmpeg -i https://path/to/index.m3u8 -c copy -bsf:a aac_adtstoasc output.mp4
