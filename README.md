@@ -182,6 +182,8 @@ This system is configured to permit randomly generated passwords only
 
 修改对应文件解决该问题
 
+场景1:
+
 文件/etc/pam.d/passwd中有对password的配置
 
 	password    include     system-auth
@@ -196,6 +198,32 @@ This system is configured to permit randomly generated passwords only
 	max=40
 	enforce=none #需要将enforce修改为none
 	retry=3
+
+场景2:(文件/etc/pam.d/passwd内容如下)
+
+	@include common-password
+
+说明其依赖写在当前目录下common-password文件,内容如下
+
+	# here are the per-package modules (the "Primary" block)
+	password        requisite                       pam_pwquality.so retry=3
+	password        [success=1 default=ignore]      pam_unix.so use_authtok
+	try_first_pass sha512
+	# here's the fallback if no module succeeds
+	password        requisite                       pam_deny.so
+	# prime the stack with a positive return value if there isn't one already;
+	# this avoids us returning an error just because nothing sets a success code
+	# since the modules above will each just jump around
+	password        required                        pam_permit.so
+
+其中第一条中依赖pam_pwquality.so(这个对应文件/etc/security/pwquality.conf)
+
+将其内容修改成如下就可以任意配置弱密码
+
+	minlen = 0
+	minclass = 0
+	dictcheck = 0
+	enforcing = 0
 
 不需要安装图形界面的话安装到这里就可以了
 
