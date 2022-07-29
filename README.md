@@ -2157,6 +2157,8 @@ WIN+Del	  静音
 
 [在gentoo上使用Docker](docker/README.md)
 
+## [Linux Audio Subsystem](audio.md)
+
 ## FAQ
 
 ### 软件安装
