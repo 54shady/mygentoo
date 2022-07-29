@@ -1644,6 +1644,18 @@ cat Makefile
 
 ## Misc
 
+### gentoo 清除dns
+
+重启udhcpc(下面系统中有eth0和wlan0两张网卡)
+
+	ps aux | grep udhcpc
+
+	root      2520  0.0  0.0   3828   156 ?        Ss   14:36   0:00 /bin/busybox udhcpc -x hostname:mygentoo --interface=eth0 --now --script=/lib/netifrc/sh/udhcpc-hook.sh --pidfile=/run/udhcpc-eth0.pid
+	root      8697  0.0  0.0   3828   152 ?        Ss   15:24   0:00 /bin/busybox udhcpc -x hostname:mygetnoo --interface=wlan0 --now --script=/lib/netifrc/sh/udhcpc-hook.sh --pidfile=/run/udhcpc-wlan0.pid
+
+	sudo rc-service net.eth0 restart
+	sudo rc-service net.wlan0 restart
+
 ### Nmap 查看端口是否开放
 
 查看对应主机是否开放端口
