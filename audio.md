@@ -4,6 +4,11 @@
 
 	fuser -v /dev/snd/*
 
+## alsa和pulseaudio关系
+
+1. alsa是linux内核中的音频子系统,可以通过该子系统直接操作控制声卡
+2. pulseaudio位于应用层,能够将多路音频混合后再输出到声卡,满足多个应用同时使用声卡
+
 ## 常用软件对pulseaudio和alsa支持情况
 
 ### MPV
@@ -46,11 +51,11 @@ mpv 通过--ao= 参数来选择对应的声音输出驱动
 
 	aplay -D plughw:1,0 /usr/share/sounds/alsa/Noise.wav
 
-使用系统默认声卡
+使用系统默认声卡(通过内核alsa框架,不需要pulseaudio参与,不能多个应用同时播放)
 
 	aplay -D sysdefault:CARD=PCH /usr/share/sounds/alsa/Noise.wav
 
-让aplay使用pulseaudio来输出声音
+让aplay使用pulseaudio来输出声音(可以支持多个应用同时播放)
 
 	aplay -D pulse /usr/share/sounds/alsa/Noise.wav
 
