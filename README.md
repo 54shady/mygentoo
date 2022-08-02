@@ -2171,6 +2171,8 @@ WIN+Del	  静音
 
 ## [Linux Audio Subsystem](audio.md)
 
+## [Copy and Paste in Linux](xclip.md)
+
 ## FAQ
 
 ### 软件安装
