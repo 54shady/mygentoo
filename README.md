@@ -1650,6 +1650,38 @@ cat Makefile
 
 ## Misc
 
+### 设置鼠标移动快慢
+
+[libinput: Pointer acceleration](https://wayland.freedesktop.org/libinput/doc/latest/pointer-acceleration.html#ptraccel-linear)
+
+[ArchWiki: mouse acceleration](https://wiki.archlinux.org/title/Mouse_acceleration)
+
+查看输入设备(比如下面的USB 鼠标)
+
+	xinput --list
+	⎡ Virtual core pointer                          id=2    [master pointer  (3)]
+	⎜   ↳ Virtual core XTEST pointer                id=4    [slave  pointer  (2)]
+	⎜   ↳ PixArt Dell MS116 USB Optical Mouse       id=11   [slave  pointer  (2)]
+	⎣ Virtual core keyboard                         id=3    [master keyboard (2)]
+		↳ Virtual core XTEST keyboard               id=5    [slave  keyboard (3)]
+
+查看鼠标属性(字符串名字也可以用id值代替)
+
+	xinput --list-props "pointer:PixArt Dell MS116 USB Optical Mouse"
+	xinput --list-props 11
+
+设置鼠标移动加快
+
+	xinput --set-prop "pointer:PixArt Dell MS116 USB Optical Mouse" "libinput Accel Speed" +1.0
+
+设置鼠标移动减慢
+
+	xinput --set-prop "pointer:PixArt Dell MS116 USB Optical Mouse" "libinput Accel Speed" -1.0
+
+设置默认速度
+
+	xinput --set-prop "pointer:PixArt Dell MS116 USB Optical Mouse" "libinput Accel Speed" 0
+
 ### gentoo 清除dns
 
 重启udhcpc(下面系统中有eth0和wlan0两张网卡)
