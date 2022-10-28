@@ -1650,6 +1650,39 @@ cat Makefile
 
 ## Misc
 
+### DPI(Dots Per Inch)
+
+[参考文章: Display size and DPI](https://wiki.archlinux.org/title/Xorg#Display_size_and_DPI)
+
+[参考文章: HiDPI ](https://wiki.archlinux.org/title/HiDPI)
+
+查看显示设备的DPI值
+
+	xdpyinfo | grep -B 2 resolution
+
+手动设置显示器的DPI
+
+	xrandr --dpi <value>
+
+xorg的默认值是96, 可设置为:
+
+120 (25% higher), 144 (50% higher), 168 (75% higher), 192 (100% higher)
+
+修改后会使用到DPI来设置显示的程序(比如使用了gtk的goldendict, 状态栏显示框,托盘右键菜单)
+
+鼠标的DPI(假设event4对应鼠标)
+
+	udevadm info /dev/input/event4  | grep MOUSE_DPI
+	E: ID_INPUT_MOUSE=1
+	E: MOUSE_DPI=1000@125
+
+鼠标的DPI表示鼠标物理移动一英寸,光标在屏幕上移动了多少个像素点
+
+对于一个分辨率1920x1080的显示器,上述鼠标从屏幕最左移动到最右需要移动的距离为
+
+	1英寸= 2.54厘米
+	1920/1000 = 1.92英寸 = 4.8768厘米
+
 ### 设置鼠标移动快慢
 
 [libinput: Pointer acceleration](https://wayland.freedesktop.org/libinput/doc/latest/pointer-acceleration.html#ptraccel-linear)
