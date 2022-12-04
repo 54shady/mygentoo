@@ -1,6 +1,6 @@
-# Copy and Paste under Linux
+# Copy and Paste under Linux using xclip or xsel
 
-## xclip
+## ClipBoards
 
 xclip can control 4 different "clipboard"(see from xclip -h)
 
@@ -10,14 +10,27 @@ xclip can control 4 different "clipboard"(see from xclip -h)
 - -sel cli ==> -selection clipboard
 - -sel buf ==> -selection buffer-cut
 
+xsel comparable
+
+-  -p, --primary         Operate on the PRIMARY selection (default)
+-  -s, --secondary       Operate on the SECONDARY selection
+-  -b, --clipboard       Operate on the CLIPBOARD selection
+
+## How to use it
+
 Default copy content into primary
 
 	uptime | xclip
 	xclip /etc/fstab
 
+	uptime | xsel
+	cat /etc/fstab | xsel
+
 Paste from primary(keybind alt+p, config in st terminal)
 
 	xclip -o -sel pri
+
+	xsel
 
 ## fcitx(using clipboard first, and the primary)
 
