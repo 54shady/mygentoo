@@ -223,10 +223,12 @@ docker利用主机资源跑rootfs
 
 ## [Running graphic application in a container](https://www.spice-space.org/demos.html)
 
+### Fedora Example
+
 使用下面的Dockerfile制作相应的镜像
 
-	FROM fedora:latest
-	RUN dnf install -y xorg-x11-server-Xspice
+	FROM fedora:27
+	RUN dnf install -y xorg-x11-server-Xspice xdg-utils
 	EXPOSE 5900/tcp
 	ENV DISPLAY=:1.0
 	CMD Xspice --port 5900 --disable-ticketing $DISPLAY  > /dev/null 2>&1 & /usr/bin/bash
@@ -250,6 +252,24 @@ docker利用主机资源跑rootfs
 	remote-viewer spice://localhost:5901
 
 ### [xorg-spice-html5 in docker](https://github.com/54shady/xspice)
+
+### Ubuntu Xfce example
+
+使用[Dockerfile](spice/Dockerfile)编译镜像
+
+	docker build . -t spicexfce
+
+通过修改环境变量(指定用户名为test)来启动容器,默认启动xfce会话
+
+	docker run -p 5900:5900 -e SPICE_USER=test -e SPICE_UID=1000 -v /home/test:/home/test -e SPICE_PASSWD="0" -e SPICE_LOCAL="en_US.UTF-8" -e SPICE_RES="1920x1080" spicexfce
+
+或者通过设置RUNIT运行新的程序比如umlet(其他参数用默认)
+
+	drun -p 5900:5900 -e RUNIT="java -jar /usr/share/java/umlet.jar" spicexfce
+
+连接容器
+
+	remote-viewer spice://localhost:5900
 
 ## [running arm64 docker image on x86 host](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/)
 
