@@ -223,7 +223,7 @@ docker利用主机资源跑rootfs
 
 ## [Running graphic application in a container](https://www.spice-space.org/demos.html)
 
-### Fedora Example
+### 例子1: Fedora Example
 
 使用下面的Dockerfile制作相应的镜像
 
@@ -251,9 +251,9 @@ docker利用主机资源跑rootfs
 
 	remote-viewer spice://localhost:5901
 
-### [xorg-spice-html5 in docker](https://github.com/54shady/xspice)
+### 例子2: [xorg-spice-html5 in docker](https://github.com/54shady/xspice)
 
-### Ubuntu Xfce example
+### 例子3: Ubuntu Xfce example
 
 使用[Dockerfile](spice/Dockerfile)编译镜像
 
@@ -270,6 +270,54 @@ docker利用主机资源跑rootfs
 连接容器
 
 	remote-viewer spice://localhost:5900
+
+### 例子4:运行容器中的图形程序(需要主机有xserver)
+
+运行eclipse的Dockerfile内容如下
+
+	FROM java
+
+	ARG ECLIPSE_URL='http://eclipse.mirror.rafal.ca/technology/epp/downloads/release/neon/R/eclipse-java-neon-R-linux-gtk-x86_64.tar.gz'
+	RUN mkdir -p /opt && curl $ECLIPSE_URL | tar -xvz -C /opt
+
+	CMD ["/opt/eclipse/eclipse"]
+
+或者直接下载对应的镜像使用
+
+	docker pull psharkey/eclipse
+
+运行镜像(此操作同样使用例子3),容器中的图形程序作为xclient连接host的xserver
+
+	docker run --rm -it --privileged \
+		--network=host \
+		-v ~/.Xauthority:/root/.Xauthority \
+		-e DISPLAY=':0' \
+		-e "TZ=America/Chicago" \
+		psharkey/eclipse
+
+授权信息按上面方式映射进去,也可以如下操作添加
+
+host上查看xauth token信息
+
+	xauth list
+
+在容器中添加host的xauth
+
+	xauth add <token>
+
+用下面的Dockerfile将例子3中运行程序改一下
+
+	FROM spicexfce
+	ENTRYPOINT ["java", "-jar",  "/usr/share/java/umlet.jar"]
+
+	docker build . -t umlet
+
+	docker run --rm -it --privileged \
+		--network=host \
+		-v ~/.Xauthority:/root/.Xauthority \
+		-e DISPLAY=':0' \
+		-e "TZ=America/Chicago" \
+		umlet
 
 ## [running arm64 docker image on x86 host](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/)
 
