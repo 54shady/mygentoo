@@ -223,7 +223,7 @@ docker利用主机资源跑rootfs
 
 ## [Running graphic application in a container](https://www.spice-space.org/demos.html)
 
-### 例子1: Fedora Example
+### 例子1: 通过spice连接到容器里(Fedora Example)
 
 使用下面的Dockerfile制作相应的镜像
 
@@ -241,6 +241,7 @@ docker利用主机资源跑rootfs
 
 	RUN 后面的操作会在制作镜像时自动执行
 	CMD 后面的操作会在启动镜像时执行
+	ENTRYPOINT 可以带多个参数
 
 启动容器进入后安装一个图形界面的软件(tuxmath)用于验证测试
 
@@ -251,9 +252,9 @@ docker利用主机资源跑rootfs
 
 	remote-viewer spice://localhost:5901
 
-### 例子2: [xorg-spice-html5 in docker](https://github.com/54shady/xspice)
+### 例子2: [增加HTML5支持 xorg-spice-html5 in docker](https://github.com/54shady/xspice)
 
-### 例子3: Ubuntu Xfce example
+### 例子3: 相对完整的spice的方案(Ubuntu Xfce example)
 
 使用[Dockerfile](spice/Dockerfile)编译镜像
 
@@ -271,7 +272,9 @@ docker利用主机资源跑rootfs
 
 	remote-viewer spice://localhost:5900
 
-### 例子4:运行容器中的图形程序(需要主机有xserver)
+### 例子4: 使用XWindow的xclient连接xserver来显示
+
+容器中的图形程序作为xclient,连接宿主机的xserver来显示
 
 运行eclipse的Dockerfile内容如下
 
@@ -310,7 +313,11 @@ host上查看xauth token信息
 	FROM spicexfce
 	ENTRYPOINT ["java", "-jar",  "/usr/share/java/umlet.jar"]
 
+制作镜像
+
 	docker build . -t umlet
+
+启动容器(umlet是容器中的x gui程序作为client连接宿主机xserver进行显示)
 
 	docker run --rm -it --privileged \
 		--network=host \
