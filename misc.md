@@ -1,5 +1,17 @@
 ## Misc
 
+### 使用ldconfig建立动态库数据库
+
+清除系统缓存的动态库数据库
+
+	rm /etc/ld.so.cache
+	or
+	> /etc/ld.so.cache
+
+建立新的缓存(根据配置文件/etc/ld.so.conf或/etc/ld.so.conf.d/目录下的文件)
+
+	ldconfig -v
+
 ### DPI(Dots Per Inch)
 
 [参考文章: Display size and DPI](https://wiki.archlinux.org/title/Xorg#Display_size_and_DPI)
