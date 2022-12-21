@@ -1,14 +1,14 @@
 # [About iSCSI Storage](https://docs.oracle.com/cd/E37670_01/E41138/html/ch17s07s01.html)
 
-- 客户端(挂在存储): initiator,可以是在内核或是用户态(qemu)
-- 服务端(提同存储): target
+- 客户端(使用存储): initiator,可以是在内核或是用户态(qemu)
+- 服务端(提供存储): target
 
 假设客户端和服务端不在同一台服务器上
 
 - target在服务器A, ip: 192.168.1.100, 下面用targetip代替
 - initiator在服务器B
 
-## 服务器A配置target
+## 服务端A配置target
 
 安装target程序
 
@@ -30,7 +30,7 @@
 	tgt-admin -s
 	tgtadm -o show -m target
 
-## 服务器B配置initiator
+## 客户端B配置initiator
 
 安装对应的软件
 
