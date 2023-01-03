@@ -90,6 +90,37 @@ docker利用主机资源跑rootfs
 
 	docker rm $(docker ps -aq)
 
+## OverlayFS
+
+OverlayFS中两个层lower和upper
+
+- lower layer一般以只读模式挂载(镜像层)
+- upper layer一般以读写模式挂载(容器层)
+- work layer一般和upper在相同的文件系统中用于切换层的空文件夹
+
+![lower merge upper](./merge.png)
+
+![docker filesystem](./dockerfs.jpg)
+
+### Usage
+
+创建对应的文件夹
+
+	sudo mkdir /lower /overlay
+
+只读挂载lower(这里将sda1只读挂载到lower)
+
+	sudo mount -o ro /dev/sda1 /lower
+
+挂载overlay,并创建upper和work目录
+
+	sudo mount /dev/sda2 /overlay
+	sudo mkdir /overlay/{upper,work}
+
+最后将lower和upper进行合并挂载到merged
+
+	sudo mount overlay -t overlay -o lowerdir=/lower,upperdir=/overlay/upper,workdir=/overlay/work /merged
+
 ## Samba Server
 
 执行相应操作
