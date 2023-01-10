@@ -54,6 +54,16 @@
 
 ## 使用模板创建容器
 
-	lxc-create -t ubuntu -n myubt
+安装模板(/usr/share/lxc/templates/)
+
+	apt install -y lxc-templates
+
+使用默认参数创建容器
+
+	lxc-create -t ubuntu -n ubt
+
+配置参数创建容器
+
+	lxc-create -t ubuntu -n ubt -- --debug --mirror https://mirrors.tuna.tsinghua.edu.cn/ubuntu/
 
 会从网络上下载根文件系统到对应目录,同手动创建
