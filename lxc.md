@@ -1,9 +1,10 @@
-# LXC Usage
+# [LXC Usage](https://linuxcontainers.org/)
 
-## [comparation between lxc and lxd](https://blog.simos.info/comparison-between-lxc-and-lxd/)
+## [LXD和LXC的区别 comparation between lxc and lxd](https://blog.simos.info/comparison-between-lxc-and-lxd/)
 
 - LXC is written in C,LXD is written in the Go language
-- LXC provide command with "lxc-" prefix,LXD provides two commands, lxd(services) and lxc(CLI client)
+- LXC provide command with "lxc-" prefix,LXD provides two commands, lxd(hypervisor) and lxc(CLI client)
+- LXC is system containers(like docker), LXD is a hypervisor(can run both system containers and virtual machine)
 
 ## 基本安装和查询信息
 
@@ -77,9 +78,17 @@
 
 [使用distrobuilder构建容器镜像](https://github.com/lxc/distrobuilder)
 
+[参考文章1:AlmaLinux/distrobuilder](https://github.com/AlmaLinux/distrobuilder)
+
+[参考文章2: run windows on lxd](https://blog.simos.info/how-to-run-a-windows-virtual-machine-on-lxd-on-linux/)
+
+[参考文档3: distrobuilder readthedocs](https://distrobuilder.readthedocs.io/en/latest/)
+
+### 使用模板构建lxc/lxd容器
+
 在ubuntu20.04/22.04中操作安装对应软件
 
-	snap install distrobuilder
+	snap install distrobuilder --classic
 	apt install -y debootstrap
 	git clone https://github.com/lxc/distrobuilder
 
@@ -89,18 +98,61 @@
 	cd $HOME/ContainerImages/ubuntu/
 	cp $HOME/distrobuilder/doc/examples/ubuntu.yaml ubuntu.yaml
 
-修改ubuntu.yaml配置文件中的源如下
+修改ubuntu.yaml配置文件(使用tuna的源)
 
 	source:
 		downloader: debootstrap
 		same_as: gutsy
 		url: https://mirrors.tuna.tsinghua.edu.cn/ubuntu
 
-构建lxd镜像
+构建lxd镜像,并导入
 
-	distrobuilder build-lxd ubuntu.yaml
+	distrobuilder build-lxd ubuntu.yaml targetdir
+	lxc image import targetdir/lxd.tar.xz targetdir/rootfs.squashfs --alias lxd-ubt
 
 构建lxc镜像(将镜像文件打包到targetdir)
 
 	distrobuilder build-lxc ubuntu.yaml targetdir
 	lxc-create -n myubt -t local -- --metadata targetdir/meta.tar.xz --fstree targetdir/rootfs.tar.xz
+
+#### LXD的一些基本操作
+
+列出所有lxd容器镜像的别名
+
+	lxc image list -c l
+
+查看运行中的lxd容器
+
+	lxc ls
+
+启动lxd容器(lxc launch <lxdimage> <containername>)
+
+	lxc launch lxd-ubt my-lxd-ubt
+
+停止容器,删除容器
+
+	lxc stop my-lxd-ubt
+	lxc delete my-lxd-ubt
+
+查看镜像名,并重命名
+
+	lxc image list
+	lxc image alias rename lxd-ubt lxd-ubuntu-image
+
+### 使用lxd运行windows系统(lxd中会运行qemu来启动虚拟机)
+
+安装必要软件,重新打包iso
+
+	apt install -y libguestfs-tools wimtools
+	distrobuilder repack-windows --drivers virtio-win.iso Win10_20H2_Chinese_x64.iso Windows-repacked.iso
+
+创建磁盘
+
+	lxc init win10 --empty --vm -c security.secureboot=false
+	lxc config device override win10 root size=30GiB
+	lxc config device add win10 iso disk source=/path/to/Windows-repacked.iso boot.priority=10
+
+安装spice客户端并启动windows系统
+
+	apt install -y virt-viewer
+	lxc start win10 --console=vga
