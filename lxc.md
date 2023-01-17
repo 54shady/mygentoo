@@ -108,7 +108,7 @@
 构建lxd镜像,并导入
 
 	distrobuilder build-lxd ubuntu.yaml targetdir
-	lxc image import targetdir/lxd.tar.xz targetdir/rootfs.squashfs --alias lxd-ubt
+	lxc image import targetdir/lxd.tar.xz targetdir/rootfs.squashfs --alias ubuntu-jammy
 
 构建lxc镜像(将镜像文件打包到targetdir)
 
@@ -127,17 +127,27 @@
 
 启动lxd容器(lxc launch <lxdimage> <containername>)
 
-	lxc launch lxd-ubt my-lxd-ubt
+	lxc launch ubuntu-jammy ubt
 
 停止容器,删除容器
 
-	lxc stop my-lxd-ubt
-	lxc delete my-lxd-ubt
+	lxc stop ubt
+	lxc delete ubt
 
 查看镜像名,并重命名
 
 	lxc image list
-	lxc image alias rename lxd-ubt lxd-ubuntu-image
+	lxc image alias rename old-image-name new-image-name
+
+进入到运行的容器的shell中
+
+	lxc exec ubt -- /bin/bash
+
+执行命令或脚本
+
+	lxc exec ubt -- command
+	lxc exec ubt -- apt update
+	lxc exec ubt -- /path/to/script
 
 ### 使用lxd运行windows系统(lxd中会运行qemu来启动虚拟机)
 
