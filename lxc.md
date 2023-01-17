@@ -60,10 +60,42 @@
 
 使用默认参数创建容器
 
-	lxc-create -t ubuntu -n ubt
+	lxc-create -t ubuntu -n ubt -- -d
 
-配置参数创建容器
+创建amd64架构的ubuntu(jammy)容器
 
-	lxc-create -t ubuntu -n ubt -- --debug --mirror https://mirrors.tuna.tsinghua.edu.cn/ubuntu/
+	lxc-create -t ubuntu -n ubt -- -r jammy -a amd64 -d -v minbase --mirror https://mirrors.tuna.tsinghua.edu.cn/ubuntu/
 
-会从网络上下载根文件系统到对应目录,同手动创建
+会从网络上下载根文件系统到对应目录(/var/cache/lxc/jammy/rootfs-amd64),同手动创建
+
+## 构建容器镜像
+
+[使用distrobuilder构建容器镜像](https://github.com/lxc/distrobuilder)
+
+在ubuntu20.04/22.04中操作安装对应软件
+
+	snap install distrobuilder
+	apt install -y debootstrap
+	git clone https://github.com/lxc/distrobuilder
+
+创建必要目录
+
+	mkdir -p $HOME/ContainerImages/ubuntu/
+	cd $HOME/ContainerImages/ubuntu/
+	cp $HOME/distrobuilder/doc/examples/ubuntu.yaml ubuntu.yaml
+
+修改ubuntu.yaml配置文件中的源如下
+
+	source:
+		downloader: debootstrap
+		same_as: gutsy
+		url: https://mirrors.tuna.tsinghua.edu.cn/ubuntu
+
+构建lxd镜像
+
+	distrobuilder build-lxd ubuntu.yaml
+
+构建lxc镜像(将镜像文件打包到targetdir)
+
+	distrobuilder build-lxc ubuntu.yaml targetdir
+	lxc-create -n myubt -t local -- --metadata targetdir/meta.tar.xz --fstree targetdir/rootfs.tar.xz
