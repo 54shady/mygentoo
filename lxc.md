@@ -91,9 +91,7 @@
 
 会从网络上下载根文件系统到对应目录(/var/cache/lxc/jammy/rootfs-amd64),同手动创建
 
-## 构建容器镜像
-
-[使用distrobuilder构建容器镜像](https://github.com/lxc/distrobuilder)
+## [使用distrobuilder构建容器镜像](https://github.com/lxc/distrobuilder)
 
 [参考文章1:AlmaLinux/distrobuilder](https://github.com/AlmaLinux/distrobuilder)
 
