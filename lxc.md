@@ -31,7 +31,7 @@
 	lxc-config lxc.default_config
 	lxc-config lxc.lxcpath
 
-## 手动构造容器(假设使用root用户操作,默认lxc目录/var/lib/lxc)
+## 手动构造lxc容器(假设使用root用户操作,默认lxc目录/var/lib/lxc)
 
 ### 创建容器必要目录和文件
 
@@ -56,7 +56,24 @@
 
 使用前台模式运行容器
 
-	lxc.start -F ubt /bin/bash
+	lxc-start -F ubt /bin/bash
+
+### 使用tarball来制作lxc镜像
+
+制作rootfs(需要xz格式)
+
+	tar xvf jammy-base-arm64.tar.gz -C rootfs
+	tar -cvJf rootfs.tar.xz -C rootfs/ .
+
+制作metadata
+
+	echo 'lxc.namespace.keep = user net ipc' > config
+	tar -cvJf metadata.tar.xz config
+
+通过tarball来创建并启动容器
+
+	lxc-create -n ubt -t local -- --metadata metadata.tar.xz --fstree rootfs.tar.xz
+	lxc-start -F ubt /bin/bash
 
 ## 使用模板创建容器
 
