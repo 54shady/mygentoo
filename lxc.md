@@ -1,5 +1,10 @@
 # LXC Usage
 
+## [comparation between lxc and lxd](https://blog.simos.info/comparison-between-lxc-and-lxd/)
+
+- LXC is written in C,LXD is written in the Go language
+- LXC provide command with "lxc-" prefix,LXD provides two commands, lxd(services) and lxc(CLI client)
+
 ## 基本安装和查询信息
 
 安装软件和模板
