@@ -339,6 +339,15 @@ host上查看xauth token信息
 
 	xauth add <token>
 
+使用脚本[x11docker](https://github.com/mviereck/x11docker)来运行
+
+	./x11docker --xorg \
+		--pulseaudio \
+		--gpu \
+		--homedir /home/zeroway/eclipseWorkSpace \
+		-- -v /home/zeroway/eclipseWorkSpace:/media:ro -- \
+		psharkey/eclipse
+
 用下面的Dockerfile将例子3中运行程序改一下
 
 	FROM spicexfce
@@ -356,6 +365,20 @@ host上查看xauth token信息
 		-e DISPLAY=':0' \
 		-e "TZ=America/Chicago" \
 		umlet
+
+### 例子5:[使用x11docker](https://github.com/mviereck/x11docker)
+
+[run kodi in docker](https://github.com/ehough/docker-kodi)
+
+使用x11docker来运行图形app的docker
+
+	docker pull erichough/kodi
+	x11docker --xorg                                 \
+				--pulseaudio                           \
+				--gpu                                  \
+				--homedir /host/path/to/kodi/home      \
+				-- -v /host/path/to/media:/media:ro -- \
+				erichough/kodi
 
 ## [running arm64 docker image on x86 host](https://www.stereolabs.com/docs/docker/building-arm-container-on-x86/)
 
