@@ -51,28 +51,17 @@ Just copy each specify file respectively
 
 ## [杂项](misc.md)
 
-## Install Gentoo from LiveDVD
+## [使用LiveDVD安装系统](mds/livedvd_install.md)
 
-[Quick Way Install Gentoo](mds/livedvd_install.md)
+## [使用stage4安装系统](mds/fork/fork_system.md)
 
-## Fork System the quick way
-
-[Mirror The Current system](mds/fork/fork_system.md)
-
-## VPS服务器配置
-
-[网络代理配置](vps/README.md)
+## [VPS服务器配置](vps/README.md)
 
 ## [创建个性化配置 custom profile](custom_profile.md)
 
+## [Docker的使用](docker/README.md)
 
-## Docker on Gentoo
-
-[在gentoo上使用Docker](docker/README.md)
-
-## SSH Forward X11
-
-[通过ssh转发xclient](./xwindow.md)
+## [通过SSH转发xwindow运行容器中的GUI程序](xwindow.md)
 
 ## [Linux Audio Subsystem](audio.md)
 
