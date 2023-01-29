@@ -70,6 +70,10 @@ Just copy each specify file respectively
 
 [在gentoo上使用Docker](docker/README.md)
 
+## SSH Forward X11
+
+[通过ssh转发xclient](./xwindow.md)
+
 ## [Linux Audio Subsystem](audio.md)
 
 ## [Copy and Paste in Linux](xclip.md)
