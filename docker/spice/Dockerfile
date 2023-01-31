@@ -1,6 +1,15 @@
 FROM x86/ubuntu:2004
 MAINTAINER zeroway
 
+# way to using tuna mirror
+#RUN echo 'Acquire::https::Verify-Peer "false";' > /etc/apt/apt.conf
+#RUN echo 'Acquire::https::Verify-Host "false";' >> /etc/apt/apt.conf
+#RUN sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
+#RUN sed -i "s@http://.*security.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list
+
+# using label tag to descript some info
+#LABEL usage="Usage goes to here."
+
 RUN apt-get update && apt-get -y install software-properties-common
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 RUN	DEBIAN_FRONTEND=noninteractive apt-get -y install xserver-xspice x11-xserver-utils
