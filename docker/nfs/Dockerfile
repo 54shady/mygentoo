@@ -1,6 +1,11 @@
 ARG BUILD_FROM=alpine:latest
 
 FROM $BUILD_FROM
+# build with default argument
+# docker build . -t tagname
+#
+# build with new argument
+# docker build . -t tagname --build-arg BUILD_FROM=newimage
 
 RUN set -eux && sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
