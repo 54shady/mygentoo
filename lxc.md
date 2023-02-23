@@ -63,6 +63,9 @@
 制作rootfs(需要xz格式)
 
 	tar xvf jammy-base-arm64.tar.gz -C rootfs
+
+	修改rootfs(比如安装systemd)
+
 	tar -cvJf rootfs.tar.xz -C rootfs/ .
 
 制作metadata
@@ -74,6 +77,20 @@
 
 	lxc-create -n ubt -t local -- --metadata metadata.tar.xz --fstree rootfs.tar.xz
 	lxc-start -F ubt /bin/bash
+
+或者直接启动systemd
+
+	lxc-start ubt systemd
+
+#### 使用自动化脚本构建rootfs[genrootfs/stage{1,2,3}](./genrootfs/)
+
+1. 解压stage3 tarball到rootfs目录
+2. 使用脚本自动构建
+	./stage1.sh (会自动调用stage2.sh)
+	./stage3.sh (打包输出rootfs.tar.xz)
+3. 创建并启动systemd的容器
+	lxc-create -n ubt -t local -- --metadata metadata.tar.xz --fstree rootfs.tar.xz
+	lxc-start ubt systemd
 
 ## 使用模板创建容器
 
@@ -87,7 +104,7 @@
 
 创建amd64架构的ubuntu(jammy)容器
 
-	lxc-create -t ubuntu -n ubt -- -r jammy -a amd64 -d -v minbase --mirror https://mirrors.tuna.tsinghua.edu.cn/ubuntu/
+	lxc-create -t ubuntu -n ubt -- -r jammy -a amd64 -d -v minbase --mirror https://mirrors.cn99.com/ubuntu/
 
 会从网络上下载根文件系统到对应目录(/var/cache/lxc/jammy/rootfs-amd64),同手动创建
 
