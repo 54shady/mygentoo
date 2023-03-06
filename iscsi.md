@@ -36,6 +36,10 @@
 
 	emerge sys-block/open-iscsi
 
+启动iscsid
+
+	rc-service iscsid start
+
 搜索target,下面命令都是在root用户下操作
 
 	iscsiadm -m discovery --type sendtargets -p targetip
@@ -44,10 +48,6 @@
 和target建立连接并登入
 
 	iscsiadm -m node T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 -l
-
-登出target
-
-	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 --logout
 
 确认连接是否生效,其中能看到lun的值,在虚拟机参数中用到
 
@@ -63,6 +63,10 @@
 
 	ls -l /dev/disk/by-path/
 	lsscsi -v
+
+登出target
+
+	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 --logout
 
 ### 1. initiator在客户端内核中,以块设备的方式提供存储
 
