@@ -164,3 +164,121 @@ initiator端安装软件multipath软件
 	-device virtio-scsi-pci,id=scsi
 	-drive if=none,id=mpa,file=/dev/mapper/mpatha,format=raw
 	-device scsi-hd,drive=mpa
+
+## 使用SCSI Reservation [参考文档: Understanding Linux SCSI Reservation](https://www.thegeekdiary.com/understanding-linux-scsi-reservation/)
+
+安装工具: sys-apps/sg3_utils-1.47
+
+作用: 通过给lun进行加锁来限制修改存储的方法(allows SCSI initiators to reserve a LUN for exclusive access and preventing other initiators from making changes)
+
+SCSI Reservation 包含两个阶段
+
+1. Register: 注册一个保留的键值(register a reservation key)
+2. Reserve: 当initiator需要使用存储时需要用这个保留的键值来管控
+	(register a reservatierve the device using the same reservation key when a host need exclusive accessn key)
+
+下面实验会在一个node上获取锁(node1),一个node上不获取锁(node2)来验证是否没有获取到锁的node就无法使用存储
+
+下面的操作步骤都在node1上执行
+
+假设在initiator(node1)中看到的lun为(/dev/sdc),查看其是否有注册键值(如下是没有)
+
+	sg_persist /dev/sdc
+	>> No service action given; assume Persistent Reserve In command
+	>> with Read Keys service action
+	  ATA       MG04ACA400N       FJ8J
+	  Peripheral device type: disk
+	  PR generation=0x0, there are NO registered reservation keys
+
+### Register a reservation key
+
+注册一个保留键值(保留键需要长于8字节的十六进制字符串,比如abc123)
+
+	sg_persist --out --register --param-sark=abc123 /dev/sdc
+
+注册后再次查询就能看到新注册的保留键(在每个node上查看到的结果都一样)
+
+	sg_persist /dev/sdc
+	>> No service action given; assume Persistent Reserve In command
+	>> with Read Keys service action
+	  ATA       MG04ACA400N       FJ8J
+	  Peripheral device type: disk
+	  PR generation=0x1, 1 registered reservation key follows:
+		0xabc123
+
+### Reserve a registered LUN on behalf of a given key
+
+使用已注册的key进行预留
+
+	sg_persist --out --reserve --param-rk=abc123 --prout-type=3 /dev/sdc
+
+The –prout-type parameter specified the reservation type, from manpage, valid types including:
+
+	1 : write exclusive
+	3 : exclusive access
+	5 : write exclusive – registrants only
+	6 : exclusive access – registrants only
+	7 : write exclusive – all registrants
+	8 : exclusive access – all registrants
+
+### View the reservation
+
+查看预留的键值(在每个node上查看到的结果都一样)
+
+	sg_persist -r /dev/sdc
+	  ATA       MG04ACA400N       FJ8J
+	  Peripheral device type: disk
+	  PR generation=0x1, Reservation follows:
+		Key=0xabc123
+		scope: LU_SCOPE,  type: Exclusive Access
+
+### Verify the reservation
+
+确认预留键值是否生效
+
+在已经获取到锁的node上mount成功
+
+	mount /dev/sdc /mnt
+
+此时在没有获取到锁的node进行同样操作会发生错误(node2上为/dev/sda)
+
+	mount /dev/sda /mnt
+	mount: /mnt: can't read superblock on /dev/sda.
+
+查看内核信息可以看到(reservation conflict)
+
+	sd 4:0:0:1: reservation conflict
+	sd 4:0:0:1: [sda] tag#12 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_OK cmd_age=0s
+	sd 4:0:0:1: [sda] tag#12 CDB: Read(16) 88 00 00 00 00 00 00 00 00 02 00 00 00 02 00 00
+	critical nexus error, dev sda, sector 2 op 0x0:(READ) flags 0x1000 phys_seg 1 prio class 0
+	EXT4-fs (sda): unable to read superblock
+
+如果node1上释放了这个锁后node2上就能使用该存储
+
+### Release the reservation
+
+释放预留键值
+
+	sg_persist --out --release --param-rk=abc123 --prout-type=3 /dev/sdc
+
+释放之后查询结果(已经没有人使用预留键值)
+
+	sg_persist -r /dev/sdc
+	  ATA       MG04ACA400N       FJ8J
+	  Peripheral device type: disk
+	  PR generation=0x1, there is NO reservation held
+
+### Unregister a reservation key
+
+取消注册预留键值
+
+	sg_persist --out --register --param-rk=abc123 /dev/sdc
+
+查看取消注册的结果
+
+	sg_persist  /dev/sdc
+	>> No service action given; assume Persistent Reserve In command
+	>> with Read Keys service action
+	  ATA       MG04ACA400N       FJ8J
+	  Peripheral device type: disk
+	  PR generation=0x2, there are NO registered reservation keys
