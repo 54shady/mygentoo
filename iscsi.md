@@ -167,6 +167,8 @@ initiator端安装软件multipath软件
 
 ## 使用SCSI Reservation [参考文档: Understanding Linux SCSI Reservation](https://www.thegeekdiary.com/understanding-linux-scsi-reservation/)
 
+参考manual: man sg_persist
+
 安装工具: sys-apps/sg3_utils-1.47
 
 作用: 通过给lun进行加锁来限制修改存储的方法(allows SCSI initiators to reserve a LUN for exclusive access and preventing other initiators from making changes)
@@ -282,3 +284,28 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 	  ATA       MG04ACA400N       FJ8J
 	  Peripheral device type: disk
 	  PR generation=0x2, there are NO registered reservation keys
+
+### QEMU中使用PR锁(参考文档:docs/pr-manager.rst)
+
+[QEMU pr-helper文档](https://www.qemu.org/docs/master/interop/pr-helper.html)
+
+[Add SCSI-3 PR support to qemu (similar to mpathpersist)](https://bugzilla.redhat.com/show_bug.cgi?id=1464908)
+
+1. 启动daemon进程
+
+	sudo qemu-pr-helper
+
+2. 启动qemu是参数配置如下(其中helper路径是在qemu/scsi/qemu-pr-helper.c代码中固定写好的)
+
+	sudo qemu-system-x86_64 \
+		...
+		-device virtio-scsi \
+		-object pr-manager-helper,id=helper0,path=/var/run/qemu-pr-helper.sock \
+		-drive if=none,id=hd,driver=raw,file.filename=/dev/sdc,file.pr-manager=helper0 \
+		-device scsi-block,drive=hd
+		...
+
+3. 在guest中执行上面的注册和预留锁的步骤
+
+	linux guest通过sg_persist命令将操作发送给虚拟机中的虚拟设备后再通过socket发送给
+		qemu-pr-helper,最终实现对应的功能
