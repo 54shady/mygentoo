@@ -226,11 +226,40 @@ SCSI Reservation 包含两个阶段
 The –prout-type parameter specified the reservation type, from manpage, valid types including:
 
 	1 : write exclusive
-	3 : exclusive access
-	5 : write exclusive – registrants only
+	3 : exclusive access # 独占:持锁者独占存储
+	5 : write exclusive – registrants only # 共享:多个register共享存储,只有一个持锁者
 	6 : exclusive access – registrants only
 	7 : write exclusive – all registrants
 	8 : exclusive access – all registrants
+
+其中type=5允许多node共享存储需要按照下面步骤顺序操作(多个register,一个reserver holder)
+
+1. guestA register key abc123
+
+	sg_persist --out --register --param-sark=abc123 /dev/sda
+
+2. guestB register key abc456
+
+	sg_persist --out --register --param-sark=abc456 /dev/sda
+
+3. guestA reserve key abc123 with --prout-type=5
+
+	sg_persist --out --reserve --param-rk=abc123 --prout-type=5 /dev/sda
+
+4. 分别在guestA和guestB中同时使用存储(数据需要umount在mount后才能同步)
+
+	mount /dev/sda /mnt
+	write to /mnt/
+	umount /mnt
+
+5. 在guestA中释放和取消注册
+
+	sg_persist --out --release --param-rk=abc123 --prout-type=5 /dev/sda
+	sg_persist --out --register --param-rk=abc123 /dev/sda
+
+6. 在guestB中释放和取消注册
+
+	sg_persist --out --register --param-rk=abc456 /dev/sda
 
 ### View the reservation
 
