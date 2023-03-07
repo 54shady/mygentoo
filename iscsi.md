@@ -30,7 +30,7 @@
 	tgt-admin -s
 	tgtadm -o show -m target
 
-## 客户端B配置initiator
+## 客户端B配置initiator(对应initiator在客户端的内核中的场景1,2)
 
 安装对应的软件
 
@@ -124,11 +124,20 @@
 
 编译qemu支持用户态的iscsi(--enable-libiscsi)
 
+这里使用的lun类型的硬盘,所以不需要执行上面的登录操作来将
+后端存储映射到本地的块设备,而是配置lun设备由qemu中的initiator来进行映射
+
 虚拟机使用(这里的lun的值就是上面查询到的)
 
 	-device virtio-scsi-pci,id=scsi
 	-drive if=none,format=iscsi,transport=tcp,portal=targetip:3260,target=iqn.2012-01.com.mydom.host01:target1,id=diska,lun=1
 	-device scsi-hd,drive=diska
+
+如果要在guest里支持sg_persist来操作pr锁需要配置scsi-block设备(scsi-hd不支持sg_persist命令)
+
+	-device virtio-scsi,id=scsi
+	-drive if=none,format=iscsi,transport=tcp,portal=targetip:3260,target=iqn.2012-01.com.mydom.host01:target1,id=diska,lun=1
+	-device scsi-block,drive=diska
 
 ### 4. multipath(TODO)
 
@@ -141,7 +150,7 @@
 		direct-store /dev/sdd # LUN 2
 	</target>
 
-在initiator端(服务器B)上查询target情况能发现有连个target
+在initiator端(服务器B)上查询target情况能发现有两个target
 
 	iscsiadm -m discovery --type sendtargets -p targetip
 
