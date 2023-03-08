@@ -201,7 +201,7 @@ SCSI Reservation 包含两个阶段
 	  Peripheral device type: disk
 	  PR generation=0x0, there are NO registered reservation keys
 
-### Register a reservation key
+### 1. Register a reservation key
 
 注册一个保留键值(保留键需要长于8字节的十六进制字符串,比如abc123)
 
@@ -217,7 +217,7 @@ SCSI Reservation 包含两个阶段
 	  PR generation=0x1, 1 registered reservation key follows:
 		0xabc123
 
-### Reserve a registered LUN on behalf of a given key
+### 2. Reserve a registered LUN on behalf of a given key
 
 使用已注册的key进行预留
 
@@ -261,7 +261,7 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 	sg_persist --out --register --param-rk=abc456 /dev/sda
 
-### View the reservation
+### 3. View the reservation
 
 查看预留的键值(在每个node上查看到的结果都一样)
 
@@ -272,7 +272,7 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 		Key=0xabc123
 		scope: LU_SCOPE,  type: Exclusive Access
 
-### Verify the reservation
+### 4. Verify the reservation
 
 确认预留键值是否生效
 
@@ -295,7 +295,7 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 如果node1上释放了这个锁后node2上就能使用该存储
 
-### Release the reservation
+### 5. Release the reservation
 
 释放预留键值
 
@@ -308,7 +308,7 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 	  Peripheral device type: disk
 	  PR generation=0x1, there is NO reservation held
 
-### Unregister a reservation key
+### 6. Unregister a reservation key
 
 取消注册预留键值
 
@@ -342,6 +342,29 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 		-drive if=none,id=hd,driver=raw,file.filename=/dev/sdc,file.pr-manager=helper0 \
 		-device scsi-block,drive=hd
 		...
+
+- 因为操作系统限制了不允许发送persistent reservation SCSI commands给非特权程序
+- 所以需要在qemu中添加一个pr-manager-helper(persistent reservation manager: pr-manager)
+- pr-manager通过socket来转发命令给有特权的外部helper程序qemu-pr-helper
+- 只有PERSISTENT RESERVE OUT/IN命令传给pr-manager其余的命令还是传给qemu处理
+- persistent reservation helper: qemu-pr-helper
+- persistent reservation manager: pr-manager-helper
+
+整体的框图如下
+
+               SCSI commands
+		guest---------------+
+                            |
+                            |
+	+-----------------------|-------------+
+	|  qemu     			V   	      |
+	|			+-------[scsi-block]      |
+    | other     |           |             |
+    | command   |           | PR-IN/OUT   |
+    |           V           V             |  socket
+	|     [scsi core]   [pr-manager]------|------------> qemu-pr-helper
+	|								      |
+	+-------------------------------------+
 
 3. 在guest中执行上面的注册和预留锁的步骤
 
