@@ -1,5 +1,6 @@
 # [About iSCSI Storage](https://docs.oracle.com/cd/E37670_01/E41138/html/ch17s07s01.html)
 
+- iqn: iSCSI Qualified Name
 - 客户端(使用存储): initiator,可以是在内核或是用户态(qemu)
 - 服务端(提供存储): target
 
@@ -13,6 +14,8 @@
 安装target程序
 
 	emerge sys-block/tgt
+
+### 使用物理磁盘作为存储
 
 假设target服务器上有两块可用做存储的硬盘sdc,sdd(配置/etc/tgt/targets.conf)
 
@@ -30,6 +33,47 @@
 	tgt-admin -s
 	tgtadm -o show -m target
 
+### 使用虚拟磁盘作为target的后端存储
+
+[Using shared storage with virtual disk images](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/virtualization/sect-virtualization-shared_storage_and_virtualization-using_iscsi_for_storing_virtual_disk_images)
+
+启动target服务
+
+	rc-service tgtd start
+
+创建虚拟磁盘作为lun(10G的sparse file和500MB的fully-allocated)
+
+	mkdir /root/vd
+
+	dd if=/dev/zero of=/root/vd/sparse_file.img bs=1M seek=10240 count=0
+	dd if=/dev/zero of=/root/vd/shareddata.img bs=1M count=512
+
+添加一个target(iqn.2004-04.rhel:rhel5:iscsi.kvmguest)
+
+	tgtadm --lld iscsi --op new --mode target --tid 1 --targetname iqn.2004-04.rhel:rhel5:iscsi.kvmguest
+
+绑定存储卷和iSCSI target里的lun
+
+	tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 1 --backing-store /root/vd/sparse_file.img
+	tgtadm --lld iscsi --op new --mode logicalunit --tid 1 --lun 2 --backing-store /root/vd/shareddata.img
+
+查询配置好的信息
+
+	tgtadm --lld iscsi --op show --mode target
+
+配置允许客户端不要授权登录
+
+	tgtadm --lld iscsi --op bind --mode target --tid 1 --initiator-address ALL
+
+删除指定target上的lun
+
+	tgtadm --lld iscsi --op delete --mode logicalunit --tid 1 --lun 1
+	tgtadm --lld iscsi --op delete --mode logicalunit --tid 1 --lun 2
+
+根据target id 删除一个target
+
+	tgtadm --lld iscsi --op delete --mode target --tid 1
+
 ## 客户端B配置initiator(对应initiator在客户端的内核中的场景1,2)
 
 安装对应的软件
@@ -40,7 +84,7 @@
 
 	rc-service iscsid start
 
-搜索target,下面命令都是在root用户下操作
+搜索target,下面命令都是在root用户下操作(当target有更新后需要执行)
 
 	iscsiadm -m discovery --type sendtargets -p targetip
 	iscsiadm -m discoverydb -t st -p targetip
@@ -179,6 +223,8 @@ initiator端安装软件multipath软件
 参考manual: man sg_persist
 
 安装工具: sys-apps/sg3_utils-1.47
+
+I_T nexus : persistent reservation is held by so-called I_T nexus, the combination of initiator ID and target ID
 
 作用: 通过给lun进行加锁来限制修改存储的方法(allows SCSI initiators to reserve a LUN for exclusive access and preventing other initiators from making changes)
 
