@@ -28,7 +28,7 @@
 
 	rc-service tgtd start
 
-查看target存储情况
+查看target存储情况(I_T nexus信息, 已经连接的Initiator)
 
 	tgt-admin -s
 	tgtadm -o show -m target
@@ -112,7 +112,7 @@
 
 	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 --logout
 
-### 1. initiator在客户端内核中,以块设备的方式提供存储
+### 1. initiator在客户端内核中,以块设备的方式提供存储(qemu target 模式)
 
 将这两块盘(以块设备的方式)给虚拟机使用
 
@@ -126,7 +126,7 @@
 	iscsiadm -m discoverydb -t st -p targetip -o update --discover
 	iscsiadm -m discoverydb -t st -p targetip -o delete --discover
 
-### 2. initiator在客户端内核中,以vhost方式提供存储
+### 2. initiator在客户端内核中,以vhost方式提供存储(qemu target 模式)
 
 在服务器B上安装targetcli软件
 
@@ -164,7 +164,7 @@
 
 	-device vhost-scsi-pci,wwpn=naa.50014057f9f2abfa"
 
-### 3. initiator在qemu中
+### 3. initiator在qemu中(libiscsi 模式: user space iSCSI initiator)
 
 编译qemu支持用户态的iscsi(--enable-libiscsi)
 
@@ -369,7 +369,11 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 	  Peripheral device type: disk
 	  PR generation=0x2, there are NO registered reservation keys
 
-### QEMU中使用PR锁(参考文档:docs/pr-manager.rst)
+### QEMU中使用PR锁
+
+参考文档:docs/pr-manager.rst
+
+参考文档:Better_Utilization_of_Storage_Features_from_KVM_Guest_via_virtio-scsi.pdf
 
 [QEMU pr-helper文档](https://www.qemu.org/docs/master/interop/pr-helper.html)
 
@@ -395,6 +399,9 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 - 只有PERSISTENT RESERVE OUT/IN命令传给pr-manager其余的命令还是传给qemu处理
 - persistent reservation helper: qemu-pr-helper
 - persistent reservation manager: pr-manager-helper
+- 在host的内核中会检测guest通过virtio-blk和virtio-scsi使用qemu target模式发过来的SCSI commands
+- libvirt启动的虚拟机是已qemu user的权限是缺少CAP_SYS_RAWIO
+	所以像persistent reserve和write same的scsi命令都是无法使用的,除非kvm是用root user启动
 
 整体的框图如下
 
