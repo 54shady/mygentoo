@@ -1,7 +1,17 @@
 # [About iSCSI Storage](https://docs.oracle.com/cd/E37670_01/E41138/html/ch17s07s01.html)
 
+参考文档:Better_Utilization_of_Storage_Features_from_KVM_Guest_via_virtio-scsi.pdf
+
+[参考文章:Open-iSCSI](https://wiki.archlinux.org/title/Open-iSCSI)
+
+[参考文章:LIO](https://wiki.archlinux.org/title/ISCSI/LIO)
+
 - iqn: iSCSI Qualified Name
 - 客户端(使用存储): initiator,可以是在内核或是用户态(qemu)
+	lio target和qemu target模式下:
+		客户端iqn配置在文件:/etc/iscsi/initiatorname.iscsi(名字格式:InitiatorName=iqn)
+		客户端的配置文件:/etc/iscsi/iscsid.conf
+		客户端上可以看到target node的信息:/etc/iscsi/nodes, /etc/iscsi/send_targets
 - 服务端(提供存储): target
 
 假设客户端和服务端不在同一台服务器上
@@ -82,7 +92,9 @@
 
 	tgtadm --lld iscsi --op delete --mode target --tid 1
 
-## 客户端B配置initiator(对应initiator在客户端的内核中的场景1,2)
+## 客户端B配置initiator
+
+### 对应initiator在客户端的内核中的场景1,2(qemu target模式)
 
 安装对应的软件
 
@@ -134,9 +146,9 @@
 	iscsiadm -m discoverydb -t st -p targetip -o update --discover
 	iscsiadm -m discoverydb -t st -p targetip -o delete --discover
 
-### 2. initiator在客户端内核中,以vhost方式提供存储(qemu target 模式)
+### 2. initiator在客户端内核中,以vhost方式提供存储(lio target 模式)
 
-在服务器B上安装targetcli软件
+在服务器B上安装targetcli软件(tool for manageing linux kernel target, lio)
 
 	sys-block/targetcli-fb
 
@@ -197,6 +209,12 @@
 	-drive if=none,format=iscsi,transport=tcp,portal=targetip:3260,target=iqn.2012-01.com.mydom.host01:target1,id=diska,lun=1
 	-device scsi-block,drive=diska
 
+通过参数来设置iqn
+
+	-device virtio-scsi-pci,id=scsi
+	-drive if=none,file=iscsi://targetip/iqn.2012-01.com.mydom.host01:target1/1,id=diska,file.initiator-name=iqn.1999-1218.com.sara:host1
+	-device scsi-hd,drive=diska
+
 ### 4. multipath(TODO)
 
 修改服务器A(target端)的配置(/etc/tgt/targets.conf)如下
@@ -232,7 +250,9 @@ initiator端安装软件multipath软件
 	-drive if=none,id=mpa,file=/dev/mapper/mpatha,format=raw
 	-device scsi-hd,drive=mpa
 
-## 使用SCSI Reservation [参考文档: Understanding Linux SCSI Reservation](https://www.thegeekdiary.com/understanding-linux-scsi-reservation/)
+## 使用SCSI Reservation
+
+[参考文档: Understanding Linux SCSI Reservation](https://www.thegeekdiary.com/understanding-linux-scsi-reservation/)
 
 参考manual: man sg_persist
 
@@ -387,8 +407,6 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 参考文档:docs/pr-manager.rst
 
-参考文档:Better_Utilization_of_Storage_Features_from_KVM_Guest_via_virtio-scsi.pdf
-
 [QEMU pr-helper文档](https://www.qemu.org/docs/master/interop/pr-helper.html)
 
 [Add SCSI-3 PR support to qemu (similar to mpathpersist)](https://bugzilla.redhat.com/show_bug.cgi?id=1464908)
@@ -440,6 +458,17 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 ## Debug ISCSI
 
+查看scsi设备
+
+	lsscsi -i
+	lsblk --scsi
+
+什么是direct-lun
+
+	direct-lun is passed to qemu process as /dev/mapper/$scsi_is
+
+### 使用perf调试iscsi
+
 [参考文章using-tracepoints-to-debug-iscsi](https://blogs.oracle.com/linux/post/using-tracepoints-to-debug-iscsi)
 
 查看已支持的tracepoints
@@ -450,3 +479,18 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 	sudo perf trace --no-syscalls --event="iscsi:iscsi_dbg_conn"
 	sudo perf trace --no-syscalls --event="iscsi:iscsi_dbg_session"
+
+### 使用wireshark调试iscsi
+
+用tshark过滤抓的包
+
+	tshark -r /path/to/cap-iscsi.pcapng -Y "scsi" -T fields -e frame.number -e ip.addr -e _ws.col.Info | grep "Persistent"
+
+## FAQ
+
+当出现锁没有被正确释放导致无法访问时,服务端需要手动停止存储再开启,客户端需要重新登录
+
+	/etc/init.d/tgtd zap
+	/etc/init.d/tgtd stop
+	kill -9 <pid of tgtd>
+	/etc/init.d/tgtd start
