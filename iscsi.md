@@ -24,6 +24,14 @@
 		direct-store /dev/sdd # LUN 2
 	</target>
 
+存储卷可以是整个磁盘,分区,或是文件
+
+	<target iqn.2012-01.com.mydom.host01:target1>
+			direct-store /dev/sdb1
+			direct-store /dev/sdb2
+			direct-store /dev/sdd
+	</target>
+
 启动target服务
 
 	rc-service tgtd start
