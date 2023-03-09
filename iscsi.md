@@ -177,6 +177,12 @@
 	-drive if=none,format=iscsi,transport=tcp,portal=targetip:3260,target=iqn.2012-01.com.mydom.host01:target1,id=diska,lun=1
 	-device scsi-hd,drive=diska
 
+或者用iSCSI URL Format的连接
+
+	-device virtio-scsi-pci,id=scsi
+	-drive if=none,file=iscsi://targetip/iqn.2012-01.com.mydom.host01:target1/1,id=diska
+	-device scsi-hd,drive=diska
+
 如果要在guest里支持sg_persist来操作pr锁需要配置scsi-block设备(scsi-hd不支持sg_persist命令)
 
 	-device virtio-scsi,id=scsi
@@ -423,3 +429,16 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 	linux guest通过sg_persist命令将操作发送给虚拟机中的虚拟设备后再通过socket发送给
 		qemu-pr-helper,最终实现对应的功能
+
+## Debug ISCSI
+
+[参考文章using-tracepoints-to-debug-iscsi](https://blogs.oracle.com/linux/post/using-tracepoints-to-debug-iscsi)
+
+查看已支持的tracepoints
+
+	sudo perf list 'iscsi:*'
+
+查看某个tracepoints
+
+	sudo perf trace --no-syscalls --event="iscsi:iscsi_dbg_conn"
+	sudo perf trace --no-syscalls --event="iscsi:iscsi_dbg_session"
