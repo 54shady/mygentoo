@@ -312,6 +312,8 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 	7 : write exclusive – all registrants
 	8 : exclusive access – all registrants
 
+#### 共享存储
+
 其中type=5允许多node共享存储需要按照下面步骤顺序操作(多个register,一个reserver holder)
 
 1. guestA register key abc123
@@ -340,6 +342,25 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 6. 在guestB中释放和取消注册
 
 	sg_persist --out --register --param-rk=abc456 /dev/sda
+
+#### 抢占模式
+
+使用type=3的抢占式锁的使用(使用者1中sdc和抢占者中sda为同一存储)
+
+使用者1使用key:abc123来加锁使用(被抢占后存储变为只读)
+
+	sg_persist --out --register --param-sark=abc123 /dev/sdc
+	sg_persist --out --reserve --param-rk=abc123 --prout-type=3 /dev/sdc
+
+抢占者使用key:123abc来进行抢占
+
+	sg_persist --out --register --param-sark=123abc /dev/sda
+	sg_persist --out --preempt --param-rk=123abc --param-sark=abc123 --prout-type=3 /dev/sda
+
+同理使用者1还可以继续抢占回来(假设还是使用key:abc123)
+
+	sg_persist --out --register --param-sark=abc123 /dev/sdc
+	sg_persist --out --preempt --param-rk=abc123 --param-sark=123abc --prout-type=3 /dev/sdc
 
 ### 3. View the reservation
 
