@@ -95,6 +95,16 @@ xorg的默认值是96, 可设置为:
 
 	nmap [-v] <ip> [-p <port>]
 
+比如查看是否开放3389端口
+
+	$ nmap -Pn -v <ip> -p 3389
+	PORT     STATE SERVICE
+	3389/tcp open  ms-wbt-server (端口已开)
+
+	$ nmap -Pn -v <ip> -p 3389
+	PORT     STATE    SERVICE
+	3389/tcp filtered ms-wbt-server (端口未开)
+
 ### 在终端里插入表情包(insert color emoji in terminal)
 
     ctrl+shift+u + unicode
