@@ -109,9 +109,9 @@
 	iscsiadm -m discovery --type sendtargets -p targetip
 	iscsiadm -m discoverydb -t st -p targetip
 
-和target建立连接并登入
+和target建立连接并登入(login)
 
-	iscsiadm -m node T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 -l
+	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 -l
 
 确认连接是否生效,其中能看到lun的值,在虚拟机参数中用到
 
@@ -130,7 +130,7 @@
 
 登出target
 
-	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 --logout
+	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 -u
 
 ### 1. initiator在客户端内核中,以块设备的方式提供存储(qemu target 模式)
 
@@ -212,7 +212,7 @@
 通过参数来设置iqn
 
 	-device virtio-scsi-pci,id=scsi
-	-drive if=none,file=iscsi://targetip/iqn.2012-01.com.mydom.host01:target1/1,id=diska,file.initiator-name=iqn.1999-1218.com.sara:host1
+	-drive if=none,format=raw,file=iscsi://targetip/iqn.2012-01.com.mydom.host01:target1/1,id=diska,file.initiator-name=iqn.1999-1218.com.sara:host1
 	-device scsi-hd,drive=diska
 
 ### 4. multipath(TODO)
@@ -237,12 +237,12 @@ initiator端安装软件multipath软件
 先确保退出之前的登录
 
 	iscsiadm -m session -P 3 # 查询是否还有会话
-	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 --logout
+	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 -u
 
 重新登录
 
-	iscsiadm -m node T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 -l
-	iscsiadm -m node T iqn.2012-01.com.mydom.host01:target2 -p targetip:3260 -l
+	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target1 -p targetip:3260 -l
+	iscsiadm -m node -T iqn.2012-01.com.mydom.host01:target2 -p targetip:3260 -l
 
 虚拟机启动
 
@@ -507,11 +507,22 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 	tshark -r /path/to/cap-iscsi.pcapng -Y "scsi" -T fields -e frame.number -e ip.addr -e _ws.col.Info | grep "Persistent"
 
+使用tsharkdocker抓包
+
+	docker run --rm -it --privileged --network host \
+		toendeavour/tshark \
+		-i eth0 -Y "scsi" -T fields -e frame.number -e ip.addr -e _ws.col.Info | grep "Persistent"
+
+使用tcpdump抓包后使用wireshark查看
+
+	sudo tcpdump -i eth0 -vvv -w /path/to/cap-iscsi.pcapng
+	sudo wireshark /path/to/cap-iscsi.pcapng
+
 ## FAQ
 
 当出现锁没有被正确释放导致无法访问时,服务端需要手动停止存储再开启,客户端需要重新登录
 
 	/etc/init.d/tgtd zap
 	/etc/init.d/tgtd stop
-	kill -9 <pid of tgtd>
+	kill -9 `pgrep tgtd`
 	/etc/init.d/tgtd start
