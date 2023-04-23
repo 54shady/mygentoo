@@ -104,7 +104,7 @@
 
 	rc-service iscsid start
 
-搜索target,下面命令都是在root用户下操作(当target有更新后需要执行)
+搜索target,下面命令都是在root用户下操作(当target有更新或ip地址更新则需要执行)
 
 	iscsiadm -m discovery --type sendtargets -p targetip
 	iscsiadm -m discoverydb -t st -p targetip
@@ -352,7 +352,7 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 	sg_persist --out --register --param-sark=abc123 /dev/sdc
 	sg_persist --out --reserve --param-rk=abc123 --prout-type=3 /dev/sdc
 
-抢占者使用key:123abc来进行抢占
+抢占者使用key:123abc来进行抢占(需要不同的initiator)
 
 	sg_persist --out --register --param-sark=123abc /dev/sda
 	sg_persist --out --preempt --param-rk=123abc --param-sark=abc123 --prout-type=3 /dev/sda
@@ -520,9 +520,14 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 ## FAQ
 
-当出现锁没有被正确释放导致无法访问时,服务端需要手动停止存储再开启,客户端需要重新登录
+1. 当出现锁没有被正确释放导致无法访问时,服务端需要手动停止存储再开启,客户端需要重新登录
 
 	/etc/init.d/tgtd zap
 	/etc/init.d/tgtd stop
 	kill -9 `pgrep tgtd`
 	/etc/init.d/tgtd start
+
+2. 关于iscsi多session(rcf 3720: Consequences of the Model)
+
+	通过每个ISID(session id)来区分一个连接,
+	所以即便是同一个initiator连接同一个target也是可以支持多session的
