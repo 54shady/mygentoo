@@ -1,5 +1,18 @@
 ## Misc
 
+### [Remount filesystem readonly](https://unix.stackexchange.com/questions/195010/remount-a-busy-disk-to-read-only-mode)
+
+一般情况下有文件打开读写是无法挂载分区只读
+
+但是可以尝试下面操作(不是一定可以成功)将对应的块设备设置成只读(有可能会报Permission denied)
+
+	echo 1 >/sys/block/dm-4/ro
+	echo 1 >/sys/block/sda/sda2/ro
+
+或者使用sysrq的Emergency Remount(应该可以成功)
+
+	echo u > /proc/sysrq-trigger
+
 ### 使用ldconfig建立动态库数据库
 
 清除系统缓存的动态库数据库
