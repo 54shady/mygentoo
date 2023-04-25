@@ -58,3 +58,35 @@ Gentoo中有多种方式配置网络
 
 	sudo /etc/init.d/NetworkManager start
 	sudo nmcli device wifi connect <SSID> password <PASSWD>
+
+连接用户名和密码的ap[(参考连接)](https://unix.stackexchange.com/questions/145366/how-to-connect-to-an-802-1x-wireless-network-via-nmcli)
+
+先设置对应的信息
+
+	export WIFI_USER_NAME="your-user-name"
+	export WIFI_PASSWORD="your-password"
+	export WIFI_CON_ID='your-connection-one'
+	export WIFI_SSID='your-ap-ssid'
+
+建立连接(会在/etc/NetworkManager/system-connections目录下生成对应的配置文件)
+
+	nmcli connection add \
+		type wifi \
+		con-name $WIFI_CON_ID \
+		ifname wlan0 \
+		ssid $WIFI_SSID \
+		-- \
+		wifi-sec.key-mgmt wpa-eap \
+		802-1x.eap peap \
+		802-1x.phase2-auth mschapv2 \
+		802-1x.identity $WIFI_USER_NAME \
+		802-1x.password $WIFI_PASSWORD
+
+启动/关闭连接
+
+    nmcli connection up id $WIFI_CON_ID
+    nmcli connection down id $WIFI_CON_ID
+
+删除连接
+
+    nmcli connection delete id $WIFI_CON_ID
