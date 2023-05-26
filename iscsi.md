@@ -96,6 +96,10 @@
 
 ### 对应initiator在客户端的内核中的场景1,2(qemu target模式)
 
+列出所有lun
+
+	iscsi-ls --show-luns iscsi://targetip
+
 安装对应的软件
 
 	emerge sys-block/open-iscsi
@@ -517,6 +521,12 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 	sudo tcpdump -i eth0 -vvv -w /path/to/cap-iscsi.pcapng
 	sudo wireshark /path/to/cap-iscsi.pcapng
+
+### qemu中执行scsi命令对应的函数
+
+可以通过开启下面的trace来查看
+
+	(qemu) trace-event scsi_generic_send_command on
 
 ## FAQ
 
