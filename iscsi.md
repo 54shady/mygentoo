@@ -528,6 +528,31 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 	(qemu) trace-event scsi_generic_send_command on
 
+### 通过gdb打印出cdb
+
+启动gdb调试虚拟机
+
+	sudo gdb --args /path/to/src/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
+		-smp 2 -m 1G -enable-kvm \
+		-device virtio-scsi,id=scsi \
+		-drive if=none,format=raw,file=iscsi://targetip/iqn.2012-01.com.mydom.host01:target1/1,id=diska,file.initiator-name=iqn.1999-1218.com.sara:host1 \
+		-device scsi-block,drive=diska -serial mon:telnet::4444,server=on,wait=off
+
+在qemu/block/iscsi.c的iscsi_aio_ioctl函数里下面对应行打上断点
+
+	if (iscsi_scsi_command_async(iscsi, iscsilun->lun, acb->task
+	(gdb) p /x acb->task->cdb
+
+### 关于qemu中scsi-hd和scsi-block设备
+
+scsi-hd是模拟设备,而scsi-block可以将scsi命令进行透传到后端再调用libiscsi处理
+
+当使用scsi-hd设备,在虚拟机中执行sg_persist命令会返回不支持(command not supported),可开启如下调试
+
+	(qemu) trace-event scsi_disk_emulate_command_UNKNOWN on
+
+因为scsi-hd命令对于PR IN/OUT命令都进行丢弃
+
 ## FAQ
 
 1. 当出现锁没有被正确释放导致无法访问时,服务端需要手动停止存储再开启,客户端需要重新登录
