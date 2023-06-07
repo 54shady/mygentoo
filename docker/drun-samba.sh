@@ -30,10 +30,14 @@ docker run --name samba \
     -p 139:139 -p 445:445 \
     -e USERID=`id -u` \
 	-e GROUPID=`id -g` \
-    -v /host/share/dir1/:/share/d1 \
-    -v /host/share/dir2/:/share/d2 \
+    -v ${HOME}/Share/:/share/d1 \
+    -v /golden/:/share/d2 \
+    -v /iso/:/share/d3 \
+    -v /data/winapp/:/share/d4 \
     dperson/samba:latest \
         -u "admin;0" \
         -u "zero;0" \
-        -s "share1;/share/d1;yes;no;no;zero;admin;admin;publicSharea" \
-		-s "share2;/share/d2;yes;yes;no;zero;admin;admin;publicShareb"
+        -s "share;/share/d1;yes;no;no;zero;admin;admin;publicSharea" \
+        -s "golden;/share/d2;yes;yes;no;zero;admin;admin;publicSharea" \
+        -s "iso;/share/d3;yes;yes;no;zero;admin;admin;publicSharea" \
+		-s "winapp;/share/d4;yes;yes;no;zero;admin;admin;publicShareb"
