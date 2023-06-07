@@ -293,7 +293,13 @@ OverlayFS中两个层lower和upper
 
 通过修改环境变量(指定用户名为test)来启动容器,默认启动xfce会话
 
-	docker run -p 5900:5900 -e SPICE_USER=test -e SPICE_UID=1000 -v /home/test:/home/test -e SPICE_PASSWD="0" -e SPICE_LOCAL="en_US.UTF-8" -e SPICE_RES="1920x1080" spicexfce
+	docker run -p 5900:5900 \
+		--rm --name spicexfce \
+		-v /tmp/test:/home/user \
+		-e SPICE_PASSWD="0" \
+		-e SPICE_LOCAL="en_US.UTF-8" \
+		-e SPICE_RES="1920x1080" \
+		spicexfce
 
 或者通过设置RUNIT运行新的程序比如umlet(其他参数用默认)
 
@@ -320,11 +326,11 @@ OverlayFS中两个层lower和upper
 
 	docker pull psharkey/eclipse
 
-运行镜像(此操作同样使用例子3),容器中的图形程序作为xclient连接host的xserver
+运行镜像(此操作同样适用例子3),容器中的图形程序作为xclient连接host的xserver
 
 	docker run --rm -it --privileged \
 		--network=host \
-		-v ~/.Xauthority:/root/.Xauthority \
+		-v ~/.Xauthority:/root/.Xauthority:ro \
 		-e DISPLAY=':0' \
 		-e "TZ=America/Chicago" \
 		psharkey/eclipse
@@ -418,4 +424,39 @@ Dockerfile内容如下
 
 测试生成的镜像
 
-	docker run -it --rm mybusybox
+    docker run -it --rm mybusybox
+
+## Pull From Local Registry
+
+### On Registry Machine
+
+On local registry machine(ip a.a.a.a), install and run registry docker daemon
+
+	docker pull registry
+	docker run -d -p 5000:5000 --name registry registry
+
+rename local docker image to specify name(rename local x86/ubuntu:1604 to localhost:5000/ubt1604)
+
+	docker image tag x86/ubuntu:1604 localhost:5000/ubt1604
+
+push image to local registry
+
+	docker push localhost:5000/ubt1604
+
+### Machine need pull image
+
+On the machine that want to pull the image from registry add blow(/etc/docker/daemon.json)
+
+	{
+		"insecure-registries": [
+			 "a.a.a.a:5000",
+		]
+	}
+
+reload docker daemon
+
+	systemctl reload docker
+
+pull image from local registry
+
+	docker pull a.a.a.a:5000/ubt1604
