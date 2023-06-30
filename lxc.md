@@ -38,7 +38,7 @@
 创建本地容器ubt(目录名就是容器名),和对应的配置文件
 
 	mkdir /var/lib/lxc/ubt
-	touch config
+	touch /var/lib/lxc/ubt/config
 
 此时就能看到有一个容器
 
@@ -82,7 +82,7 @@
 
 	lxc-start ubt systemd
 
-#### 使用自动化脚本构建rootfs[genrootfs/stage{1,2,3}](./genrootfs/)
+#### 使用自动化脚本构建rootfs[genrootfs/stage{1,2,3}](./genrootfs/) 或参考dfc/rootfs
 
 1. 解压stage3 tarball到rootfs目录
 2. 使用脚本自动构建
