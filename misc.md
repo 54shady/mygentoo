@@ -1,5 +1,12 @@
 ## Misc
 
+### Linux Find Out Virtual Memory PAGESIZE(查询页表大小)
+
+using getconf to get pagesize in bytes
+
+	getconf PAGESIZE
+	getconf PAGE_SIZE
+
 ### [Remount filesystem readonly](https://unix.stackexchange.com/questions/195010/remount-a-busy-disk-to-read-only-mode)
 
 一般情况下有文件打开读写是无法挂载分区只读
