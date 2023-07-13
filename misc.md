@@ -371,3 +371,68 @@ Create the file /etc/portage/env/debug.conf and add:
 
 ### [unknown filesystem type 'LVM2_member'](./lvm.md)
 
+### TimeZone and Clock
+
+[List of time zone abbreviations](https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations)
+
+check time zone on linux(下面是东八区)
+
+	date +"%Z %z"
+	CST +0800
+
+refer the link above for CST mean which is
+
+	CST	China Standard Time	UTC+08
+
+所以知道localtime = utc + timezone的时间差值
+
+即date显示的就是localtime,等于utc时间加上东八区时间
+
+如下是配置东八区后的查询得到的localtime
+
+	# timedatectl
+		  Local time: Thu 2023-07-13 16:20:46 CST
+	  Universal time: Thu 2023-07-13 08:20:46 UTC
+			RTC time: Thu 2023-07-13 16:20:48
+		   Time zone: Asia/Shanghai (CST, +0800)
+		 NTP enabled: yes
+	NTP synchronized: yes
+	 RTC in local TZ: yes
+		  DST active: n/a
+
+将utc时间写入到rtc时钟中,rtc会同步utc的时间
+
+	# timedatectl set-local-rtc 0
+	# timedatectl
+		  Local time: Thu 2023-07-13 16:32:35 CST
+	  Universal time: Thu 2023-07-13 08:32:35 UTC
+			RTC time: Thu 2023-07-13 08:32:35
+		   Time zone: Asia/Shanghai (CST, +0800)
+		 NTP enabled: yes
+	NTP synchronized: yes
+	 RTC in local TZ: no
+		  DST active: n/a
+
+取消rtc同步utc
+
+	# timedatectl set-local-rtc 1
+	# timedatectl
+		  Local time: Thu 2023-07-13 16:34:06 CST
+	  Universal time: Thu 2023-07-13 08:34:06 UTC
+			RTC time: Thu 2023-07-13 16:34:06
+		   Time zone: Asia/Shanghai (CST, +0800)
+		 NTP enabled: yes
+	NTP synchronized: yes
+	 RTC in local TZ: yes
+		  DST active: n/a
+
+在一些发行版本中可以通过下面方法来设置时区
+
+	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+查看但前系统使用的时钟源和可用的时钟源
+
+	cat /sys/devices/system/clocksource/clocksource0/current_clocksource
+
+	cat /sys/devices/system/clocksource/clocksource0/available_clocksource
+		tsc hpet acpi_pm
