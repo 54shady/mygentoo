@@ -4,8 +4,8 @@
 
 linux安装如下软件(Xvnc)
 
-	tigervnc (需要的use : server)
-	xrdp (使用ace的overlay安装)
+	tigervnc(需要的use : server)
+	xrdp (使用zeroway的overlay安装)
 
 启动Xvnc和xrdp
 
@@ -54,7 +54,14 @@ linux安装如下软件(Xvnc)
 
 ~~其中[.remote_xinitrc文件](./remote_xinitrc)参考这里~~
 
-windows端mstsc远程连接使用Xvnc作为Session
+windows端mstsc远程连接式会话选择(Xorg,Xvnc)
+
+- 使用Xorg作为Session连接不需要安装tigervnc
+- 使用Xvnc作为Session连接时需要安装tigervnc
+
+其中使用Xvnc会话,在主机上可以看到如下
+
+	Xvnc :10 -auth .Xauthority -geometry 1024x768 -depth 32 -rfbauth /home/zeroway/.vnc/sesman_passwd-zeroway@zpc:10 -bs -nolisten tcp -localhost -dpi 96
 
 进入系统后打开终端配置显示设备,sesman.ini中配置的(否则应用会在主机上显示)
 
