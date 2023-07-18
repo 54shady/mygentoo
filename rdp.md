@@ -1,4 +1,4 @@
-### 远程桌面(Xvnc, xrdp)
+# 远程桌面(Xvnc, xrdp)
 
 通过windows默认远程连接到linux(gentoo dwm)
 
@@ -54,6 +54,8 @@ linux安装如下软件(Xvnc)
 
 ~~其中[.remote_xinitrc文件](./remote_xinitrc)参考这里~~
 
+## 连接一个新会话
+
 windows端mstsc远程连接式会话选择(Xorg,Xvnc)
 
 - 使用Xorg作为Session连接不需要安装tigervnc
@@ -69,3 +71,17 @@ windows端mstsc远程连接式会话选择(Xorg,Xvnc)
 	:10.0
 
 	export DISPLAY=:10.0
+
+## 连接当前会话
+
+服务端上创建一个密码文件
+
+	vncpasswd current-session-pwd
+
+服务端启动vncserver(客户端可以通过默认5900端口进行vnc连接)
+
+	x0vncserver -passwordfile current-session-pwd
+
+在客户端上连接服务器
+
+	vncviewer <ip>:5900
