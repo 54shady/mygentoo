@@ -436,3 +436,15 @@ refer the link above for CST mean which is
 
 	cat /sys/devices/system/clocksource/clocksource0/available_clocksource
 		tsc hpet acpi_pm
+
+### 普通用户使用sudo启动应用程序无法打开图形界面
+
+比如使用sudo qemu-system-x86_64时遇到错误(无法启动图形)
+
+第一个问题: Authorization required, but no authorization protocol specified
+
+	xhost + local:
+
+第二个问题: gtk initialization failed
+
+	export DISPLAY=:0
