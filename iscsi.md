@@ -492,6 +492,12 @@ The –prout-type parameter specified the reservation type, from manpage, valid 
 
 	direct-lun is passed to qemu process as /dev/mapper/$scsi_is
 
+### libiscsi库环境变量设置
+
+通过环境变量设置调试级别和相关tcp参数
+
+	LIBISCSI_DEBUG=3 LIBISCSI_TCP_USER_TIMEOUT=1 qemu-system-x86_64 ...
+
 ### 使用perf调试iscsi
 
 [参考文章using-tracepoints-to-debug-iscsi](https://blogs.oracle.com/linux/post/using-tracepoints-to-debug-iscsi)
