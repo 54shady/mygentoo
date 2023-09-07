@@ -18,7 +18,11 @@
 
 ### 客户端操作(BinaryClient)
 
-添加下面内容到/etc/portage/make.conf文件(BinaryHost IP 192.168.1.100)
+客户端配置
+
+	PORTAGE_BINHOST="ssh://<user>@<ip>:<port>/host/path/to/packages"
+
+比如添加下面内容到/etc/portage/make.conf文件(BinaryHost IP 192.168.1.100)
 
 	PORTAGE_BINHOST="ssh://root@192.168.1.100/usr/portage/packages"
 
@@ -42,18 +46,14 @@
 使用docker生成git的二进制包
 
 	~~docker run --privileged -v /host/binary/packages:/usr/portage/packages --net=host --rm -it binhost /usr/bin/quickpkg git~~
+	~~alias bpkg='docker run --privileged -v /usr/portage:/usr/portage --net=host --rm -it binhost /usr/bin/emerge -b'~~
 
 用emerge选项来编译(使用alias方便操作)
 
-	~~alias bpkg='docker run --privileged -v /usr/portage:/usr/portage --net=host --rm -it binhost /usr/bin/emerge -b'~~
-	alias bpkg='docker run --privileged -v /path/to/a/dir/packages:/usr/portage/packages --net=host --rm -it binhost /usr/bin/emerge -b'
+	alias bpkg='docker run --privileged -v /path/to/portage:/usr/portage --net=host --rm -it binhost /usr/bin/emerge -b'
 	bpkg git
 
 编译当前系统所有二进制包(stage4中最好有内核代码和portage,就可以不用挂载目录)
 
-	~~docker run --privileged -v /usr/src/linux:/usr/src/linux -v /usr/portage:/usr/portage --net=host --rm -it binhost /usr/bin/quickpkg --include-config=y "*/*"~~
-	docker run --privileged -v /host/binary/packages:/tmp --net=host --rm -it binhost /usr/bin/quickpkg --include-unmodified-config=y "*/*"
-
-客户端配置中路径对应的是host/binary/packages
-
-	PORTAGE_BINHOST="ssh://<user>@<ip>/host/binary/packages"
+	~~docker run --privileged -v /host/binary/packages:/tmp --net=host --rm -it binhost /usr/bin/quickpkg --include-unmodified-config=y "*/*"~~
+	docker run --privileged -v /path/to/linux/src:/usr/src/linux -v /path/to/portage:/usr/portage --net=host --rm -it binhost /usr/bin/quickpkg --include-config=y "*/*"
