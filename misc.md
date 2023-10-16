@@ -448,3 +448,9 @@ refer the link above for CST mean which is
 第二个问题: gtk initialization failed
 
 	export DISPLAY=:0
+
+### ssh客户端提示:System is booting up. See pam_nologin(8)
+
+需要修改服务端配置文件(/etc/pam.d/sshd)将包含pam_nologin.so这行注释掉
+
+	sed -i -r 's/^(.*pam_nologin.so)/#\1/' /etc/pam.d/sshd
