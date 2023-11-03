@@ -1,5 +1,33 @@
 ## ssh client 配置
 
+## 使用配置
+
+对于远程服务器(ip: 192.168.1.100)修改端口22为6622,不想每次都输入端口
+
+首先启动ssh-agent来管理私钥(下面这种方式启动只针对当前shell)或在.bashrc里添加启动项
+
+	exec ssh-agent bash
+
+添加私钥
+
+	ssh-add ~/.ssh/id_rsa
+
+添加公钥到Host
+
+	ssh-copy-id -p 6622 192.168.1.100
+
+此时可以通过ssh 192.168.1.100或ssh host100来连接
+
+添加对指定服务器的配置(~/.ssh/config)
+
+	Host host100
+		HostName 192.168.1.100
+		IdentityFile ~/.ssh/id_rsa
+		user root
+		Port 6622
+
+## FAQ
+
 1. 新连接ssh服务器时会跳出如下提示,修改配置默认接受
 
 	The authenticity of host can't be established.
