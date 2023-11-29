@@ -96,9 +96,15 @@
 
 ### 对应initiator在客户端的内核中的场景1,2(qemu target模式)
 
-列出所有lun
+使用libiscsi的utils里的工具(可以配置LIBISCSI_DEBUG=1查看详细信息)
 
 	iscsi-ls --show-luns iscsi://targetip
+	iscsi-inq iscsi://targetip/iqn.2004-04.rhel:rhel5:iscsi.kvmguest/2
+	LIBISCSI_DEBUG=1 iscsi-perf -x 5 iscsi://targetip/iqn.2004-04.rhel:rhel5:iscsi.kvmguest/2
+
+wireshark抓包可以看到重传了3次后失败
+
+	LIBISCSI_TCP_SYNCNT=3 LIBISCSI_DEBUG=1 iscsi-perf -x 5 iscsi://targetip/iqn.2004-04.rhel:rhel5:iscsi.kvmguest/2
 
 安装对应的软件
 
