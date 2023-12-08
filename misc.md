@@ -454,3 +454,42 @@ refer the link above for CST mean which is
 需要修改服务端配置文件(/etc/pam.d/sshd)将包含pam_nologin.so这行注释掉
 
 	sed -i -r 's/^(.*pam_nologin.so)/#\1/' /etc/pam.d/sshd
+
+### 日期和秒数之间的转换(second2date, date2second)
+
+[Get epoch time with trace-cmd](https://unix.stackexchange.com/questions/329742/how-to-get-epoch-time-with-trace-cmd-frontend-for-ftrace)
+
+[timestamp online](https://timestamp.online/)
+
+将-d指定的日期(这里用系统启动的日期)转换成1970来的秒数
+
+	date -d `uptime -s` +"%s"
+
+将-d指定的从1970年来的秒数(这里假设是1702018167)转成日期格式
+
+	date -d @1702018167 +"%Y-%m-%d %H:%M:%S"
+
+查看dmesg是默认打印的是系统开机后的秒数和微妙如下
+
+	[365906.100210] usb 1-7: SerialNumber: 923QEDUM2263B
+
+可以通过dmesg -T来查看日期格式
+
+	[Fri Dec  8 14:49:26 2023] usb 1-7: SerialNumber: 923QEDUM2263B
+
+通过上面步骤来计算dmesg里的时间(ftrace里的同理)
+
+获取系统开机的秒数
+
+	date -d "`uptime -s`" +"%s"
+	1701652261
+
+将日志中的时间加上开机的秒数
+
+	echo "365906 + 1701652261" | bc
+	1702018167
+
+将秒数转成日期格式(因为没有加微妙数,所以偏差一秒)
+
+	date -d @1702018167 +"%Y-%m-%d %H:%M:%S"
+	2023-12-08 14:49:27
