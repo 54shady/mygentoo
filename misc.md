@@ -493,3 +493,9 @@ refer the link above for CST mean which is
 
 	date -d @1702018167 +"%Y-%m-%d %H:%M:%S"
 	2023-12-08 14:49:27
+
+### Android phone on linux using scrcpy
+
+1. enable the usb debug on android phone
+2. on host run adb kill-server and adb shell to test it
+3. run scrcpy on host (app-mobilephone/scrcpy)
