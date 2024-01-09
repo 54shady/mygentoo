@@ -76,3 +76,110 @@ vgdisplay的结果如下
 挂载对应的文件即可
 
 	mount /dev/yourVGname/data /mnt/
+
+# LVM usage (Test on ubuntu 22.04)
+
+## install packages
+
+	apt install lvm2 multipath-tools lvm2-lockd
+
+## Create logical volume
+
+create Physical Volume
+
+	pvcreate /dev/sdb
+	pvdisplay
+
+create Volume Group name myvg on /dev/sdb
+
+	vgcreate myvg /dev/sdb
+	vgdisplay
+
+create Logical Volume
+
+	lvcreate -L 10G -n mylv myvg
+	lvdisplay
+
+## Using logical volume
+
+format logical volume
+
+	mkfs.ext4 /dev/myvg/mylv
+
+mount logical volume
+
+	mkdir /mnt/
+	mount -t /dev/myvg/mylv /mnt
+
+## Delete logical volume
+
+delete Logical Volume
+
+	lvremove /dev/myvg/mylv
+
+delete Volume Group
+
+	vgchange -an myvg
+	vgremove myvg
+
+delete physical volume
+
+	pvremove /dev/sdb
+
+## multipath
+
+create the logical volume and do pvscan(/dev/mapper/myvg-mylv -> ../dm-0)
+
+	pvscan
+
+## using sanlock as lock manager for LVM
+
+[man lvmlockd](http://rpm.pbone.net/manpage_idpl_31677851_numer_8_nazwa_lvmlockd.html)
+
+enable lvmlockd
+
+	systemctl enable lvmlockd
+
+enable lvm using lock and setup hostid (/etc/lvm/lvm.conf)
+
+	global {
+		...
+		use_lvmlockd = 1
+		...
+	}
+	local {
+		host_id=11
+	}
+
+restart lvmlockd and locks
+
+	systemctl restart lvmlockd lvmlocks
+
+create VG on shared devices
+
+	vgcreate --shared myvg /dev/sdb
+
+start VG on all hosts
+
+	vgchange --lock-start
+
+create Logical Volume
+
+	lvcreate -L 10G -n mylv myvg
+	lvdisplay
+
+list block device using **lsblk** will see the myvg-lvmlock device
+
+	sdb               8:16   0   100G  0 disk
+	├─myvg-lvmlock 253:0    0   256M  0 lvm
+	└─myvg-mylv    253:1    0    10G  0 lvm
+
+check the sanlock status using command **sanlock status**
+
+	daemon 965af208-5dab-48aa-8d58-e822dbe481f0.zeroway-Sta
+	p -1 helper
+	p -1 listener
+	p 21399 lvmlockd
+	p -1 status
+	s lvm_myvg:11:/dev/mapper/myvg-lvmlock:0
+	r lvm_myvg:Y0MvQU-VzCz-LUjW-hJol-10ex-pHyx-BcDuup:/dev/mapper/myvg-lvmlock:70254592:1 p 21399
