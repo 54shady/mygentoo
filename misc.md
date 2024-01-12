@@ -369,7 +369,7 @@ Create the file /etc/portage/env/debug.conf and add:
 
 	emerge sys-libs/glibc
 
-### [unknown filesystem type 'LVM2_member'](./lvm.md)
+### [LVM usage](./lvm.md)
 
 ### TimeZone and Clock
 
