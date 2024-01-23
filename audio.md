@@ -111,6 +111,20 @@ mpv 通过--ao= 参数来选择对应的声音输出驱动
 
 ### alsa-utils
 
+可以使用pacmd(pulseaudio-utils)查看接入的是Rear/Front mic
+
+	pacmd list-cards | grep mic | grep "available: yes"
+
+一般HeadPhone(头戴式耳机)上是Front Microphone和Headphones
+
+使用arecord来录制声音(alsamixer中enable Rear/Front Mic)
+
+	arecord -f cd -t wav a.wav
+
+再用aplay播放(alsamixer中enable Speaker/Headphone)
+
+	aplay a.wav
+
 使用aplay -L查看声卡设备
 
 	default:CARD=PCH
@@ -151,9 +165,9 @@ dump硬件参数配置
 
 	speaker-test -t wav -c 2
 
-调整c0的声音参数
+调整card 0的声音参数
 
-	alsamixer -c0 --view=ALL
+	alsamixer -c 0 --view=ALL
 
 ## [QEMU中使用音频](../virtopt/audio.md)
 
