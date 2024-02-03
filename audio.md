@@ -179,6 +179,7 @@ dump硬件参数配置
 	Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 48000 Hz, 1 channels, s16, 768 kb/s
 
 查看mp3文件信息(aplay -f S16 -r44100 input.mp3无法正常播放)
+
 	ffprobe input.mp3
 	Stream #0:0: Audio: mp3, 44100 Hz, stereo, fltp, 128 kb/s
 	Stream #0:1: Video: mjpeg (Progressive), yuvj444p(pc, bt470bg/unknown/unknown), 600x600, 90k tbr, 90k tbn, 90k tbc (attached pic)
