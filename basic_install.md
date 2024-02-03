@@ -1,8 +1,8 @@
-## 系统安装
+# 系统安装(We now going to binary and source mix mode)
 
-### [制作启动u盘](usbboot.md)
+## [制作启动u盘](usbboot.md)
 
-### 分区
+## 分区
 
 	/dev/sda1 ==> /boot
 	/dev/sda2 ==> swap分区
@@ -13,16 +13,16 @@
 	mkfs.ext4 /dev/sda3
 	mkfs.ext4 /dev/sda4
 
-### 挂载相应分区,安装stage3
+## 挂载相应分区,安装stage3
 
 	mount /dev/sda3 /mnt/gentoo
 	mkdir /mnt/gentoo/boot
 	mount /dev/sda1 /mnt/gentoo/boot
 
 	cd /mnt/gentoo
-	tar xvjpf stage3-*.tar.bz2 --xattrs
+	tar Jxvf stage3-amd64-openrc-20240107T170309Z.tar.xz --xattrs
 
-make.conf(/mnt/gentoo/etc/portage/make.conf)内容如下：
+make.conf(/mnt/gentoo/etc/portage/make.conf)内容如下
 
 	CFLAGS="-O2 -pipe"
 	CXXFLAGS="${CFLAGS}"
@@ -34,7 +34,7 @@ make.conf(/mnt/gentoo/etc/portage/make.conf)内容如下：
 	GENTOO_MIRRORS="http://mirrors.sohu.com/gentoo/ http://mirrors.163.com/gentoo/"
 	MAKEOPTS="-j8"
 
-### /etc/fstab内容
+## /etc/fstab内容
 
 	/dev/sda1       /boot   ext4    defaults,noatime        0       2
 	/dev/sda2       none    swap    sw      0       0
@@ -45,7 +45,11 @@ make.conf(/mnt/gentoo/etc/portage/make.conf)内容如下：
 
 	cp -L /etc/resolv.conf /mnt/gentoo/etc/
 
-### 挂载必要目录
+## 安装portage
+
+	tar Jxvf portage-20240111.tar.xz -C /mnt/gentoo/usr/
+
+## 挂载必要目录
 
 	mount -t proc proc /mnt/gentoo/proc
 	mount --rbind /sys /mnt/gentoo/sys
@@ -56,44 +60,43 @@ make.conf(/mnt/gentoo/etc/portage/make.conf)内容如下：
 	chroot /mnt/gentoo /bin/bash
 	source /etc/profile
 
-### 安装portage
+## select profile
 
-先下载好portage的snapshot压缩包直接解压到/usr/
+	eselect profile set 1
+	[1]   default/linux/amd64/17.1 (stable) *
 
-先使用profile 1
+## 下载编译内核代码
 
-eselect profile set 1
-
-[1]   default/linux/amd64/13.0
-
-
-### 下载编译内核代码
-
-	emerge -v sys-kernel/gentoo-sources
-	emerge -v sys-kernel/genkernel
+	emerge sys-kernel/gentoo-sources
+	emerge sys-kernel/genkernel
+	ln -s /usr/src/linux-6.1.67-gentoo /usr/src/linux
 	genkernel all
 
-### 安装grub
+## 安装grub
 
 	emerge sys-boot/grub
     grub-install --target=x86_64-efi --efi-directory=/boot --removable
 	grub-mkconfig -o /boot/grub/grub.cfg
 
-### 配置主机名
+## 配置主机名
 
 	nano -w /etc/conf.d/hostname
-	hostname="zeroway"
+	hostname="homepc"
 
-### 配置网络文件(假设网卡是eth0, 替换实际名字)
+## 配置网络文件(假设网卡是eth0/wlan0, 替换实际名字)
 
 	/etc/conf.d/net
+
 	config_eth0="dhcp"
+
+	modules_wlan0="wpa_supplicant"
+	config_wlan0="dhcp"
 
 	cd /etc/init.d
 	ln -s net.lo net.eth0
 	rc-update add net.eth0 default
 
-### 修改root密码
+## 修改root密码
 
 	passwd root
 
@@ -152,27 +155,30 @@ This system is configured to permit randomly generated passwords only
 
 不需要安装图形界面的话安装到这里就可以了
 
-### ~~安装KDE桌面环境~~
+## ~~安装KDE桌面环境~~
 
-选择适当的profile
+~~选择适当的profile~~
 
 	eselect profile set 6
 
-添加下面的几个USE
+~~添加下面的几个USE~~
 
 	USE＝"...dbus policykit udev udisks"
 
-更新系统USE
+~~更新系统USE~~
 
 	emerge --changed-use --deep @world
 
-安装KDE组件
+~~安装KDE组件~~
 
 	emerge kde-apps/kdebase-meta
 
-安装xorg
+-------
 
-	emerge xorg-x11
+安装xserver
+
+	#emerge xorg-x11
+	emerge xorg-server
 
 安装X需要的组件
 
@@ -208,7 +214,7 @@ Slim的配置文件
 
 	AllowRootlogon = true
 
-### ~~kconsole solarized~~
+## ~~kconsole solarized~~
 
 [参考链接](https://techoverflow.net/blog/2013/11/08/installing-konsole-solarized-theme/)
 
@@ -228,16 +234,17 @@ After that, you only have to select the appropriate color profile (Settings —>
 
 	. ~/.bashrc
 
-### 添加新用户zeroway 默认组为users,附加组为adm,sys
+## 添加新用户zeroway 默认组为users,附加组为adm,sys
 
 	useradd  -m -g users -G adm,sys -s /bin/bash zeroway
 	passwd zeroway
 
-添加用户zeroway到video组
+添加用户zeroway到video, docker组
 
 	sudo gpasswd -M zeroway video
+	sudo gpasswd -M zeroway docker
 
-### 安装sudo
+## 安装sudo
 
 	emerge sudo
 
@@ -250,7 +257,7 @@ sudo的时候能自动补全
 	emerge bash-completion
 	echo "complete -cf sudo" >> /home/mobz/.bashrc
 
-### virtual box 安装
+## virtual box 安装
 
 	emerge app-emulation/virtualbox-bin
 	gpasswd -a zeroway vboxusers
@@ -263,7 +270,7 @@ sudo的时候能自动补全
 
 	modules="vboxdrv"
 
-### Dbus & consolekit
+## Dbus & consolekit
 
 添加dbus 和 consolekit 默认启动
 
@@ -272,7 +279,7 @@ sudo的时候能自动补全
 	rc-update add dbus default
 	rc-update add consolekit default
 
-### NetworkManager(删除系统默认的网络管理,以太网卡名eth0)
+## NetworkManager(删除系统默认的网络管理,以太网卡名eth0)
 
 	rc-update del net.eth0
 	rm /etc/conf.d/net
@@ -287,7 +294,7 @@ sudo的时候能自动补全
 
 	rc-update add NetworkManager  default
 
-### 安装字体和输入法等
+## 安装字体和输入法等
 
 	emerge wqy-zenhei wqy-microhei wqy-bitmapfont wqy-unibit arphicfonts corefonts ttf-bitstream-vera
 	emerge fcitx fcitx-sunpinyin fcitx-libpinyin fcitx-cloudpinyin fcitx-configtool
@@ -309,7 +316,12 @@ gtk2/gtk3/qt都有对应的安装包,比如qt5的应用(qutebrowser)需要安装
 
 	app-i18n/fcitx-qt5
 
-### 设置时区和区域
+列出已安装的字体(使能一个字体)
+
+    eselect fontconfig list
+    eselect fontconfig enable 911
+
+## 设置时区和区域
 
 查看可用的时区
 
@@ -323,9 +335,9 @@ OpenRC设置时区
 ntp同步时间
 
 	emerge net-misc/ntp
-	ntpdate ntp.api.bz
+    ntpdate -b -u 0.gentoo.pool.ntp.org
 
-设置locale(/etc/locale.gen中添加下面内容):
+设置locale(/etc/locale.gen 中添加下面内容):
 
 	en_US ISO-8859-1
 	en_US.UTF-8 UTF-8
@@ -356,7 +368,7 @@ ntp同步时间
 
 安装完成后重启添加pinyin输入法
 
-### Desktop Manager设置
+## Desktop Manager设置
 
 配置文件
 
@@ -387,4 +399,3 @@ ntp同步时间
 也需要将xdm添加到默认启动项里
 
 	rc-update add xdm default
-
