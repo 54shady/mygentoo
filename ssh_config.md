@@ -1,6 +1,12 @@
+# SSH 配置和使用
+
 ## ssh client 配置
 
-## 使用配置
+### 配置免密码登陆
+
+	cat ~/.ssh/id_rsa.pub | ssh -l root 192.168.1.100 "cat > ~/.ssh/authorized_keys"
+
+### 使用agent配置免密
 
 对于远程服务器(ip: 192.168.1.100)修改端口22为6622,不想每次都输入端口
 
@@ -26,7 +32,7 @@
 		user root
 		Port 6622
 
-## FAQ
+### FAQ
 
 1. 新连接ssh服务器时会跳出如下提示,修改配置默认接受
 
@@ -71,3 +77,11 @@
 添加key
 
 	ssh-keygen -A
+
+## SSH server 配置
+
+### 允许root用户登入(/etc/ssh/sshd_config)
+
+	PermitRootLogin yes
+	RSAAuthentication yes
+	PubkeyAuthentication yes

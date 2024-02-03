@@ -4,7 +4,7 @@
 
 ## [无线网络(wifi)配置](wifi.md)
 
-## [SSH client 配置](ssh_client.md)
+## [SSH client / server 配置](ssh_config.md)
 
 ## [管理多个ssh keys](sshkeys.md)
 
