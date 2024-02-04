@@ -30,6 +30,12 @@ docker利用主机资源跑rootfs
 
 	docker run -it --rm myimage
 
+## 修改docker0的ip地址
+
+在/etc/docker/daemon.json 中添加如下
+
+	"bip": "192.168.10.1/24"
+
 ## 基础使用
 
 下载基础image
