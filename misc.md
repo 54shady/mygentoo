@@ -501,3 +501,4 @@ refer the link above for CST mean which is
 3. run scrcpy on host (app-mobilephone/scrcpy)
 
 ### [Run feishu application](./feishu.md)
+### [Config git sendemail](./git-send-mail.md)
