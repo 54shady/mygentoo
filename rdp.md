@@ -82,6 +82,10 @@ windows端mstsc远程连接式会话选择(Xorg,Xvnc)
 
 	x0vncserver -passwordfile current-session-pwd
 
+使用端口6666
+
+	x0vncserver rfbport=6666 -passwordfile ~/.grice/current-session-pwd
+
 在客户端上连接服务器
 
 	vncviewer <ip>:5900
