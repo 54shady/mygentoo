@@ -499,3 +499,5 @@ refer the link above for CST mean which is
 1. enable the usb debug on android phone
 2. on host run adb kill-server and adb shell to test it
 3. run scrcpy on host (app-mobilephone/scrcpy)
+
+### [Run feishu application](./feishu.md)
