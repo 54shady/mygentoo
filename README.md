@@ -1,4 +1,4 @@
-# Gentoo Linux
+# Gentoo Linux基本使用
 
 ## 使用方法
 
@@ -66,6 +66,8 @@ Just copy each specify file respectively
 ## [Linux Audio Subsystem](audio.md)
 
 ## [Copy and Paste in Linux](xclip.md)
+
+## [Debug on gentoo](debug.md)
 
 ## [废弃的kde桌面配置](kde.md)
 
