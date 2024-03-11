@@ -69,6 +69,8 @@ Just copy each specify file respectively
 
 ## [Debug on gentoo](debug.md)
 
+## [Bluez on gentoo](bluetooth.md)
+
 ## [废弃的kde桌面配置](kde.md)
 
 ## [FAQ](faq.md)
