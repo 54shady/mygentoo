@@ -10,7 +10,7 @@
 
 	media-sound/pulseaudio bluetooth daemon
 
-2. run the pulseaudio daemon system-wide
+2. run the pulseaudio daemon system-wide(or config in dwm startup script)
 
 	[~]$ pulseaudio
 	E: [pulseaudio] upower.c: Get() failed: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.UPower was not provided by any .service files
@@ -50,7 +50,9 @@ config file for bluez(/etc/bluetooth/main.conf)
 
 	rfkill list bluetooth
 
-使用交互模式连接蓝牙
+### 使用交互模式连接蓝牙
+
+进入交互模式
 
 	$ bluetoothctl
 
@@ -63,3 +65,10 @@ config file for bluez(/etc/bluetooth/main.conf)
 
 	[bluetooth]# scan
 	[bluetooth]# pair device_mac_address
+
+### 使用命令行方式操作
+
+    bluetoothctl devices
+    bluetoothctl info device_mac_address
+	bluetoothctl pair device_mac_address
+    bluetoothctl connect device_mac_address
