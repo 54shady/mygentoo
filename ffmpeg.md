@@ -88,3 +88,12 @@ aac转webm
 用如下命令将demo1.mp4文件的音量调大10dB(调小就写 -10dB),输出到output.mp4 件中
 
     ffmpeg -i demo1.mp4 -vcodec copy -af "volume=10dB" output.mp4
+
+## 查看视频时长
+
+    ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 demo.mp4
+    ffmpeg -i demo.mp4 2>&1 | grep Duration
+
+## 编辑mp3的metadata(没有metadata在ncmpcpp显示为空)
+
+    ffmpeg -i input.mp3 -c copy -metadata artist="singer name" -metadata title="song name" -metadata album="x" output.mp3
