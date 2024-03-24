@@ -72,3 +72,31 @@ config file for bluez(/etc/bluetooth/main.conf)
     bluetoothctl info device_mac_address
 	bluetoothctl pair device_mac_address
     bluetoothctl connect device_mac_address
+
+### FAQ
+
+[hci0 command 0x1009 tx timeout, bluez can't find adapter](https://bugzilla.kernel.org/show_bug.cgi?id=64671)
+
+[reset usb device](https://www.01signal.com/other/usb-device-stuck-reset/)
+
+    [  114.890669] Bluetooth: hci0: command 0x1005 tx timeout
+    [  114.890685] Bluetooth: hci0: Opcode 0x1005 failed: -110
+
+below command can not fix my issue
+
+    rmmod btusb
+    modprobe btusb
+
+try to reset the usb port using script below can fix it
+
+    #!/usr/bin/python
+    # pip install pyusb
+    # Bus 001 Device 005: ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)
+
+    from usb.core import find as finddev
+    dev = finddev(idVendor=0x0a12, idProduct=0x0001)
+    dev.reset()
+
+using usbutils will be more convenient
+
+    sudo usbreset 0a12:0001
