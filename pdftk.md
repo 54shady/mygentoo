@@ -4,6 +4,12 @@ app-text/pdftk PDF 分割成单页
 
 	pdftk all.pdf burst
 
+or using pdftk in docker
+
+    docker pull pdftk/pdftk:3.3.3
+    docker run --rm --volume $(pwd):/work pdftk/pdftk:3.3.3 --help
+    docker run --rm --volume $(pwd):/work pdftk/pdftk:3.3.3 all.pdf burst
+
 app-text/poppler PDF转化txt
 
 	pdftotext demo.pdf
@@ -21,4 +27,3 @@ app-text/poppler PDF转化txt
 3. 将单页的内容进行中文翻译(app-i18n/translate-shell)
 
 	cat pg_0068.txt | trans -e bing en:zh-CN -
-
