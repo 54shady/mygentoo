@@ -494,15 +494,8 @@ refer the link above for CST mean which is
 	date -d @1702018167 +"%Y-%m-%d %H:%M:%S"
 	2023-12-08 14:49:27
 
-### Android phone on linux using scrcpy
-
-1. enable the usb debug on android phone
-2. on host run adb kill-server and adb shell to test it
-3. run scrcpy on host (app-mobilephone/scrcpy)
-
-using software to fix issue:(ERROR: Could not create renderer: Couldn't find matching render driver)
-
-    scrcpy --render-driver=software
+### [Android phone on linux using scrcpy](./scrcpy.md)
 
 ### [Run feishu application](./feishu.md)
+
 ### [Config git sendemail](./git-send-mail.md)
