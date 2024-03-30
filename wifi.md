@@ -40,6 +40,15 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 		psk="aka_wifi_passwd"
 	}
 
+### 使用wpa_cli来连接
+
+    wpa_cli add_network
+    wpa_clit set_network 0 ssid "ap_ssid_name"
+    wpa_clit set_network 0 psk "aka_wifi_passwd"
+    wpa_cli enable_network 0
+    wpa_cli select_network 0
+    wpa_cli save_config
+
 开机启动wpa_supplicant
 
 	rc-update add wpa_supplicant default
