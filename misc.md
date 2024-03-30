@@ -500,5 +500,9 @@ refer the link above for CST mean which is
 2. on host run adb kill-server and adb shell to test it
 3. run scrcpy on host (app-mobilephone/scrcpy)
 
+using software to fix issue:(ERROR: Could not create renderer: Couldn't find matching render driver)
+
+    scrcpy --render-driver=software
+
 ### [Run feishu application](./feishu.md)
 ### [Config git sendemail](./git-send-mail.md)
