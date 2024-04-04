@@ -4,6 +4,23 @@
 
 [Gentoo Wiki: PulseAudio](https://wiki.gentoo.org/wiki/PulseAudio)
 
+## Changing Bluetooth Device Name
+
+[changing bluetooth device name](https://www.baeldung.com/linux/changing-bluetooth-device-name)
+
+using hciconfig -a command to find out the default name
+
+    Name: 'BlueZ 5.72'
+
+rename it to homepc
+
+    sudo hciconfig hci0 name homepc
+    Name: 'homepc'
+
+## Send file from PC to bluetooth devices(net-wireless/bluez-tools)
+
+    bt-obex -p 14:16:9E:49:EB:F6 /path/to/file.txt
+
 ## config blue audio device(headset)
 
 1. install pulseaudio with use bluetooth and daemon
