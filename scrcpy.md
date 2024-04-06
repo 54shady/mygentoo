@@ -98,3 +98,9 @@ run in otg mode
 通过-s来指定用usb线连接的设备
 
     scrcpy --render-driver=software --otg -s 923QEDUM2263B
+
+## 使用android设备里的输入法(否者只是输入字母,不会关联中文输入法)
+
+通过传递参数uhid, 在host pc上键盘按下后能够出发android设备里的输入法
+
+    scrcpy --keyboard=uhid --render-driver=software --tcpip=192.168.43.126:5555
