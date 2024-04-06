@@ -117,3 +117,12 @@ try to reset the usb port using script below can fix it
 using usbutils will be more convenient
 
     sudo usbreset 0a12:0001
+
+## 使用 blueman(net-wireless/blueman)
+
+    开机添加启动项 blueman-adapters
+
+右键点击blueman托盘图标
+    设置好Incoming Folder
+    勾选Local Services,Accept files from trusted devices
+    即可接收设备发来的文件
