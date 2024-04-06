@@ -60,6 +60,14 @@ To start scrcpy using a v4l2 sink
 
     sudo scrcpy --v4l2-sink=/dev/video0 --render-driver=software
 
+using -s to select over multiple device
+
+    ERROR: Multiple (2) ADB devices:
+    ERROR:     --> (tcpip)  192.168.43.162:5555             device  Note9
+    ERROR:     --> (tcpip)  192.168.43.183:5555             device  Note9
+
+    sudo scrcpy --v4l2-sink=/dev/video0 --render-driver=software -s 192.168.43.162:5555
+
 ERROR: Could not find v4l2 muxer
 
     ffmpeg add v4l use flag
@@ -68,8 +76,25 @@ using ffplay to play(ffmpeg add sdl use flag will get ffplay install)
 
     ffplay -i /dev/video0
 
-## OTG mode(主机上的键盘和鼠标可以直接操作手机)
+## OTG mode(手机需要通过usb线和主机连接)
+
+主机上的键盘和鼠标可以直接操作手机,变成了手机外接的otg设备
+
+先列出所有的设备 adb devices
+
+    List of devices attached
+    923QEDUM2263B   device
+    192.168.43.162:5555     device
+    192.168.43.183:5555     device
+
+连接其中一个
+
+    adb -s 923QEDUM2263B shell
 
 run in otg mode
 
-    scrcpy  --render-driver=software --otg
+    scrcpy --render-driver=software --otg
+
+通过-s来指定用usb线连接的设备
+
+    scrcpy --render-driver=software --otg -s 923QEDUM2263B
