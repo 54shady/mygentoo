@@ -71,6 +71,8 @@ Just copy each specify file respectively
 
 ## [Bluez on gentoo](bluetooth.md)
 
+## [Manager disk on linux](disk.md)
+
 ## [废弃的kde桌面配置](kde.md)
 
 ## [FAQ](faq.md)
