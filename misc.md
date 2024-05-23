@@ -499,3 +499,9 @@ refer the link above for CST mean which is
 ### [Run feishu application](./feishu.md)
 
 ### [Config git sendemail](./git-send-mail.md)
+
+### 设置网卡带宽
+
+设置网卡带宽为1000Mb/s(理论传输速度125MB/s)
+
+	sudo ethtool -s eth0 speed 1000 duplex full autoneg off
