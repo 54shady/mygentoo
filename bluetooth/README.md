@@ -4,13 +4,6 @@
 
 [Gentoo Wiki: PulseAudio](https://wiki.gentoo.org/wiki/PulseAudio)
 
-## Test connection
-
-L2CAP test command
-
-	bluetoothctl connect E4:0D:36:30:70:4F
-	l2ping E4:0D:36:30:70:4F
-
 ## Changing Bluetooth Device Name
 
 [changing bluetooth device name](https://www.baeldung.com/linux/changing-bluetooth-device-name)
@@ -155,3 +148,63 @@ run server on ubuntu pc
 run client on rk3588 debian
 
 	python3 cli.py
+
+## about bluez
+
+bluez中两个重要的目录CONFIGDIR和STORAGEDIR
+
+CONFIGDIR是bluez daemon(bluetoothd)配置文件存放目录
+
+	默认目录是 /etc/bluetooth/
+
+STORAGEDIR是bluez bluetoothd存放每一个adapter和相关device信息的位置
+
+	默认目录是 /var/lib/bluetooth/
+	cat /var/lib/bluetooth/<adapter address>/<remote device address>/info
+
+## 关于bluez
+
+bluetoothd是bluez的守护进程, 实现了如下profile
+
+A2DP : Advanced Audio Distribution Profile
+AVRCP : Audio/Video Remote Control Profile
+GATT : Generic Attribute Profile
+SDP : Service Discovery Protocol
+
+并提供D-Bus services给外部程序使用(bluetooth.conf已被放置在/etc/dbus-1/system.d/ 目录下)
+
+	在systemd中由 systemctl status bluetooth 启动
+	或手动启动bluetoothd -n -d
+
+- 如果需要能被其它设备搜索到,需要打开Inquiry Scan
+- 如果需要被连接,需要开Page Scan
+
+Inquiry Scan和Page Scan可以通过下面命令同时开启
+
+	hciconfig hci0 piscan
+
+	通过hciconfig  -a  查询输出的信息如下
+        UP RUNNING PSCAN ISCAN
+
+单独开iscan
+
+	hciconfig hci0 iscan
+
+单独开pscan
+
+	hciconfig hci0 pscan
+
+关闭pscan和iscan
+
+	hciconfig hci0 noscan
+
+### Test connection with bluez tool
+
+L2CAP test command
+
+	bluetoothctl connect E4:0D:36:30:70:4F
+	l2ping E4:0D:36:30:70:4F
+
+### 使用hcidump来调试(bluez-hcidump)
+
+	hcidump -a
