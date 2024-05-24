@@ -69,7 +69,7 @@ Just copy each specify file respectively
 
 ## [Debug on gentoo](debug.md)
 
-## [Bluez on gentoo](bluetooth.md)
+## [Bluez on gentoo](bluetooth/README.md)
 
 ## [Manager disk on linux](disk.md)
 

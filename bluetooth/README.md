@@ -4,6 +4,13 @@
 
 [Gentoo Wiki: PulseAudio](https://wiki.gentoo.org/wiki/PulseAudio)
 
+## Test connection
+
+L2CAP test command
+
+	bluetoothctl connect E4:0D:36:30:70:4F
+	l2ping E4:0D:36:30:70:4F
+
 ## Changing Bluetooth Device Name
 
 [changing bluetooth device name](https://www.baeldung.com/linux/changing-bluetooth-device-name)
@@ -80,7 +87,7 @@ config file for bluez(/etc/bluetooth/main.conf)
 
 扫描设备
 
-	[bluetooth]# scan
+	[bluetooth]# scan on
 	[bluetooth]# pair device_mac_address
 
 ### 使用命令行方式操作
@@ -126,3 +133,25 @@ using usbutils will be more convenient
     设置好Incoming Folder
     勾选Local Services,Accept files from trusted devices
     即可接收设备发来的文件
+
+## pybluez demo
+
+install packages for compile pybluez and pyvenv(optional)
+
+	sudo apt install -y libbluetooth-dev python3.10-venv
+
+download pybluez source code
+
+	git clone https://github.com/pybluez/pybluez
+
+install pybluez in pyvenv
+
+	pip3 install -e .
+
+run server on ubuntu pc
+
+	python3 srv.py
+
+run client on rk3588 debian
+
+	python3 cli.py
