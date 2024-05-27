@@ -4,6 +4,18 @@
 
 [Gentoo Wiki: PulseAudio](https://wiki.gentoo.org/wiki/PulseAudio)
 
+## 查询系统中hci0使用的驱动是哪一个
+
+	ls -l /sys/class/bluetooth/hci0/device/driver
+
+下面显示是使用rtl btusb驱动
+
+	/sys/class/bluetooth/hci0/device/driver -> ../../../../../../../bus/usb/drivers/rtk_btusb
+
+下面显示使用内核自带的bt驱动
+
+	/sys/class/bluetooth/hci0/device/driver -> ../../../../../../../bus/usb/drivers/btusb
+
 ## Changing Bluetooth Device Name
 
 [changing bluetooth device name](https://www.baeldung.com/linux/changing-bluetooth-device-name)

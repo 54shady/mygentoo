@@ -6,6 +6,16 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 - nmcli/nmtui
 - NetworkManager
 
+## 查询系统中wlan0使用的驱动是哪一个
+
+	ls -l /sys/class/net/wlan0/device/driver
+
+	/sys/class/net/wlan0/device/driver -> ../../../../../../../bus/usb/drivers/rtl88x2cu
+
+	ls -l /sys/class/net/usb0/device/driver (4G网络模块)
+
+	/sys/class/net/usb0/device/driver -> ../../../../../../../bus/usb/drivers/GobiNet
+
 ## 使用wpa_supplicant配置方法
 
 只需要在rc-update里关闭NetworkManager(如果默认有启动的话)
