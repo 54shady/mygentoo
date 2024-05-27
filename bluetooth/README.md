@@ -1,10 +1,12 @@
-# Config bluez device
+# Bluetooth usage
 
 [Gentoo Wiki: Bluetooth](https://wiki.gentoo.org/wiki/Bluetooth)
 
 [Gentoo Wiki: PulseAudio](https://wiki.gentoo.org/wiki/PulseAudio)
 
-## 查询系统中hci0使用的驱动是哪一个
+## Check hci driver info
+
+查询系统中hci0使用的驱动是哪一个
 
 	ls -l /sys/class/bluetooth/hci0/device/driver
 
@@ -33,7 +35,7 @@ rename it to homepc
 
     bt-obex -p 14:16:9E:49:EB:F6 /path/to/file.txt
 
-## config blue audio device(headset)
+## Config blue audio device(headset)
 
 1. install pulseaudio with use bluetooth and daemon
 
@@ -130,7 +132,7 @@ using usbutils will be more convenient
 
     sudo usbreset 0a12:0001
 
-## 使用 blueman(net-wireless/blueman)
+## Usage of blueman(net-wireless/blueman)
 
     开机添加启动项 blueman-adapters
 
@@ -139,7 +141,7 @@ using usbutils will be more convenient
     勾选Local Services,Accept files from trusted devices
     即可接收设备发来的文件
 
-## pybluez demo
+## Test with pybluez demo
 
 install packages for compile pybluez and pyvenv(optional)
 
@@ -161,7 +163,7 @@ run client on rk3588 debian
 
 	python3 cli.py
 
-## about bluez
+## About bluez
 
 bluez中两个重要的目录CONFIGDIR和STORAGEDIR
 
