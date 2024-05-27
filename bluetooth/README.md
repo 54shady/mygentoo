@@ -174,7 +174,7 @@ STORAGEDIR是bluez bluetoothd存放每一个adapter和相关device信息的位�
 	默认目录是 /var/lib/bluetooth/
 	cat /var/lib/bluetooth/<adapter address>/<remote device address>/info
 
-## 关于bluez
+### 一些基本命令操作
 
 bluetoothd是bluez的守护进程, 实现了如下profile
 
@@ -220,3 +220,29 @@ L2CAP test command
 ### 使用hcidump来调试(bluez-hcidump)
 
 	hcidump -a
+
+### 查询当前连接的设备和信号强度rssi(Received Signal Strength Indication)
+
+关于信号强度,最理想是0dbm, 一般正常情况是-50dbm(值越大,信号越强)
+
+	hcitool con
+
+	Connections:
+        > ACL E4:0D:36:30:70:4F handle 2 state 1 lm SLAVE AUTH ENCRYPT
+
+	hcitool rssi E4:0D:36:30:70:4F
+
+		RSSI return value: -59
+
+	连接新设备后再查看连接情况
+
+	bluetoothctl connect 14:16:9E:49:EB:F6
+	hcitool con
+
+	Connections:
+		> ACL 14:16:9E:49:EB:F6 handle 5 state 1 lm SLAVE AUTH ENCRYPT
+		> ACL E4:0D:36:30:70:4F handle 2 state 1 lm SLAVE AUTH ENCRYPT
+
+	hcitool rssi 14:16:9E:49:EB:F6
+
+		RSSI return value: -53 (比上面的信号更强一点)
