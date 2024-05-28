@@ -1,10 +1,10 @@
-# Bluetooth usage
+# All things about bluetooth
 
 [Gentoo Wiki: Bluetooth](https://wiki.gentoo.org/wiki/Bluetooth)
 
 [Gentoo Wiki: PulseAudio](https://wiki.gentoo.org/wiki/PulseAudio)
 
-## About bluetooth version
+## Bluetooth version and driver
 
 Check the [Bluetooth Core Specification](https://www.bluetooth.com/specifications/assigned-numbers/)
 
@@ -17,7 +17,7 @@ using hciconfig -a to check LMP Version
 	the map 0xa is 5.1
 	the map 0xc is 5.3
 
-## Check hci driver info
+### Check bluetooth driver info
 
 查询系统中hci0使用的驱动是哪一个
 
@@ -31,24 +31,12 @@ using hciconfig -a to check LMP Version
 
 	/sys/class/bluetooth/hci0/device/driver -> ../../../../../../../bus/usb/drivers/btusb
 
-## Changing Bluetooth Device Name
-
-[changing bluetooth device name](https://www.baeldung.com/linux/changing-bluetooth-device-name)
-
-using hciconfig -a command to find out the default name
-
-    Name: 'BlueZ 5.72'
-
-rename it to homepc
-
-    sudo hciconfig hci0 name homepc
-    Name: 'homepc'
 
 ## Send file from PC to bluetooth devices(net-wireless/bluez-tools)
 
     bt-obex -p 14:16:9E:49:EB:F6 /path/to/file.txt
 
-## Config blue audio device(headset)
+## Config bluetooth audio device(headset)
 
 1. install pulseaudio with use bluetooth and daemon
 
@@ -154,7 +142,9 @@ using usbutils will be more convenient
     勾选Local Services,Accept files from trusted devices
     即可接收设备发来的文件
 
-## Test with pybluez demo
+## Test the bluetooth
+
+### Test with pybluez demo
 
 install packages for compile pybluez and pyvenv(optional)
 
@@ -176,7 +166,7 @@ run client on rk3588 debian
 
 	python3 cli.py
 
-## Test with [bluetooth serial](https://wiki.archlinux.org/title/bluetooth)
+### Test with [bluetooth serial](https://wiki.archlinux.org/title/bluetooth)
 
 Enable the config in kernel
 
@@ -230,6 +220,8 @@ SDP : Service Discovery Protocol
 	在systemd中由 systemctl status bluetooth 启动
 	或手动启动bluetoothd -n -d
 
+#### iscan and pscan
+
 - 如果需要能被其它设备搜索到,需要打开Inquiry Scan
 - 如果需要被连接,需要开Page Scan
 
@@ -251,6 +243,19 @@ Inquiry Scan和Page Scan可以通过下面命令同时开启
 关闭pscan和iscan
 
 	hciconfig hci0 noscan
+
+#### Changing Bluetooth Device Name
+
+[changing bluetooth device name](https://www.baeldung.com/linux/changing-bluetooth-device-name)
+
+using hciconfig -a command to find out the default name
+
+    Name: 'BlueZ 5.72'
+
+rename it to homepc
+
+    sudo hciconfig hci0 name homepc
+    Name: 'homepc'
 
 ### Test connection with bluez tool
 
@@ -310,3 +315,15 @@ using hciconfig to get/set tx power
 
 	hciconfig hci0 inqtpl
 	hciconfig hci0 inqtpl 3 //class 1 设备才能支持软件改变
+
+### the source code of bluez
+
+using the test demo in socrce code
+
+	python3 ~/bluez/test/test-device list
+	python3 ~/bluez/test/test-device name E4:0D:36:30:70:4F
+
+	python3 ~/bluez/test/test-adapter address
+	python3 ~/bluez/test/test-adapter list
+
+	python3 ~/bluez/test/list-devices
