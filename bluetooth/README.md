@@ -288,3 +288,25 @@ L2CAP test command
 	hcitool rssi 14:16:9E:49:EB:F6
 
 		RSSI return value: -53 (比上面的信号更强一点)
+
+### Transmit Power(Tx power)
+
+[Transmit Power](https://bluetoothle.wiki/tx_power)
+
+[choosing tx power](https://www.beaconzone.co.uk/choosingthetransmittedpower)
+
+蓝牙的功率用dBm(Decibel milliwatt)单位表示无线频率(radio frequency RF)功率
+
+- 0dBm 是标准的power level
+- each change in +/- 3dBm is a doubling/halving of power
+	+4dBm is just over a doubling of power
+	-3dBm is half power (1/2)
+	-6dBm is 1/4 power
+	-9dBm is 1/8 power
+- 一般允许调节的范围是-30dBm到+4dBm
+- dB(without the 'm') 用来表示信号强度
+
+using hciconfig to get/set tx power
+
+	hciconfig hci0 inqtpl
+	hciconfig hci0 inqtpl 3 //class 1 设备才能支持软件改变
