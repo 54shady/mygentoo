@@ -4,6 +4,19 @@
 
 [Gentoo Wiki: PulseAudio](https://wiki.gentoo.org/wiki/PulseAudio)
 
+## About bluetooth version
+
+Check the [Bluetooth Core Specification](https://www.bluetooth.com/specifications/assigned-numbers/)
+
+using hciconfig -a to check LMP Version
+
+	LMP Version: 5.1 (0xa)  Subversion: 0x9f2b
+
+	LMP Version:  (0xc)  Subversion: 0x35fc
+
+	the map 0xa is 5.1
+	the map 0xc is 5.3
+
 ## Check hci driver info
 
 查询系统中hci0使用的驱动是哪一个
