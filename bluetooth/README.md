@@ -163,6 +163,33 @@ run client on rk3588 debian
 
 	python3 cli.py
 
+## Test with [bluetooth serial](https://wiki.archlinux.org/title/bluetooth)
+
+Enable the config in kernel
+
+	CONFIG_BT_RFCOMM=y
+	CONFIG_BT_RFCOMM_TTY=y
+
+将配对的远程设备绑定到本地的/dev/rfcomm0
+
+	rfcomm bind rfcomm0 E4:0D:36:30:70:4F
+
+查看绑定情况
+
+	rfcomm show E4:0D:36:30:70:4F
+
+在远程设备上运行服务端程序
+
+	python3 srv.py
+
+打开本地设备进行串口通信(同上面cli.py客户端)
+
+	picocom /dev/rfcomm0 -b 115200
+
+解除绑定
+
+	rfcomm release E4:0D:36:30:70:4F
+
 ## About bluez
 
 bluez中两个重要的目录CONFIGDIR和STORAGEDIR
