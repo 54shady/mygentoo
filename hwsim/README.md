@@ -38,7 +38,7 @@
 	rsn_pairwise=CCMP TKIP
 	wpa_pairwise=TKIP CCMP
 
-在wlan2上启动hostapd
+1. 在wlan2上启动hostapd
 
 	hostapd hostapd.conf
 
@@ -50,7 +50,7 @@
 	max_leases 234
 	opt router 192.168.75.1
 
-配置wlan2 ip 后启动udhcpd
+2. 配置wlan2 ip 后启动udhcpd
 
 	ifconfig wlan2 192.168.75.1/24 up
 	touch /var/lib/misc/udhcpd.leases
@@ -68,11 +68,11 @@
 
 	ifconfig wlan3 0.0.0.0 down
 
-启动wpa_supplicant命令(使用的wlan3连接wlan2的热点)
+3. 启动wpa_supplicant命令(使用的wlan3连接wlan2的热点)
 
 	wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant.conf -i wlan3
 
-使用dhcp客户端获取wlan3的ip
+4. 使用dhcp客户端获取wlan3的ip
 
 	dhclient wlan3
 
@@ -80,24 +80,27 @@
 
 在新终端执行下面命令(会进入到namespace shell, 不要退出)
 
-设置namespace名
+设置namespace名,并创建namespace
 
 	netns=ns1
-
-将wlan3添加到namespace
-
 	ip netns add "$netns"
-	ip netns exec $netns /bin/bash
-	echo $$ > /var/run/ns1.pid
 
-在原终端执行将wlan3添加到namespace
+将wlan3添加到namespace(注释的代码是使用一个pid文件)
 
-	PID=$(cat /var/run/ns1.pid)
-	iw phy phy2 set netns $PID
+	#ip netns exec $netns /bin/bash
+	#echo $$ > /var/run/ns1.pid
+	iw phy phy2 set netns name $netns
+
+在原终端执行将wlan3添加到namespace(注释的代码是使用一个pid文件)
+
+	#PID=$(cat /var/run/ns1.pid)
+	#iw phy phy2 set netns $PID
 
 在进入到namespace的终端中执行(能ping通AP)
 
+	ip netns exec $netns /bin/bash
 	wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant.conf -i wlan3
-	dhclient wlan3
 
+	ip netns exec $netns /bin/bash
+	dhclient wlan3
 	ping 192.168.75.1 -I wlan3
