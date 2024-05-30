@@ -53,6 +53,7 @@
 配置wlan2 ip 后启动udhcpd
 
 	ifconfig wlan2 192.168.75.1/24 up
+	touch /var/lib/misc/udhcpd.leases
 	udhcpd -f udhcpd.conf
 
 使用下面配置文件wpa_supplicant.conf启动wpa
@@ -74,3 +75,29 @@
 使用dhcp客户端获取wlan3的ip
 
 	dhclient wlan3
+
+## 配合network namespace来测试(将wlan3隔离到netnamespace ns1中)
+
+在新终端执行下面命令(会进入到namespace shell, 不要退出)
+
+设置namespace名
+
+	netns=ns1
+
+将wlan3添加到namespace
+
+	ip netns add "$netns"
+	ip netns exec $netns /bin/bash
+	echo $$ > /var/run/ns1.pid
+
+在原终端执行将wlan3添加到namespace
+
+	PID=$(cat /var/run/ns1.pid)
+	iw phy phy2 set netns $PID
+
+在进入到namespace的终端中执行(能ping通AP)
+
+	wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant.conf -i wlan3
+	dhclient wlan3
+
+	ping 192.168.75.1 -I wlan3
