@@ -105,3 +105,38 @@ Their offer: ssh-dss no matching host key type found. Their offer: ssh-rsa,ssh-d
 	Host *
 	HostKeyAlgorithms +ssh-rsa
 	PubkeyAcceptedKeyTypes +ssh-rsa
+
+#### ping (connect：network is unreachable)
+
+问题是由于缺少下面这条默认路由导致
+
+假设需要通过wlan0上网
+
+	wlan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+			inet 192.168.19.99  netmask 255.255.255.0  broadcast 192.168.19.255
+
+关于route带参数-n输出(-n don't resolve names)
+
+	route -n
+	Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+	0.0.0.0         192.168.19.1    0.0.0.0         UG    0      0        0 wlan0
+
+不带参数route的输出如下
+
+	Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+	default         bogon           0.0.0.0         UG    0      0        0 wlan0
+
+可以看到0.0.0.0被解析成default, 默认.1的网关被解析成bogon
+
+如果route查看路由只有下面这一条的话,可定是无法连网的
+
+	Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+	192.168.19.0    0.0.0.0         255.255.255.0   U     0      0        0 wlan0
+
+ping 8.8.8.8  会有如下错误
+
+	connect：network is unreachable
+
+需要添加一条默认路由
+
+	route add default gw 192.168.19.1
