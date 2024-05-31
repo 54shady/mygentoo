@@ -4,7 +4,9 @@
 
 	CONFIG_MAC80211_HWSIM=m
 
-[emulating wlan in liux via mac80211 hwsim](https://linuxembedded.fr/2021/01/emulating-wlan-in-linux-part-ii-mac80211hwsim)
+[emulating wlan in liux via mac80211 hwsim part 1](https://linuxembedded.fr/2020/05/emulating-wlan-in-linux-part-i-the-80211-stack)
+
+[emulating wlan in liux via mac80211 hwsim part 2](https://linuxembedded.fr/2021/01/emulating-wlan-in-linux-part-ii-mac80211hwsim)
 
 加载驱动,默认会生成两个设备,假设是wlan2, wlan3(这些wlan在底层都是联通的)
 
@@ -13,6 +15,10 @@
 下面命令列出所有wifi和蓝牙的phy
 
 	rfkill list
+
+或者只列出wifi的phy
+
+	iw dev
 
 比如查看phy1的信息
 
