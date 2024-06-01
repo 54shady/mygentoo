@@ -107,3 +107,44 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 删除连接
 
     nmcli connection delete id $WIFI_CON_ID
+
+## 共享wifi网络给有线网络
+
+主机A通过wifi能够上网(主机B没有无线网卡,想通过有线连接到主机A后也能上网)
+
+通过在A上配置路由转发将eth0上的数据转发到wlan0从而让B能使用有线上网
+
+	+---------------------+
+	|     A       		  |
+	|              wlan0  |-----------> Internet
+	|                ^    |
+	|                |    |
+	|                |    |
+	| 192.168.2.101 eth0  +--<--+
+	+---------------------+     |
+						        |
+	+----------------------+    ^
+	|     B                |    |
+	|                      |    |
+	| 192.168.2.102  eth0  +->--+
+	+----------------------+
+
+在A主机上设置如下
+
+	echo 1 > /proc/sys/net/ipv4/ip_forward
+	iptables -F
+	iptables -P INPUT ACCEPT
+	iptables -P FORWARD ACCEPT
+	iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+
+在B主机上设置如下路由
+
+	route add -net 0.0.0.0/0 gw <主机A的eth0 ip>
+
+比如这里如下
+
+	route add -net 0.0.0.0/0 gw 192.168.2.101
+
+此时在B上就能通过eth0来上网了
+
+	ping 8.8.8.8 -I eth0
