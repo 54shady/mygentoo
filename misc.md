@@ -505,3 +505,7 @@ refer the link above for CST mean which is
 设置网卡带宽为1000Mb/s(理论传输速度125MB/s)
 
 	sudo ethtool -s eth0 speed 1000 duplex full autoneg off
+
+### 监控网口ip地址变化
+
+	sudo ip monitor addr dev eth0
