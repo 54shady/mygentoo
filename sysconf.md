@@ -4,6 +4,8 @@
 
 ## [无线网络(wifi)配置](wifi.md)
 
+## [使用nmcli配置有线网络](ethernet.md)
+
 ## [SSH client / server 配置](ssh_config.md)
 
 ## [管理多个ssh keys](sshkeys.md)
