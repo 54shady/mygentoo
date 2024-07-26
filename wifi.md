@@ -71,10 +71,28 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 
 ## 使用NetworkManager方法
 
-### 连接ssid+password的wifi热点
+查询当前wifi热点
+
+	nmcli device wifi list
+
+### 连接ssid+password的wifi热点,并取名为MyWifiConnected
 
 	sudo /etc/init.d/NetworkManager start
-	sudo nmcli device wifi connect <SSID> password <PASSWD>
+	sudo nmcli device wifi connect <SSID> password <PASSWD> name MyWifiConnected
+
+显示连接的ap或热点的秘密并显示二维码
+
+	nmcli device wifi show-password
+
+显示当前连接情况
+
+	nmcli connection show
+	nmcli connection up MyWifiConnected
+	nmcli connection down MyWifiConnected
+
+删除这个连接
+
+	nmcli connection delete MyWifiConnected
 
 ### 连接需要用户名和密码的ap[(参考连接)](https://unix.stackexchange.com/questions/145366/how-to-connect-to-an-802-1x-wireless-network-via-nmcli)
 
