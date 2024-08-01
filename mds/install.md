@@ -79,6 +79,17 @@ eselect profile set 1
 	grub2-install /dev/sda --target=i386-pc
 	grub2-mkconfig -o /boot/grub/grub.cfg
 
+配置grub字体和分辨率(option)
+
+修改grub字体(将ttf转为grub可读的格式pt2字体)
+
+	grub-mkfont -s 24 -o /boot/grub/monaco.pf2 MONACO.TTF
+
+修改/etc/default/grub
+
+	GRUB_GFXMODE=1280x720
+	GRUB_FONT=/boot/grub/monaco.pf2
+
 配置主机名
 
 	nano -w /etc/conf.d/hostname
