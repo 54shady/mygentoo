@@ -112,3 +112,25 @@
 打开摄像头
 
 	ffplay /dev/video0
+
+## 使用gstream打开摄像头
+
+source:
+
+	gst-inspect-1.0 | grep Video | grep Source
+	video4linux2:  v4l2src: Video (video4linux2) Source
+
+dec:
+
+	gst-inspect-1.0 | grep jpegdec
+	jpeg:  jpegdec: JPEG image decoder
+
+sink:
+
+	gst-inspect-1.0 | grep 'Video sink'
+	ximagesink:  ximagesink: Video sink
+	xvimagesink:  xvimagesink: Video sink
+
+pipeline:
+
+	gst-launch-1.0 v4l2src ! jpegdec ! xvimagesink
