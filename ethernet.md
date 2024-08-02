@@ -70,3 +70,20 @@ nmcli device status中的unmanaged表示NetworkManager不管理该设备
 设置后状态如下
 
 	enp0s31f6          ethernet  unavailable             --
+
+## 多ip配置
+
+一张网口配置多个ip
+
+	nmcli con add type ethernet con-name Myeth0 ifname enp0s31f6 ip4 192.168.2.101/24,192.168.10.2/24,192.168.0.2/24 gw4 192.168.2.1
+
+碗口情况
+
+	enp0s31f6        UP             192.168.2.101/24 192.168.10.2/24 192.168.0.2/24
+
+路由情况
+
+	default via 192.168.2.1 dev enp0s31f6 proto static metric 20100
+	192.168.0.0/24 dev enp0s31f6 proto kernel scope link src 192.168.0.2 metric 100
+	192.168.2.0/24 dev enp0s31f6 proto kernel scope link src 192.168.2.101 metric 100
+	192.168.10.0/24 dev enp0s31f6 proto kernel scope link src 192.168.10.2 metric 100
