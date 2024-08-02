@@ -3,8 +3,7 @@
 Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选择一种)
 
 - wpa_supplicant
-- nmcli/nmtui
-- NetworkManager
+- NetworkManager(nmcli : NetworkManager client)
 
 ## 查询系统中wlan0使用的驱动是哪一个
 

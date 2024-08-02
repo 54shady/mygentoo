@@ -1,7 +1,7 @@
 # nmcli (NetworkManager Command Line Interface)
 
-- nmcli依赖NetworkManager服务
-- nm-applet的替代品
+- nmcli是客户端,NetworkManager是后台服务
+- nmcli是nm-applet的替代品
 
 命令格式如下
 
