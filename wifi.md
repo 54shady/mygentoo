@@ -166,3 +166,16 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 此时在B上就能通过eth0来上网了
 
 	ping 8.8.8.8 -I eth0
+
+## 使用nmcli创建热点
+
+create a hotspot
+
+	nmcli con add type wifi ifname wlp0s20f3 \
+		con-name myhotspot autoconnect yes ssid myhotspot \
+		802-11-wireless.mode ap 802-11-wireless.band bg \
+		ipv4.method shared wifi-sec.key-mgmt wpa-psk \
+		802-11-wireless-security.pmf 1 \
+		wifi-sec.psk "12345678"
+	nmcli con up myhotspot
+	nmcli device wifi show-password
