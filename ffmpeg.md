@@ -97,3 +97,20 @@ aac转webm
 ## 编辑mp3的metadata(没有metadata在ncmpcpp显示为空)
 
     ffmpeg -i input.mp3 -c copy -metadata artist="singer name" -metadata title="song name" -metadata album="x" output.mp3
+
+## 修改图片大小
+
+可以先查看原图尺寸后修改
+
+	ffprobe input.jpg
+
+	Stream #0:0: Video: mjpeg (Baseline), yuvj444p(pc, bt470bg/unknown/unknown), 1842x2579 [SAR 300:300 DAR 1842:2579], 25 fps, 25 tbr, 25 tbn, 25 tbc
+
+指定比例
+
+	ffmpeg -i input.jpg -vf scale=1024:768 output.jpg
+
+保存原图比例
+
+	ffmpeg -i input.jpg -vf scale=1024:-1 output.jpg
+	ffmpeg -i input.jpg -vf scale=-1:768 output.jpg
