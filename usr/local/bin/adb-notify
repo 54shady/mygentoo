@@ -4,6 +4,11 @@
 # xhost +si:localuser:root
 # ~/.Xauthority file to /root (option)
 export DISPLAY=":0"
-notify-send "$ID_VENDOR_ID"
+notify-send "🔗 $ID_VENDOR_ID $ACTION"
 aplay /usr/share/sounds/sound-icons/percussion-10.wav
+
+# show icon on dwmblocks
+[ $ACTION == "add" ] && echo 🔗 > /tmp/usbdevices
+[ $ACTION == "remove" ] && echo > /tmp/usbdevices
+pkill -RTMIN+10 "${STATUSBAR:-dwmblocks}"
 #echo "$ID_VENDOR_ID $ACTION" >> /tmp/a.log
