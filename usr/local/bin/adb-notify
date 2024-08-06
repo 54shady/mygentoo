@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# https://stackoverflow.com/questions/20395027/scripts-launched-from-udev-do-not-have-display-access-anymore
+# xhost +si:localuser:root
+# ~/.Xauthority file to /root (option)
+export DISPLAY=":0"
+notify-send "$ID_VENDOR_ID"
+aplay /usr/share/sounds/sound-icons/percussion-10.wav
+#echo "$ID_VENDOR_ID $ACTION" >> /tmp/a.log

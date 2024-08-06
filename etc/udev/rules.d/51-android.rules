@@ -1,5 +1,8 @@
-#rk3128
-SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666"
+# rockchip
+SUBSYSTEM=="usb", ATTR{idVendor}=="2207", MODE="0666", GROUP="plugdev", RUN+="/usr/local/bin/adb-notify"
 
-# adb for HiKey
-SUBSYSTEM=="usb", ATTR{idVendor}=="12d1", MODE="0666"
+# qcom
+SUBSYSTEM=="usb", ATTR{idVendor}=="05c6", MODE="0666", GROUP="plugdev"
+
+# meizu
+SUBSYSTEM=="usb", ATTR{idVendor}=="2a45", MODE="0666", GROUP="plugdev" , RUN+="/usr/local/bin/adb-notify"
