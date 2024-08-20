@@ -134,3 +134,16 @@ sink:
 pipeline:
 
 	gst-launch-1.0 v4l2src ! jpegdec ! xvimagesink
+
+在wayland系统中使用x的插件会有如下报错
+
+	gst-launch-1.0 v4l2src ! jpegdec ! xvimagesink
+		ERROR: from element /GstPipeline:pipeline0/GstXvImageSink:xvimagesink0: Could not initialise Xv output
+
+	gst-launch-1.0 v4l2src ! jpegdec ! ximagesink
+		ERROR: from element /GstPipeline:pipeline0/GstXImageSink:ximagesink0: Could not initialise X output
+
+需要使用waylandsink(在ubuntu桌面系统中切换到weston)
+
+	apt install -y gstreamer1.0-plugins-bad
+	gst-launch-1.0 v4l2src ! jpegdec ! waylandsink
