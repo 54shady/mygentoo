@@ -1,8 +1,12 @@
-# Camera Usage
+# Camera Usage(ThinkBook14G5)
 
 ## basic
 
-查看摄像头设备(ThinkBook14G5)
+查看usb摄像头信息 lsusb
+
+	Bus 003 Device 005: ID 04f2:b7b5 Chicony Electronics Co., Ltd Integrated Camera
+
+查看摄像头设备
 
 	v4l2-ctl --list-devices
 
@@ -73,20 +77,32 @@
 	v4l2-ctl -d /dev/video0 \
 		--set-fmt-video=width=1920,height=1080,pixelformat='MJPG'\
 		--stream-mmap --stream-skip=3 \
-		--stream-to=/tmp/isp.out \
+		--stream-to=/tmp/a.jpg \
+		--stream-count=1 --stream-poll
+
+查看格式如下(file /tmp/a.jpg)
+
+	/tmp/a.jpg: JPEG image data, baseline, precision 8, 1920x1080, components 3
+
+抓10张图片
+
+	v4l2-ctl -d /dev/video0 \
+		--set-fmt-video=width=1920,height=1080,pixelformat='MJPG'\
+		--stream-mmap --stream-skip=3 \
+		--stream-to=/tmp/stream.out \
 		--stream-count=10 --stream-poll
 
 查看格式如下(file /tmp/isp.out)
 
-	/tmp/isp.out: JPEG image data, baseline, precision 8, 1920x1080, components 3
+	/tmp/stream.out: JPEG image data, baseline, precision 8, 1920x1080, components 3
 
 显示一帧
 
-	sxiv /tmp/isp.out
+	sxiv /tmp/stream.out
 
 全部循环显示
 
-	W=1920;H=1080; mplayer /tmp/isp.out -loop 0 -demuxer rawvideo -fps 30 -rawvideo w=${W}:h=${H}:size=$((${W}*${H}*2)):format=MJPG
+	W=1920;H=1080; mplayer /tmp/stream.out -loop 0 -demuxer rawvideo -fps 30 -rawvideo w=${W}:h=${H}:size=$((${W}*${H}*2)):format=MJPG
 
 ##  抓取raw格式图像
 
@@ -100,7 +116,7 @@
 
 查看格式如下(file /tmp/isp.out)
 
-	/tmp/isp.out: International EBCDIC text, with very long lines (65536), with no line terminators
+	isp.out: data
 
 显示图像
 
