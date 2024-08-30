@@ -51,7 +51,7 @@
 	v4l2-ctl -d /dev/video0 --get-ctrl brightness
 	v4l2-ctl -d /dev/video0 --set-ctrl 'brightness=200'
 
-查询摄像头能够支持的格式
+查询摄像头能够支持的格式和分辨率
 
 	v4l2-ctl --list-formats
 
@@ -61,14 +61,56 @@
 			[0]: 'MJPG' (Motion-JPEG, compressed)
 			[1]: 'YUYV' (YUYV 4:2:2)
 
-可以先通过命令查看支持的格式和分辨率
-
 	v4l2-ctl --device=/dev/video0 --list-formats-ext
+
+	ioctl: VIDIOC_ENUM_FMT
+			Type: Video Capture
+
+			[0]: 'MJPG' (Motion-JPEG, compressed)
+					Size: Discrete 1280x720
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 320x180
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 320x240
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 352x288
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 640x360
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 640x480
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 848x480
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 960x540
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 1920x1080
+							Interval: Discrete 0.033s (30.000 fps)
+			[1]: 'YUYV' (YUYV 4:2:2)
+					Size: Discrete 640x480
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 320x180
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 320x240
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 352x288
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 640x360
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 848x480
+							Interval: Discrete 0.050s (20.000 fps)
+					Size: Discrete 960x540
+							Interval: Discrete 0.067s (15.000 fps)
+					Size: Discrete 1280x720
+							Interval: Discrete 0.100s (10.000 fps)
+					Size: Discrete 1920x1080
+							Interval: Discrete 0.200s (5.000 fps)
+
+使用ffmpeg可以看到mjpeg是压缩的,yuyv422是原数据
 
 	ffmpeg -f v4l2 -list_formats all -i /dev/video0
 
-	[video4linux2,v4l2 @ 0x572d1cc5e680] Compressed:       mjpeg :          Motion-JPEG : 1280x720 320x180 320x240 352x288 640x360 640x480 848x480 960x540 1920x1080
-	[video4linux2,v4l2 @ 0x572d1cc5e680] Raw       :     yuyv422 :           YUYV 4:2:2 : 640x480 320x180 320x240 352x288 640x360 848x480 960x540 1280x720 1920x1080
+		[video4linux2,v4l2 @ 0x572d1cc5e680] Compressed:       mjpeg :          Motion-JPEG : 1280x720 320x180 320x240 352x288 640x360 640x480 848x480 960x540 1920x1080
+		[video4linux2,v4l2 @ 0x572d1cc5e680] Raw       :     yuyv422 :           YUYV 4:2:2 : 640x480 320x180 320x240 352x288 640x360 848x480 960x540 1280x720 1920x1080
 
 ## 抓取mjpg格式图像
 
@@ -123,13 +165,31 @@
 	W=640;H=480; mplayer /tmp/isp.out -loop 0 -demuxer rawvideo -fps 30 -rawvideo w=${W}:h=${H}:size=$((${W}*${H}*2)):format=YUY2
 	W=640;H=480; mplayer /tmp/isp.out -loop 0 -demuxer rawvideo -fps 1 -rawvideo w=${W}:h=${H}:size=$((${W}*${H}*2)):format=YUY2
 
-## 使用ffmpeg操作
+## 将摄像头视频保存成文件
+
+	ffmpeg -f v4l2 -pixel_format nv12 -framerate 30 -video_size 1920x1080 -i /dev/video0 out.h264
 
 打开摄像头
 
 	ffplay /dev/video0
 
-## 使用gstream打开摄像头
+## gst basic intro
+
+[参考1: streamer-tool](https://gstreamer.freedesktop.org/documentation/tutorials/basic/gstreamer-tools.html?gi-language=c)
+
+gst-launch-1.0 PIPELINE-DESCRIPTION
+
+elements : 在pipline-description中通过感叹号来分割elements,比如下面命令
+
+	gst-launch-1.0 videotestsrc ! videoconvert ! autovideosink
+
+其中videotestsrc, videoconvert, autovideosink三个都是elements
+
+properties : 附属于elements后面的就是elements的属性(比如下面的pattern=ball)
+
+	gst-launch-1.0 videotestsrc pattern=ball ! autovideosink
+
+## 使用gstream操作摄像头
 
 source:
 
@@ -163,3 +223,45 @@ pipeline:
 
 	apt install -y gstreamer1.0-plugins-bad
 	gst-launch-1.0 v4l2src ! jpegdec ! waylandsink
+
+将摄像头采集的mjpeg图像显示在显示器上(需要jpegdec是因为摄像头默认采集的是mjpeg的压缩数据)
+
+	gst-launch-1.0 v4l2src ! jpegdec ! xvimagesink
+
+	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=320,height=240' ! jpegdec ! autovideosink
+	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=1920,height=1080' ! jpegdec ! autovideosink
+	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=1920,height=1080' ! jpegdec ! videoconvert ! autovideosink
+
+	下面这条命令添加了jpegparse视频会卡顿
+	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=1920,height=1080' ! jpegparse ! jpegdec ! videoconvert ! autovideosink
+
+## Camera streaming with RTSP / RTMP
+
+安装必要依赖
+
+	apt install -y meson \
+		libglib2.0-dev \
+		libgstreamer-plugins-bad1.0-dev \
+		libglib2.0-dev \
+		libgstreamer1.0-dev \
+		libgstrtspserver-1.0-dev \
+		libgstreamer-plugins-bad1.0-dev
+
+下载源代码配置编译
+
+	wget https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.18.4.tar.xz
+	tar xvf gst-rtsp-server-1.18.4.tar.xz
+	cd gst-rtsp-server-1.18.4
+	mkdir build && cd build
+	meson --prefix=/usr --wrap-mode=nofallback -D buildtype=release -D package-origin=https://gstreamer.freedesktop.org/src/gstreamer/ -D package-name="GStreamer 1.18.4" ..
+	ninja -j8
+
+使用摄像头来推流
+
+	cd example
+	sudo ./test-launch "( v4l2src device=/dev/video0 io-mode=dmabuf ! image/jpeg,width=1920,height=1080,framerate=30/1 ! rtpjpegpay  name=pay0 )"
+
+在本地拉流(客户端延时很大)
+
+	ffplay -rtsp_transport tcp rtsp://127.0.0.1:8554/test
+	gst-launch-1.0 rtspsrc location=rtsp://127.0.0.1:8554/test ! rtpjpegdepay ! jpegdec ! autovideosink
