@@ -140,3 +140,19 @@ ping 8.8.8.8  会有如下错误
 需要添加一条默认路由
 
 	route add default gw 192.168.19.1
+
+#### 挂载ntfs分区的盘变成只读
+
+	mount /dev/nvme0n1p3 /data/p3/
+
+	The disk contains an unclean file system (0, 0).
+	Metadata kept in Windows cache, refused to mount.
+	Falling back to read-only mount because the NTFS partition is in an
+	unsafe state. Please resume and shutdown Windows fully (no hibernation
+	or fast restarting.)
+	Could not mount read-write, trying read-only
+
+需要如下修复
+
+	apt-get install ntfs-3g
+	ntfsfix  /dev/nvme0n1p3
