@@ -169,9 +169,10 @@
 
 	ffmpeg -f v4l2 -pixel_format nv12 -framerate 30 -video_size 1920x1080 -i /dev/video0 out.h264
 
-打开摄像头
+## 摄像头预览 (ffplay延迟更大,gst延迟很小)
 
 	ffplay /dev/video0
+	gst-launch-1.0 v4l2src device=/dev/video0 ! jpegdec ! autovideosink
 
 ## gst basic intro
 
@@ -228,7 +229,6 @@ pipeline:
 
 	gst-launch-1.0 v4l2src ! jpegdec ! xvimagesink
 
-	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=320,height=240' ! jpegdec ! autovideosink
 	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=1920,height=1080' ! jpegdec ! autovideosink
 	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=1920,height=1080' ! jpegdec ! videoconvert ! autovideosink
 
@@ -236,6 +236,8 @@ pipeline:
 	gst-launch-1.0 -v v4l2src device="/dev/video0" ! 'image/jpeg,width=1920,height=1080' ! jpegparse ! jpegdec ! videoconvert ! autovideosink
 
 ## Camera streaming with RTSP / RTMP
+
+### 使用源码中的测试用例test-launch
 
 安装必要依赖
 
@@ -256,7 +258,7 @@ pipeline:
 	meson --prefix=/usr --wrap-mode=nofallback -D buildtype=release -D package-origin=https://gstreamer.freedesktop.org/src/gstreamer/ -D package-name="GStreamer 1.18.4" ..
 	ninja -j8
 
-使用摄像头来推流
+使用usb摄像头来推拉流
 
 	cd example
 	sudo ./test-launch "( v4l2src device=/dev/video0 io-mode=dmabuf ! image/jpeg,width=1920,height=1080,framerate=30/1 ! rtpjpegpay  name=pay0 )"
@@ -265,3 +267,13 @@ pipeline:
 
 	ffplay -rtsp_transport tcp rtsp://127.0.0.1:8554/test
 	gst-launch-1.0 rtspsrc location=rtsp://127.0.0.1:8554/test ! rtpjpegdepay ! jpegdec ! autovideosink
+
+### 直接使用gst推流(不使用编译的源代码)
+
+往ip地址为127.0.0.1的主机端口8554推流(这里是本地推本地收)
+
+	gst-launch-1.0 v4l2src device=/dev/video0 io-mode=dmabuf ! image/jpeg,width=1920,height=1080,framerate=30/1 ! rtpjpegpay ! queue !        udpsink host=127.0.0.1 port=8554 sync=false
+
+在主机ip地址为127.0.0.1上使用gst拉流(很卡顿)
+
+	gst-launch-1.0 udpsrc port=8554 ! "application/x-rtp, payload=127" ! rtpjpegdepay ! jpegdec ! autovideosink sync=false
