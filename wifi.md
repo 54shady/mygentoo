@@ -1,9 +1,11 @@
 # 无线网络(wifi)配置
 
-Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选择一种)
+Linux中有多种方式配置网络(每种之间都是冲突的,所以只能选择一种)
 
 - wpa_supplicant
-- NetworkManager(nmcli : NetworkManager client)
+	使用客户端程序wpa_cli来和wpa_supplicant服务程序交互
+- NetworkManager
+	使用客户端程序nmcli来和NetworkManager服务程序交互
 
 ## 查询系统中wlan0使用的驱动是哪一个
 
@@ -14,6 +16,11 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 	ls -l /sys/class/net/usb0/device/driver (4G网络模块)
 
 	/sys/class/net/usb0/device/driver -> ../../../../../../../bus/usb/drivers/GobiNet
+
+## 使用 wireless-tools 查询wifi连接情况
+
+	iwconfig [wlan0]
+	iwlist [wlan0] scanning
 
 ## 使用wpa_supplicant配置方法
 
@@ -125,6 +132,19 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 
     nmcli connection delete id $WIFI_CON_ID
 
+### 使用nmcli创建热点
+
+create a hotspot
+
+	nmcli con add type wifi ifname wlp0s20f3 \
+		con-name myhotspot autoconnect yes ssid myhotspot \
+		802-11-wireless.mode ap 802-11-wireless.band bg \
+		ipv4.method shared wifi-sec.key-mgmt wpa-psk \
+		802-11-wireless-security.pmf 1 \
+		wifi-sec.psk "12345678"
+	nmcli con up myhotspot
+	nmcli device wifi show-password
+
 ## 共享wifi网络给有线网络
 
 主机A通过wifi能够上网(主机B没有无线网卡,想通过有线连接到主机A后也能上网)
@@ -165,16 +185,3 @@ Gentoo中有多种方式配置网络(每种之间都是冲突的,所以只能选
 此时在B上就能通过eth0来上网了
 
 	ping 8.8.8.8 -I eth0
-
-## 使用nmcli创建热点
-
-create a hotspot
-
-	nmcli con add type wifi ifname wlp0s20f3 \
-		con-name myhotspot autoconnect yes ssid myhotspot \
-		802-11-wireless.mode ap 802-11-wireless.band bg \
-		ipv4.method shared wifi-sec.key-mgmt wpa-psk \
-		802-11-wireless-security.pmf 1 \
-		wifi-sec.psk "12345678"
-	nmcli con up myhotspot
-	nmcli device wifi show-password
