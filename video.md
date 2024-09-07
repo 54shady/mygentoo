@@ -171,8 +171,50 @@
 
 ## 摄像头预览 (ffplay延迟更大,gst延迟很小)
 
+### 使用ffmpeg
+
 	ffplay /dev/video0
+
+### 使用gstreamer
+
+可以先通过 gst-device-monitor-1.0 来查询摄像可以输出的格式
+
+摄像头默认输出是mjpg格式的，不指定格式输出需要使用jpegdec来解码后送显
+
 	gst-launch-1.0 v4l2src device=/dev/video0 ! jpegdec ! autovideosink
+	gst-launch-1.0 v4l2src device=/dev/video0 ! image/jpeg,width=1920,height=1080,framerate=30/1 ! jpegdec ! autovideosink
+
+指定摄像头输出格式为YUYV(这里名字需要写YUY2)
+
+	gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=YUY2,width=640, height=360,framerate=30/1 ! videoconvert ! autovideosink
+
+上面的格式YUY2可以通过使用命令 gst-device-monitor-1.0 来查询(省去一部分)
+
+Device found:
+
+        name  : Integrated Camera
+        class : Video/Source
+        caps  : image/jpeg, width=1280, height=720, framerate=30/1
+				...
+                image/jpeg, width=1920, height=1080, framerate=30/1
+                video/x-raw, format=YUY2, width=640, height=480, framerate=30/1
+				...
+                video/x-raw, format=YUY2, width=848, height=480, framerate=20/1
+                video/x-raw, format=YUY2, width=960, height=540, framerate=15/1
+                video/x-raw, format=YUY2, width=1280, height=720, framerate=10/1
+                video/x-raw, format=YUY2, width=1920, height=1080, framerate=5/1
+        properties:
+                object.path = v4l2:/dev/video0
+
+上面信息可以看到1920x1080只能输出5/1帧率
+
+所以下面命令会报错(Internal data stream error)
+
+	gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=YUY2,width=1920,height=1080,framerate=30/1 ! videoconvert ! autovideosink
+
+需要改成5/1
+
+	gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=YUY2,width=1920,height=1080,framerate=5/1 ! videoconvert ! autovideosink
 
 ## gst basic intro
 
