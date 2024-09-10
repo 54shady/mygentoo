@@ -104,3 +104,9 @@ run in otg mode
 通过传递参数uhid, 在host pc上键盘按下后能够出发android设备里的输入法
 
     scrcpy --keyboard=uhid --render-driver=software --tcpip=192.168.43.126:5555
+
+## rotate
+
+显示旋转90度
+
+	scrcpy --lock-video-orientation=1
