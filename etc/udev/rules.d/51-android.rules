@@ -10,5 +10,8 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="2a45", MODE="0666", GROUP="plugdev" , RUN+="/
 # remove meizu
 # using 'udevadm monitor --property --udev' to check the PRODUCT value
 ACTION=="remove", SUBSYSTEM=="usb", ENV{PRODUCT}=="2a45*", RUN+="/usr/local/bin/adb-notify"
+
+# remove rk
+ACTION=="remove", SUBSYSTEM=="usb", ENV{PRODUCT}=="2207*", RUN+="/usr/local/bin/adb-notify"
 #ACTION=="remove", SUBSYSTEM=="usb", ENV{PRODUCT}=="2a45/c01/414", RUN+="/usr/local/bin/adb-notify"
 #ACTION=="remove", SUBSYSTEM=="usb", ENV{PRODUCT}=="2a45", RUN+="/bin/su $user --command='$path/stop.sh'"
