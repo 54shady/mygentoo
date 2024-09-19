@@ -1,10 +1,12 @@
 #!/bin/bash
 
+# 执行udev规则是root用户,要调用通知来显示图标的话需要如下操作
 # https://stackoverflow.com/questions/20395027/scripts-launched-from-udev-do-not-have-display-access-anymore
 # xhost +si:localuser:root
 # ~/.Xauthority file to /root (option)
 export DISPLAY=":0"
 notify-send "🔗 $ID_VENDOR_ID $ACTION"
+
 aplay /usr/share/sounds/sound-icons/percussion-10.wav
 
 # show icon on dwmblocks
