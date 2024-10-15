@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 执行udev规则是root用户,要调用通知来显示图标的话需要如下操作
+# 执行udev规则是root用户,也就是说这个脚本是root用户执行,要调用通知来显示图标的话需要如下操作
 # https://stackoverflow.com/questions/20395027/scripts-launched-from-udev-do-not-have-display-access-anymore
 # xhost +si:localuser:root
 # ~/.Xauthority file to /root (option)
