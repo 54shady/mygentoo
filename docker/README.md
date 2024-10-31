@@ -36,6 +36,18 @@ docker利用主机资源跑rootfs
 
 	"bip": "192.168.10.1/24"
 
+## 配置[代理](https://george.betterde.com/technology/20240608.html)
+
+在/etc/docker/daemon.json 中添加如下
+
+	{
+	  "proxies": {
+		"no-proxy": "*.local,localhost,127.0.0.0/8",
+		"http-proxy": "http://127.0.0.1:20171",
+		"https-proxy": "http://127.0.0.1:20171"
+			}
+	}
+
 ## 基础使用
 
 下载基础image
