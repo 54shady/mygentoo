@@ -1,6 +1,6 @@
 # Camera Usage(ThinkBook14G5)
 
-## basic
+## basic (主板自带摄像头)
 
 查看usb摄像头信息 lsusb
 
@@ -186,7 +186,7 @@
 
 指定摄像头输出格式为YUYV(这里名字需要写YUY2)
 
-	gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=YUY2,width=640, height=360,framerate=30/1 ! videoconvert ! autovideosink
+	gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=YUY2,width=640,height=360,framerate=30/1 ! videoconvert ! autovideosink
 
 上面的格式YUY2可以通过使用命令 gst-device-monitor-1.0 来查询(省去一部分)
 
@@ -319,3 +319,86 @@ pipeline:
 在主机ip地址为127.0.0.1上使用gst拉流(很卡顿)
 
 	gst-launch-1.0 udpsrc port=8554 ! "application/x-rtp, payload=127" ! rtpjpegdepay ! jpegdec ! autovideosink sync=false
+
+# USB camera test on ThinkBook14G5(外接usb摄像头,主要注意格式,其它操作都一样)
+
+	Bus 003 Device 011: ID 3065:2719 Generic USB Camera
+
+	USB Camera: USB Camera (usb-0000:00:14.0-3): <== this one
+			/dev/video4
+			/dev/video5
+			/dev/media2
+
+	Integrated Camera: Integrated C (usb-0000:00:14.0-6):
+			/dev/video0
+			/dev/video1
+			/dev/video2
+			/dev/video3
+			/dev/media0
+			/dev/media1
+
+查询摄像头能够支持的格式和分辨率
+
+	v4l2-ctl --device=/dev/video4 --list-formats-ext
+
+	ioctl: VIDIOC_ENUM_FMT
+			Type: Video Capture
+
+			[0]: 'MJPG' (Motion-JPEG, compressed)
+					Size: Discrete 640x480
+							Interval: Discrete 0.033s (30.000 fps)
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 160x120
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 320x240
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 352x288
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 640x480
+							Interval: Discrete 0.033s (30.000 fps)
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 800x600
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 1024x768
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 1280x720
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 1280x1024
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 1920x1080
+							Interval: Discrete 0.033s (30.000 fps)
+			[1]: 'YUYV' (YUYV 4:2:2)
+					Size: Discrete 640x480
+							Interval: Discrete 0.033s (30.000 fps)
+					Size: Discrete 1920x1080
+							Interval: Discrete 0.200s (5.000 fps)
+					Size: Discrete 1280x720
+							Interval: Discrete 0.100s (10.000 fps)
+					Size: Discrete 800x600
+							Interval: Discrete 0.050s (20.000 fps)
+					Size: Discrete 960x540
+							Interval: Discrete 0.067s (15.000 fps)
+
+## 摄像头预览
+
+### 使用ffmpeg
+
+	ffplay /dev/video4
+
+### 使用gstreamer
+
+摄像头默认输出是mjpg格式的，不指定格式输出需要使用jpegdec来解码后送显
+
+	gst-launch-1.0 v4l2src device=/dev/video4 ! jpegdec ! autovideosink
+	gst-launch-1.0 v4l2src device=/dev/video4 ! image/jpeg,width=1920,height=1080,framerate=30/1 ! jpegdec ! autovideosink
+
+指定摄像头输出格式为YUYV(这里名字需要写YUY2)
+
+	gst-launch-1.0 v4l2src device=/dev/video4 ! video/x-raw,format=YUY2,width=640,height=360,framerate=30/1 ! videoconvert ! autovideosink
+	//ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Internal data stream error.该摄像头不支持这个分辨率所以报错
+
+	//修改分辨率
+	gst-launch-1.0 v4l2src device=/dev/video4 ! video/x-raw,format=YUY2,width=640,height=480,framerate=30/1 ! videoconvert ! autovideosink
+
+	//同样1080也只能支持5帧
+	gst-launch-1.0 v4l2src device=/dev/video4 ! video/x-raw,format=YUY2,width=1920,height=1080,framerate=5/1 ! videoconvert ! autovideosink
